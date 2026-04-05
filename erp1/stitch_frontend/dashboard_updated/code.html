@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>المعماري الدقيق - لوحة التحكم</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'IBM+Plex+Sans+Arabic', 'Inter', sans-serif;
+        }
+        .font-manrope {
+            font-family: 'Manrope', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        /* Custom scrollbar for ERP feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f7f9fb;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #bdc8ce;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed": "#d1e4ff",
+              "surface-container-highest": "#e0e3e5",
+              "surface-variant": "#e0e3e5",
+              "on-secondary-container": "#4b637e",
+              "error-container": "#ffdad6",
+              "surface-dim": "#d8dadc",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#67758b",
+              "on-error-container": "#93000a",
+              "surface-container-low": "#f2f4f6",
+              "on-background": "#191c1e",
+              "on-error": "#ffffff",
+              "secondary": "#49607c",
+              "tertiary": "#4f5d71",
+              "outline": "#6e797e",
+              "surface-tint": "#006780",
+              "on-primary": "#ffffff",
+              "on-primary-fixed": "#001f28",
+              "on-primary-container": "#fafdff",
+              "secondary-container": "#c7dfff",
+              "on-tertiary-fixed": "#0d1c2e",
+              "primary": "#00647c",
+              "outline-variant": "#bdc8ce",
+              "surface-container-high": "#e6e8ea",
+              "on-surface": "#191c1e",
+              "inverse-primary": "#6cd3f7",
+              "tertiary-fixed-dim": "#b9c7df",
+              "on-tertiary-fixed-variant": "#3a485b",
+              "surface-container": "#eceef0",
+              "surface-bright": "#f7f9fb",
+              "on-tertiary-container": "#fdfcff",
+              "primary-fixed-dim": "#6cd3f7",
+              "primary-fixed": "#b7eaff",
+              "on-primary-fixed-variant": "#004e61",
+              "on-secondary-fixed-variant": "#314863",
+              "error": "#ba1a1a",
+              "inverse-surface": "#2d3133",
+              "on-tertiary": "#ffffff",
+              "surface": "#f7f9fb",
+              "background": "#f7f9fb",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#eff1f3",
+              "secondary-fixed-dim": "#b0c9e8",
+              "on-surface-variant": "#3e484d",
+              "tertiary-fixed": "#d5e3fc",
+              "primary-container": "#007f9d",
+              "on-secondary-fixed": "#011d35"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 right-0 h-16 z-40 bg-white/80 dark:bg-[#191c1e]/80 backdrop-blur-md shadow-sm border-b border-slate-200/20 flex flex-row-reverse justify-between items-center px-6 w-full ml-0 md:mr-60">
+<div class="flex items-center gap-4">
+<span class="text-lg font-black text-[#011d35] dark:text-white font-manrope">نظام الموارد المؤسسية</span>
+<div class="h-6 w-px bg-outline-variant/30 hidden md:block"></div>
+</div>
+<div class="flex-1 max-w-xl px-8">
+<div class="relative group">
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-2 pr-10 pl-4 focus:ring-2 focus:ring-[#0091B2] transition-all text-sm outline-none" placeholder="بحث في النظام..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-5">
+<button class="text-on-surface-variant hover:text-[#0091B2] transition-all relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-[#0091B2] transition-all">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="flex items-center gap-3 mr-2 border-r pr-4 border-outline-variant/30">
+<div class="text-left hidden sm:block">
+<p class="text-xs font-bold text-[#011d35]">أحمد العتيبي</p>
+<p class="text-[10px] text-on-surface-variant">مدير النظام</p>
+</div>
+<img alt="User Profile" class="w-9 h-9 rounded-full object-cover ring-2 ring-primary/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB7FFHjRSmHCmTEPg2u1B4NMX1zWV-9SJASXItx5HB4SMrjE4dVTwayzlxs4kh2qFEgrNZ3UldpJUg83dB9r9WljYnGnORGV57jdI8NqJS_E5jb2imja7cl-yiYBAnGPINyhtqY1XuVY0nbye3o3YKfXs8rZ3Pg0o2Ihn3om-PK4Yi4g0ePpAFE_hcCZ8PlaJOsFHFa4zxCWO3oP1B6u08DBkg2K_B_bPYoGa0T5sYwxyUNoC0aDO2wx7_IYmBDp0cmk1rhiB_U9GG"/>
+</div>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed right-0 top-0 h-full w-60 bg-[#011d35] shadow-2xl z-50 flex flex-col" id="sidebar" dir="rtl">
+
+  <!-- Logo -->
+  <div class="px-4 py-5 flex items-center gap-3 cursor-pointer" onclick="window.location.href='/'">
+    <div class="w-9 h-9 bg-[#007f9d] rounded-lg flex items-center justify-center flex-shrink-0">
+      <span class="material-symbols-outlined text-white text-lg">architecture</span>
+    </div>
+    <div>
+      <div class="text-white font-bold text-sm leading-tight">المعماري الدقيق</div>
+      <div class="text-slate-400 text-[10px]">ID: 987654</div>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="flex-1 overflow-y-auto px-3 py-2 space-y-1" id="sidebar-nav">
+
+    <!-- Dashboard -->
+    <a href="/dashboard_updated/code.html" data-page="dashboard"
+       class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 group">
+      <span class="material-symbols-outlined text-xl flex-shrink-0">dashboard</span>
+      <span class="text-sm font-medium">لوحة التحكم</span>
+    </a>
+
+    <!-- المبيعات with sub-items -->
+    <div class="sidebar-group" data-group="sales">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none" data-page="sales" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">receipt_long</span>
+        <span class="text-sm font-medium flex-1">المبيعات</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/customer_management_updated/code.html" data-page="customer"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">العملاء</a>
+        <a href="/invoices_list/code.html" data-page="invoices-list"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">قائمة الفواتير</a>
+        <a href="/create_invoice_updated/code.html" data-page="invoice"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">إنشاء فاتورة جديدة</a>
+      </div>
+    </div>
+
+    <!-- المنتجات والخدمات with sub-items -->
+    <div class="sidebar-group" data-group="products">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none"
+           data-page="products" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">inventory_2</span>
+        <span class="text-sm font-medium flex-1">المنتجات والخدمات</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/products_inventory_updated/code.html" data-page="products-list"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">قائمة المنتجات</a>
+        <a href="/products_inventory_updated/code.html?tab=inventory" data-page="inventory"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">إدارة المخزون</a>
+        <a href="/products_inventory_updated/code.html?tab=catunits" data-page="catunits"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">التصنيفات والوحدات</a>
+      </div>
+    </div>
+
+    <!-- المحاسبة المالية with sub-items -->
+    <div class="sidebar-group" data-group="accounting">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none"
+           data-page="accounting" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">account_balance</span>
+        <span class="text-sm font-medium flex-1">المحاسبة المالية</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/customer_management_updated/code.html" data-page="accounts"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">الحسابات العامة</a>
+        <a href="/create_invoice_updated/code.html" data-page="payments"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">المدفوعات</a>
+      </div>
+    </div>
+
+    <!-- التقارير التحليلية with sub-items -->
+    <div class="sidebar-group" data-group="analytics">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none"
+           data-page="analytics" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">analytics</span>
+        <span class="text-sm font-medium flex-1">التقارير التحليلية</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/analytics_reports_updated/code.html" data-page="sales-reports"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">تقارير المبيعات</a>
+        <a href="/analytics_reports_updated/code.html" data-page="financial-reports"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">التقارير المالية</a>
+        <a href="/analytics_reports_updated/code.html" data-page="tax-reports"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">التقارير الضريبية</a>
+      </div>
+    </div>
+
+  </nav>
+
+  <!-- Bottom -->
+  <div class="px-3 pb-4 space-y-1 border-t border-slate-700/50 pt-3">
+    <a href="/settings_updated_with_logo_currency/code.html" data-page="settings"
+       class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150">
+      <span class="material-symbols-outlined text-xl flex-shrink-0">settings</span>
+      <span class="text-sm">الإعدادات</span>
+    </a>
+    <a href="/"
+       class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all duration-150">
+      <span class="material-symbols-outlined text-xl flex-shrink-0">logout</span>
+      <span class="text-sm">تسجيل الخروج</span>
+    </a>
+  </div>
+</aside>
+<!-- Main Content -->
+<main class="mr-60 pt-16 min-h-screen">
+<div class="p-8 max-w-7xl mx-auto">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 text-sm mb-8 text-on-surface-variant font-medium">
+<a class="hover:text-primary transition-colors" href="#">الرئيسية</a>
+<span class="material-symbols-outlined text-xs">chevron_left</span>
+<span class="text-primary font-bold">لوحة التحكم</span>
+</nav>
+<!-- Metrics Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+<!-- Total Sales -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10 group hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-primary/10 rounded-xl">
+<span class="material-symbols-outlined text-primary" data-icon="payments">payments</span>
+</div>
+<div class="flex items-center gap-1 text-green-600 bg-green-50 px-2 py-1 rounded-full text-xs font-bold">
+<span>12%+</span>
+<span class="material-symbols-outlined text-xs" data-icon="trending_up">trending_up</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-sm mb-1 font-medium">إجمالي المبيعات</p>
+<h3 class="text-2xl font-bold text-on-surface">350,000 <span class="text-sm font-normal text-on-surface-variant">ج.م</span></h3>
+</div>
+<!-- Active Invoices -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10 group hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary/10 rounded-xl">
+<span class="material-symbols-outlined text-secondary" data-icon="description">description</span>
+</div>
+<div class="px-2 py-1 rounded-full text-xs font-medium bg-surface-container text-on-surface-variant">
+                            محدث الآن
+                        </div>
+</div>
+<p class="text-on-surface-variant text-sm mb-1 font-medium">الفواتير النشطة</p>
+<h3 class="text-2xl font-bold text-on-surface">42 <span class="text-sm font-normal text-on-surface-variant">فاتورة</span></h3>
+</div>
+<!-- New Customers -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10 group hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-tertiary/10 rounded-xl">
+<span class="material-symbols-outlined text-tertiary" data-icon="group_add">group_add</span>
+</div>
+<div class="text-xs font-medium text-tertiary">هذا الشهر</div>
+</div>
+<p class="text-on-surface-variant text-sm mb-1 font-medium">عملاء جدد</p>
+<h3 class="text-2xl font-bold text-on-surface">12 <span class="text-sm font-normal text-on-surface-variant">عميل</span></h3>
+</div>
+<!-- Overdue Amount -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10 group hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-error/10 rounded-xl">
+<span class="material-symbols-outlined text-error" data-icon="error">error</span>
+</div>
+<div class="bg-amber-100 text-amber-700 px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                            مبلغ مستحق
+                        </div>
+</div>
+<p class="text-on-surface-variant text-sm mb-1 font-medium">المبالغ المستحقة</p>
+<h3 class="text-2xl font-bold text-error">15,400 <span class="text-sm font-bold text-on-surface-variant">ج.م</span></h3>
+</div>
+</div>
+<!-- Middle Section: Revenue Chart -->
+<section class="mb-10">
+<div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm border border-outline-variant/5">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+<div>
+<h2 class="text-xl font-bold text-[#011d35]">اتجاهات الإيرادات المحققة</h2>
+<p class="text-on-surface-variant text-sm">مقارنة الأداء المالي لآخر 6 أشهر</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="bg-surface-container-low px-4 py-2 rounded-lg text-sm font-bold text-on-surface-variant border border-outline-variant/20 hover:bg-surface-container-high transition-colors">تصدير التقرير PDF</button>
+<div class="h-8 w-px bg-outline-variant/20 mx-2"></div>
+<select class="bg-white border-outline-variant/30 rounded-lg text-sm py-2 px-4 focus:ring-primary focus:border-primary">
+<option>آخر 6 أشهر</option>
+<option>العام المالي الحالي</option>
+</select>
+</div>
+</div>
+<!-- Simplified Visual Chart Representation (Line Chart) -->
+<div class="h-64 w-full relative overflow-hidden bg-gradient-to-b from-primary/5 to-transparent rounded-xl flex items-end px-4 gap-8">
+<div class="absolute inset-0 flex flex-col justify-between py-4 pointer-events-none">
+<div class="border-b border-outline-variant/10 w-full h-0"></div>
+<div class="border-b border-outline-variant/10 w-full h-0"></div>
+<div class="border-b border-outline-variant/10 w-full h-0"></div>
+<div class="border-b border-outline-variant/10 w-full h-0"></div>
+</div>
+<!-- Columns/Points as stylized blocks to represent trends -->
+<div class="flex-1 flex flex-col justify-end items-center group relative h-full">
+<div class="w-full bg-primary/20 rounded-t-lg transition-all hover:bg-primary/40" style="height: 45%;"></div>
+<span class="mt-4 text-xs font-bold text-on-surface-variant">يناير</span>
+<div class="absolute bottom-[45%] mb-2 opacity-0 group-hover:opacity-100 bg-inverse-surface text-inverse-on-surface text-[10px] py-1 px-2 rounded transition-opacity">45k</div>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center group relative h-full">
+<div class="w-full bg-primary/30 rounded-t-lg transition-all hover:bg-primary/50" style="height: 60%;"></div>
+<span class="mt-4 text-xs font-bold text-on-surface-variant">فبراير</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center group relative h-full">
+<div class="w-full bg-primary/25 rounded-t-lg transition-all hover:bg-primary/45" style="height: 52%;"></div>
+<span class="mt-4 text-xs font-bold text-on-surface-variant">مارس</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center group relative h-full">
+<div class="w-full bg-primary-container rounded-t-lg transition-all shadow-lg" style="height: 85%;"></div>
+<span class="mt-4 text-xs font-bold text-primary">أبريل</span>
+<div class="absolute bottom-[85%] mb-2 bg-primary text-white text-[10px] py-1 px-2 rounded font-bold">85k</div>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center group relative h-full">
+<div class="w-full bg-primary/40 rounded-t-lg transition-all hover:bg-primary/60" style="height: 70%;"></div>
+<span class="mt-4 text-xs font-bold text-on-surface-variant">مايو</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center group relative h-full">
+<div class="w-full bg-primary/35 rounded-t-lg transition-all hover:bg-primary/55" style="height: 65%;"></div>
+<span class="mt-4 text-xs font-bold text-on-surface-variant">يونيو</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Section: Recent Invoices Table -->
+<section>
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/5 overflow-hidden">
+<div class="px-8 py-6 flex justify-between items-center bg-surface-container-low/30">
+<h2 class="text-lg font-bold text-[#011d35]">أحدث العمليات المالية</h2>
+<button class="text-primary font-bold text-sm hover:underline">عرض كافة الفواتير</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-right">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant text-sm font-bold">
+<th class="px-8 py-4">رقم الفاتورة</th>
+<th class="px-8 py-4">العميل</th>
+<th class="px-8 py-4">تاريخ الإصدار</th>
+<th class="px-8 py-4">إجمالي المبلغ</th>
+<th class="px-8 py-4">حالة السداد</th>
+<th class="px-8 py-4">إجراءات</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-8 py-5 font-manrope font-bold text-on-surface">#INV-2024-001</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs">MA</div>
+<span>شركة المعالي المحدودة</span>
+</div>
+</td>
+<td class="px-8 py-5 text-on-surface-variant text-sm font-manrope">12 Oct 2023</td>
+<td class="px-8 py-5 font-bold">4,500 <span class="text-sm font-bold text-on-surface-variant">ج.م</span></td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+<span class="w-1.5 h-1.5 bg-green-700 rounded-full"></span>
+                                            مدفوعة
+                                        </span>
+</td>
+<td class="px-8 py-5">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-xl">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-8 py-5 font-manrope font-bold text-on-surface">#INV-2024-002</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-bold text-xs">SK</div>
+<span>سعد القحطاني</span>
+</div>
+</td>
+<td class="px-8 py-5 text-on-surface-variant text-sm font-manrope">14 Oct 2023</td>
+<td class="px-8 py-5 font-bold">12,200 <span class="text-sm font-bold text-on-surface-variant">ج.م</span></td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">
+<span class="w-1.5 h-1.5 bg-on-secondary-container rounded-full"></span>
+                                            قيد الانتظار
+                                        </span>
+</td>
+<td class="px-8 py-5">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-xl">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-8 py-5 font-manrope font-bold text-on-surface">#INV-2024-003</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-error-container text-on-error-container flex items-center justify-center font-bold text-xs">NS</div>
+<span>نجمة الصحراء للمقاولات</span>
+</div>
+</td>
+<td class="px-8 py-5 text-on-surface-variant text-sm font-manrope">15 Oct 2023</td>
+<td class="px-8 py-5 font-bold">8,900 <span class="text-sm font-bold text-on-surface-variant">ج.م</span></td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">
+<span class="w-1.5 h-1.5 bg-secondary rounded-full"></span>
+                                            قيد الانتظار
+                                        </span>
+</td>
+<td class="px-8 py-5">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-xl">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-8 py-5 font-manrope font-bold text-on-surface">#INV-2024-004</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center font-bold text-xs">RK</div>
+<span>مكتب رؤية الرياض</span>
+</div>
+</td>
+<td class="px-8 py-5 text-on-surface-variant text-sm font-manrope">16 Oct 2023</td>
+<td class="px-8 py-5 font-bold">2,150 <span class="text-sm font-bold text-on-surface-variant">ج.م</span></td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+<span class="w-1.5 h-1.5 bg-green-700 rounded-full"></span>
+                                            مدفوعة
+                                        </span>
+</td>
+<td class="px-8 py-5">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-xl">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Contextual FAB - Dashboard specific -->
+<button class="fixed bottom-8 left-8 bg-primary text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40 group">
+<span class="material-symbols-outlined text-2xl" data-icon="add">add</span>
+<span class="absolute left-full mr-3 whitespace-nowrap bg-inverse-surface text-inverse-on-surface px-4 py-2 rounded-lg text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">إنشاء فاتورة جديدة</span>
+</button>
+
+
+
+
+
+
+
+<script id="nav-fix">
+function toggleGroup(el) {
+  var sub = el.nextElementSibling;
+  var chevron = el.querySelector('.chevron');
+  var isOpen = !sub.classList.contains('hidden');
+  if (isOpen) {
+    sub.classList.add('hidden');
+    chevron.style.transform = '';
+    el.classList.remove('bg-[#007f9d]','text-white');
+    el.classList.add('text-slate-300');
+  } else {
+    sub.classList.remove('hidden');
+    chevron.style.transform = 'rotate(180deg)';
+    el.classList.add('bg-[#007f9d]','text-white');
+    el.classList.remove('text-slate-300','hover:text-white','hover:bg-[#1a3a54]');
+  }
+}
+
+(function() {
+  var path = window.location.pathname;
+
+  // Map URL path segment to group + sub-item highlight
+  var config = {
+    'dashboard_updated':           { group: null,        page: 'dashboard' },
+    'create_invoice_updated':      { group: 'sales',     page: 'invoice' },
+    'products_inventory_updated':  { group: 'products',  page: 'products-list' },
+    'customer_management_updated': { group: 'sales',     page: 'customer' },
+    'analytics_reports_updated':   { group: 'analytics', page: 'sales-reports' },
+    'settings_updated':            { group: null,        page: 'settings' },
+  };
+
+  var active = null;
+  Object.keys(config).forEach(function(key) {
+    if (path.indexOf(key) !== -1) active = config[key];
+  });
+
+  if (!active) return;
+
+  // Highlight top-level item or open group
+  if (active.group) {
+    // Open the group
+    var groupEl = document.querySelector('[data-group="' + active.group + '"]');
+    if (groupEl) {
+      var parent = groupEl.querySelector('.sidebar-parent');
+      var sub = groupEl.querySelector('.sidebar-sub');
+      var chevron = groupEl.querySelector('.chevron');
+      if (parent && sub && chevron) {
+        sub.classList.remove('hidden');
+        chevron.style.transform = 'rotate(180deg)';
+        parent.classList.add('bg-[#007f9d]','text-white');
+        parent.classList.remove('text-slate-300');
+      }
+      // Highlight active sub-item
+      var subItems = sub.querySelectorAll('[data-page]');
+      subItems.forEach(function(item) {
+        if (item.getAttribute('data-page') === active.page) {
+          item.classList.add('text-white','font-semibold','border-r-2','border-[#00c4e8]','bg-[#1a3a54]');
+          item.classList.remove('text-slate-400');
+        }
+      });
+    }
+  } else {
+    // Highlight direct nav item
+    var el = document.querySelector('[data-page="' + active.page + '"].sidebar-item');
+    if (el) {
+      el.classList.add('bg-[#007f9d]','text-white');
+      el.classList.remove('text-slate-300');
+    }
+  }
+
+  // Fix remaining href=# breadcrumb links
+  document.querySelectorAll('a[href="#"]').forEach(function(link) {
+    var t = link.textContent.trim();
+    if (t === 'الرئيسية') link.href = '/';
+    if (t === 'المبيعات' || t === 'قائمة الفواتير') link.href = '/invoices_list/code.html';
+    if (t === 'العملاء') link.href = '/customer_management_updated/code.html';
+    if (t === 'الفواتير الضريبية') link.href = '/invoices_list/code.html';
+  });
+
+  // "عرض كافة الفواتير" → invoice list page
+  document.querySelectorAll('button').forEach(function(btn) {
+    var t = btn.textContent.trim();
+    if (t === 'عرض كافة الفواتير') {
+      btn.addEventListener('click', function() { window.location.href = '/invoices_list/code.html'; });
+      btn.style.cursor = 'pointer';
+    }
+  });
+
+  // Replace more_vert buttons in invoice table with real action menus
+  (function() {
+    var STATUS_CONFIG = {
+      'مدفوعة':         { dot: '#16a34a' },
+      'مدفوعة جزئياً': { dot: '#d97706' },
+      'قيد الانتظار':  { dot: '#49607c' },
+      'مسودة':         { dot: '#6e797e' }
+    };
+    function showDashToast(msg) {
+      var old = document.getElementById('dash-action-toast');
+      if (old) old.remove();
+      var s = document.getElementById('dash-toast-kf');
+      if (!s) { s = document.createElement('style'); s.id = 'dash-toast-kf'; s.textContent = '@keyframes dtIn{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}'; document.head.appendChild(s); }
+      var t = document.createElement('div'); t.id = 'dash-action-toast'; t.setAttribute('dir','rtl');
+      Object.assign(t.style, { position:'fixed', bottom:'28px', left:'50%', transform:'translateX(-50%)', background:'#16a34a', color:'#fff', borderRadius:'12px', padding:'12px 20px', boxShadow:'0 8px 24px rgba(0,0,0,.16)', zIndex:'99999', display:'flex', alignItems:'center', gap:'8px', fontSize:'13px', fontWeight:'600', whiteSpace:'nowrap', animation:'dtIn .3s ease' });
+      var i = document.createElement('span'); i.className = 'material-symbols-outlined'; i.style.fontSize = '18px'; i.textContent = 'check_circle';
+      var tx = document.createElement('span'); tx.textContent = msg;
+      t.appendChild(i); t.appendChild(tx); document.body.appendChild(t);
+      setTimeout(function() { t.style.transition='opacity .3s,transform .3s'; t.style.opacity='0'; t.style.transform='translate(-50%,20px)'; setTimeout(function(){t.remove();},300); }, 3000);
+    }
+    function closeAllMenus() {
+      document.querySelectorAll('.dash-inv-menu').forEach(function(m){m.remove();});
+    }
+    document.querySelectorAll('#invoices-tbody tr, tbody tr').forEach(function(row) {
+      var moreBtn = row.querySelector('button .material-symbols-outlined');
+      if (!moreBtn || moreBtn.textContent.trim() !== 'more_vert') return;
+      var btn = moreBtn.parentElement;
+      var numCell = row.querySelector('td:first-child');
+      var invNum = numCell ? numCell.textContent.replace('#','').trim() : '—';
+      var statusCell = row.querySelector('td:nth-child(5) span span:last-child');
+      var currentStatus = statusCell ? statusCell.textContent.trim() : 'مدفوعة';
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        closeAllMenus();
+        var menu = document.createElement('div');
+        menu.className = 'dash-inv-menu';
+        Object.assign(menu.style, { position:'absolute', background:'#fff', borderRadius:'12px', padding:'6px', boxShadow:'0 8px 32px rgba(0,0,0,.14)', zIndex:'9000', minWidth:'200px', border:'1px solid #e0e3e5', direction:'rtl' });
+        var items = [
+          { icon:'open_in_new',  label:'عرض في قائمة الفواتير', action: function(){ window.location.href='/invoices_list/code.html'; } },
+          { icon:'print',        label:'طباعة',                  action: function(){ showDashToast('جاري إعداد الفاتورة للطباعة...'); setTimeout(function(){ window.print(); }, 600); } },
+          { icon:'sync_alt',     label:'تغيير الحالة',           action: null },
+          { icon:'delete',       label:'حذف',                    action: function(){ row.style.transition='opacity .3s'; row.style.opacity='0'; setTimeout(function(){ row.remove(); }, 300); showDashToast('تم حذف الفاتورة #' + invNum); } }
+        ];
+        items.forEach(function(item) {
+          if (item.action === null) return; // skip separator entry
+          var mi = document.createElement('button');
+          mi.setAttribute('dir','rtl');
+          mi.style.cssText = 'display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;border-radius:8px;border:none;background:none;cursor:pointer;font-size:13px;font-family:inherit;font-weight:600;color:' + (item.icon === 'delete' ? '#ba1a1a' : '#191c1e') + ';text-align:right;';
+          mi.onmouseover = function(){ mi.style.background='#f2f4f6'; };
+          mi.onmouseout  = function(){ mi.style.background='none'; };
+          var ico = document.createElement('span'); ico.className='material-symbols-outlined'; ico.style.fontSize='18px'; ico.style.color=item.icon==='delete'?'#ba1a1a':'#6e797e'; ico.textContent=item.icon;
+          var lbl = document.createTextNode(item.label);
+          mi.appendChild(ico); mi.appendChild(lbl);
+          mi.addEventListener('click', function(){ closeAllMenus(); item.action(); });
+          menu.appendChild(mi);
+        });
+        // Divider + status submenu trigger
+        var divider = document.createElement('div'); divider.style.cssText='height:1px;background:#e0e3e5;margin:4px 0;';
+        menu.insertBefore(divider, menu.children[2]);
+
+        var rect = btn.getBoundingClientRect();
+        var menuW = 200;
+        var leftPos = rect.right - menuW;
+        if (leftPos < 8) leftPos = rect.left;
+        if (leftPos + menuW > window.innerWidth - 8) leftPos = window.innerWidth - menuW - 8;
+        Object.assign(menu.style, { top: (rect.bottom + window.scrollY + 6) + 'px', left: leftPos + 'px', right: 'auto' });
+        document.body.appendChild(menu);
+        setTimeout(function(){ document.addEventListener('click', closeAllMenus, { once: true }); }, 10);
+      });
+    });
+  })();
+  document.querySelectorAll('button.fixed').forEach(function(btn) {
+    var icon = btn.querySelector('.material-symbols-outlined');
+    if (icon && icon.textContent.trim() === 'add') {
+      btn.addEventListener('click', function() { window.location.href = '/create_invoice_updated/code.html'; });
+      btn.style.cursor = 'pointer';
+    }
+  });
+
+  // Page transitions
+  var style = document.createElement('style');
+  style.textContent = 'body{transition:opacity .15s ease;}body.fade-out{opacity:0;}';
+  document.head.appendChild(style);
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href]');
+    if (link && link.href && !link.href.includes('#') && !link.target && link.hostname === window.location.hostname) {
+      e.preventDefault();
+      document.body.classList.add('fade-out');
+      setTimeout(function() { window.location.href = link.href; }, 140);
+    }
+  });
+})();
+</script>
+
+
+<script id="dashboard-fx">
+(function () {
+  'use strict';
+
+  // ============================================================
+  // TOAST UTILITY
+  // ============================================================
+  function showToast(msg, type) {
+    var old = document.getElementById('erp-toast');
+    if (old) old.remove();
+    var palettes = {
+      success: { bg: '#16a34a', icon: 'check_circle' },
+      warning: { bg: '#ca8a04', icon: 'warning' },
+      info:    { bg: '#0369a1', icon: 'info' },
+      error:   { bg: '#ba1a1a', icon: 'cancel' }
+    };
+    var p = palettes[type] || palettes.info;
+    var style = document.createElement('style');
+    style.textContent = '@keyframes toastIn{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}';
+    document.head.appendChild(style);
+    var toast = document.createElement('div');
+    toast.id = 'erp-toast';
+    toast.setAttribute('dir', 'rtl');
+    Object.assign(toast.style, {
+      position: 'fixed', bottom: '28px', left: '50%',
+      transform: 'translateX(-50%)',
+      background: p.bg, color: '#fff',
+      borderRadius: '12px', padding: '14px 20px',
+      boxShadow: '0 8px 24px rgba(0,0,0,.18)',
+      zIndex: '99999', display: 'flex', alignItems: 'center', gap: '10px',
+      fontSize: '14px', fontWeight: '600', minWidth: '280px', maxWidth: '420px',
+      animation: 'toastIn .3s ease forwards', whiteSpace: 'nowrap'
+    });
+    var ico = document.createElement('span');
+    ico.className = 'material-symbols-outlined';
+    ico.style.fontSize = '20px';
+    ico.style.flexShrink = '0';
+    ico.textContent = p.icon;
+    var txt = document.createElement('span');
+    txt.textContent = msg;
+    toast.appendChild(ico);
+    toast.appendChild(txt);
+    document.body.appendChild(toast);
+    setTimeout(function () {
+      toast.style.transition = 'opacity .3s ease, transform .3s ease';
+      toast.style.opacity = '0';
+      toast.style.transform = 'translate(-50%, 20px)';
+      setTimeout(function () { toast.remove(); }, 300);
+    }, 3000);
+  }
+
+  // ============================================================
+  // CHART PERIOD SWITCHER
+  // ============================================================
+  var periodData = {
+    'آخر 6 أشهر': {
+      labels:  ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو'],
+      heights: [45, 60, 52, 85, 70, 65],
+      tips:    ['45,000', '60,000', '52,000', '85,000', '70,000', '65,000'],
+      peak: 3,
+      subtitle: 'مقارنة الأداء المالي لآخر 6 أشهر'
+    },
+    'العام المالي الحالي': {
+      labels:  ['يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+      heights: [78, 82, 68, 91, 88, 95],
+      tips:    ['78,000', '82,000', '68,000', '91,000', '88,000', '95,000'],
+      peak: 5,
+      subtitle: 'الأداء المالي للنصف الثاني من العام المالي الحالي'
+    }
+  };
+
+  function updateChart(name) {
+    var d = periodData[name];
+    var chartContainer = document.querySelector('.h-64');
+    if (!d || !chartContainer) return;
+    var cols = chartContainer.querySelectorAll('.flex-1');
+    cols.forEach(function (col, i) {
+      var fill = col.querySelector('div');
+      var lbl  = col.querySelector('span.text-xs');
+      var tip  = col.querySelector('div.absolute');
+      if (fill) {
+        fill.style.transition = 'height 0.45s cubic-bezier(.4,0,.2,1)';
+        fill.style.height = d.heights[i] + '%';
+        fill.style.background = i === d.peak ? '#007f9d' : '';
+      }
+      if (lbl) {
+        lbl.textContent = d.labels[i];
+        lbl.style.color = i === d.peak ? '#007f9d' : '';
+      }
+      if (tip) { tip.textContent = d.tips[i] + ' ج.م'; }
+    });
+    var sub = document.querySelector('section p');
+    if (sub) sub.textContent = d.subtitle;
+  }
+
+  var chartSelect = document.querySelector('select');
+  if (chartSelect) {
+    chartSelect.addEventListener('change', function () { updateChart(this.value); });
+  }
+
+  // ============================================================
+  // EXPORT PDF BUTTON
+  // ============================================================
+  document.querySelectorAll('button').forEach(function (btn) {
+    if (btn.textContent.trim().includes('تصدير التقرير')) {
+      btn.addEventListener('click', function () {
+        btn.disabled = true;
+        var orig = btn.textContent;
+        btn.textContent = 'جارٍ التصدير...';
+        setTimeout(function () {
+          btn.disabled = false;
+          btn.textContent = orig;
+          showToast('تم تصدير تقرير الإيرادات بصيغة PDF بنجاح', 'success');
+        }, 1000);
+      });
+    }
+  });
+
+  // ============================================================
+  // NOTIFICATIONS DROPDOWN  (built via DOM — no innerHTML escaping issues)
+  // ============================================================
+  var notifBtn = null;
+  document.querySelectorAll('button').forEach(function (btn) {
+    if (btn.querySelector('[data-icon="notifications"]')) notifBtn = btn;
+  });
+
+  if (notifBtn) {
+    // Upgrade the dot to a count badge
+    var dot = notifBtn.querySelector('.rounded-full');
+    if (dot) {
+      Object.assign(dot.style, {
+        minWidth: '16px', height: '16px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: '9px', fontWeight: '700',
+        padding: '0 3px', borderRadius: '999px'
+      });
+      dot.textContent = '3';
+    }
+
+    var notifList = [
+      { icon: 'hourglass_empty', title: 'فاتورة قيد الانتظار', body: 'الفاتورة #INV-2024-003 تنتظر السداد',      time: 'قبل ساعتين' },
+      { icon: 'person_add',   title: 'عميل جديد',       body: 'تم تسجيل محمد الحربي كعميل جديد',                 time: 'قبل 5 ساعات' },
+      { icon: 'check_circle', title: 'تم السداد',        body: 'سدّد سعد القحطاني الفاتورة #INV-2024-002',        time: 'أمس' }
+    ];
+
+    // Panel container
+    var panel = document.createElement('div');
+    panel.id = 'notif-panel';
+    panel.setAttribute('dir', 'rtl');
+    Object.assign(panel.style, {
+      position: 'fixed', top: '68px', left: '60px', width: '330px',
+      background: '#fff', borderRadius: '14px',
+      boxShadow: '0 12px 32px rgba(25,28,30,.14)',
+      zIndex: '9998', display: 'none',
+      border: '1px solid #e0e3e5', overflow: 'hidden'
+    });
+
+    // Header
+    var header = document.createElement('div');
+    Object.assign(header.style, {
+      padding: '14px 16px', borderBottom: '1px solid #e0e3e5',
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+    });
+    var headerTitle = document.createElement('span');
+    Object.assign(headerTitle.style, { fontWeight: '700', fontSize: '14px', color: '#011d35' });
+    headerTitle.textContent = 'الإشعارات';
+    var markAllBtn = document.createElement('span');
+    Object.assign(markAllBtn.style, { fontSize: '12px', color: '#00647c', cursor: 'pointer', fontWeight: '600' });
+    markAllBtn.textContent = 'تحديد الكل كمقروء';
+    header.appendChild(headerTitle);
+    header.appendChild(markAllBtn);
+    panel.appendChild(header);
+
+    // Notification items
+    var unreadDots = [];
+    notifList.forEach(function (n) {
+      var row = document.createElement('div');
+      Object.assign(row.style, {
+        padding: '12px 16px', display: 'flex', gap: '12px',
+        cursor: 'pointer', borderBottom: '1px solid #f7f9fb'
+      });
+      row.addEventListener('mouseover', function () { row.style.background = '#f7f9fb'; });
+      row.addEventListener('mouseout',  function () { row.style.background = ''; });
+
+      var iconEl = document.createElement('span');
+      iconEl.className = 'material-symbols-outlined';
+      Object.assign(iconEl.style, { fontSize: '20px', color: '#00647c', flexShrink: '0', marginTop: '2px' });
+      iconEl.textContent = n.icon;
+
+      var info = document.createElement('div');
+      info.style.flex = '1';
+
+      var titleEl = document.createElement('div');
+      Object.assign(titleEl.style, { fontWeight: '700', fontSize: '13px', color: '#191c1e', marginBottom: '2px' });
+      titleEl.textContent = n.title;
+
+      var bodyEl = document.createElement('div');
+      Object.assign(bodyEl.style, { fontSize: '12px', color: '#6e797e', lineHeight: '1.4' });
+      bodyEl.textContent = n.body;
+
+      var timeEl = document.createElement('div');
+      Object.assign(timeEl.style, { fontSize: '11px', color: '#bdc8ce', marginTop: '4px' });
+      timeEl.textContent = n.time;
+
+      info.appendChild(titleEl);
+      info.appendChild(bodyEl);
+      info.appendChild(timeEl);
+
+      var unread = document.createElement('span');
+      Object.assign(unread.style, {
+        width: '8px', height: '8px', background: '#00647c',
+        borderRadius: '50%', flexShrink: '0', marginTop: '6px'
+      });
+      unreadDots.push(unread);
+
+      row.appendChild(iconEl);
+      row.appendChild(info);
+      row.appendChild(unread);
+      panel.appendChild(row);
+    });
+
+    // Footer
+    var footer = document.createElement('div');
+    Object.assign(footer.style, { padding: '12px 16px', textAlign: 'center', background: '#f7f9fb' });
+    var footerLink = document.createElement('span');
+    Object.assign(footerLink.style, { fontSize: '12px', color: '#00647c', cursor: 'pointer', fontWeight: '600' });
+    footerLink.textContent = 'عرض كل الإشعارات';
+    footer.appendChild(footerLink);
+    panel.appendChild(footer);
+
+    document.body.appendChild(panel);
+
+    // Mark all read
+    markAllBtn.addEventListener('click', function () {
+      unreadDots.forEach(function (d) { d.style.visibility = 'hidden'; });
+      if (dot) { dot.textContent = '0'; dot.style.background = '#bdc8ce'; }
+      showToast('تم تحديد جميع الإشعارات كمقروءة', 'info');
+    });
+
+    notifBtn.style.position = 'relative';
+    notifBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    });
+    document.addEventListener('click', function () { panel.style.display = 'none'; });
+    panel.addEventListener('click', function (e) { e.stopPropagation(); });
+  }
+
+  // ============================================================
+  // SEARCH WITH HIGHLIGHT
+  // ============================================================
+  var searchInput = document.querySelector('input[type="text"]');
+  if (searchInput) {
+    // Store original cell HTML so we can restore it
+    var tbody = document.querySelector('tbody');
+    var allRows = tbody ? Array.from(tbody.querySelectorAll('tr')) : [];
+    var originalCells = allRows.map(function (row) {
+      return Array.from(row.querySelectorAll('td')).map(function (td) { return td.innerHTML; });
+    });
+
+    var noResultsRow = document.createElement('tr');
+    noResultsRow.id = 'no-results-row';
+    noResultsRow.style.display = 'none';
+    var noResultsTd = document.createElement('td');
+    noResultsTd.colSpan = 6;
+    Object.assign(noResultsTd.style, { textAlign: 'center', padding: '32px', color: '#6e797e', fontSize: '14px' });
+    noResultsRow.appendChild(noResultsTd);
+    if (tbody) tbody.appendChild(noResultsRow);
+
+    searchInput.addEventListener('input', function () {
+      var val = this.value.trim();
+      var valLower = val.toLowerCase();
+
+      if (!val) {
+        // Restore originals
+        allRows.forEach(function (row, ri) {
+          row.style.display = '';
+          row.querySelectorAll('td').forEach(function (td, ci) {
+            td.innerHTML = originalCells[ri][ci];
+          });
+        });
+        noResultsRow.style.display = 'none';
+        return;
+      }
+
+      var found = 0;
+      allRows.forEach(function (row, ri) {
+        var rowText = row.textContent.toLowerCase();
+        if (rowText.includes(valLower)) {
+          row.style.display = '';
+          found++;
+          // Highlight matching text in text nodes
+          row.querySelectorAll('td').forEach(function (td, ci) {
+            td.innerHTML = originalCells[ri][ci];
+          });
+          row.querySelectorAll('td').forEach(function (td) {
+            highlightText(td, val);
+          });
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      noResultsRow.style.display = found === 0 ? '' : 'none';
+      noResultsTd.textContent = found === 0 ? ('لا توجد نتائج مطابقة لـ "' + val + '"') : '';
+    });
+  }
+
+  function highlightText(node, term) {
+    if (node.nodeType === 3) {
+      var idx = node.textContent.toLowerCase().indexOf(term.toLowerCase());
+      if (idx === -1) return;
+      var before = document.createTextNode(node.textContent.slice(0, idx));
+      var mark = document.createElement('mark');
+      Object.assign(mark.style, { background: '#b7eaff', borderRadius: '2px', padding: '0 1px' });
+      mark.textContent = node.textContent.slice(idx, idx + term.length);
+      var after = document.createTextNode(node.textContent.slice(idx + term.length));
+      var parent = node.parentNode;
+      parent.insertBefore(before, node);
+      parent.insertBefore(mark, node);
+      parent.insertBefore(after, node);
+      parent.removeChild(node);
+    } else if (node.nodeType === 1 && node.tagName !== 'MARK' && node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE') {
+      Array.from(node.childNodes).forEach(function (child) { highlightText(child, term); });
+    }
+  }
+
+  // ============================================================
+  // KPI CARD NAVIGATION (click any KPI card to go to the relevant page)
+  // ============================================================
+  var kpiLinks = [
+    { icon: 'payments',     href: '/create_invoice_updated/code.html' },
+    { icon: 'description',  href: '/create_invoice_updated/code.html' },
+    { icon: 'group_add',    href: '/customer_management_updated/code.html' },
+    { icon: 'error',        href: '/create_invoice_updated/code.html' }
+  ];
+  kpiLinks.forEach(function (kpi) {
+    var iconEl = document.querySelector('[data-icon="' + kpi.icon + '"]');
+    if (!iconEl) return;
+    var card = iconEl.closest('.bg-surface-container-lowest');
+    if (!card) return;
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', function () {
+      window.location.href = kpi.href;
+    });
+    // Subtle pointer-cursor hint on hover
+    card.addEventListener('mouseover', function () { card.style.boxShadow = '0 4px 16px rgba(0,103,128,.10)'; });
+    card.addEventListener('mouseout',  function () { card.style.boxShadow = ''; });
+  });
+
+})();
+
+</script>
+</body></html>

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>طباعة الفاتورة | المعماري الدقيق</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --brand:       #00647c;
+  --brand-dark:  #004e61;
+  --brand-light: rgba(0,100,124,.08);
+}
+
+body {
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+  background: #f0f2f5;
+  color: #1a1a2e;
+  direction: rtl;
+  min-height: 100vh;
+  padding: 28px 16px 48px;
+}
+
+/* ── PRINT BAR ──────────────────────────────────────── */
+.print-bar {
+  max-width: 820px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--brand);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 8px 14px;
+  border: 1.5px solid var(--brand);
+  border-radius: 8px;
+}
+.back-link:hover { background: var(--brand-light); }
+.btn-print {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--brand);
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,100,124,.30);
+}
+.btn-print:hover { background: var(--brand-dark); }
+.mat { font-family: 'Material Symbols Outlined'; font-size: 18px; vertical-align: middle; line-height: 1; font-style: normal; }
+
+/* ── INVOICE CARD ───────────────────────────────────── */
+.invoice-card {
+  max-width: 820px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 28px rgba(0,0,0,.09);
+  overflow: hidden;
+}
+.accent-bar { height: 5px; background: var(--brand); }
+
+/* ── HEADER ─────────────────────────────────────────── */
+.inv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 32px 40px 28px;
+  border-bottom: 1px solid #eff0f3;
+}
+
+/* Title block (right side in RTL = "start") */
+.title-block { flex: 0 0 auto; }
+.inv-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--brand);
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 13px;
+  border-radius: 20px;
+  border: 1.5px solid currentColor;
+}
+
+/* Company block (left side in RTL = "end") */
+.company-block {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 0 0 auto;
+  max-width: 260px;
+}
+.logo-box {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  background: var(--brand);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  order: 2;
+}
+.logo-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+.logo-box .mat { color: #fff; font-size: 22px; }
+.co-text { order: 1; text-align: right; }
+.co-name { font-size: 16px; font-weight: 800; color: #1a1a2e; }
+.co-sub { font-size: 11px; color: #7a8595; margin-top: 3px; line-height: 1.65; }
+
+/* ── META INFO CARD ──────────────────────────────────── */
+.meta-wrap { padding: 0 40px 24px; }
+.meta-card {
+  border: 1px solid #e8e9ec;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  background: #f8f9fb;
+}
+.meta-col {
+  flex: 1;
+  padding: 20px 22px;
+  min-width: 0;
+}
+/* In RTL, border-inline-end puts separator on the visual LEFT of each col except the last */
+.meta-col:not(:last-child) {
+  border-inline-end: 1px solid #e8e9ec;
+}
+.m-label {
+  font-size: 10px;
+  color: #a0a9b5;
+  font-weight: 700;
+  letter-spacing: .04em;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+.m-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+  word-break: break-word;
+}
+.m-value.brand { color: var(--brand); }
+.m-sub {
+  font-size: 11.5px;
+  color: #7a8595;
+  margin-top: 2px;
+  line-height: 1.6;
+  word-break: break-word;
+}
+.m-gap { margin-top: 12px; }
+
+/* ── ITEMS TABLE ─────────────────────────────────────── */
+.table-section { padding: 4px 40px 0; }
+.section-head {
+  font-size: 10px;
+  font-weight: 700;
+  color: #a0a9b5;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-head::after { content: ''; flex: 1; height: 1px; background: #e8e9ec; }
+
+.inv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.inv-table th {
+  padding: 9px 10px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 700;
+  color: #8a929f;
+  border-bottom: 2px solid #e8e9ec;
+  white-space: nowrap;
+}
+.inv-table th.tc { text-align: center; }
+.inv-table td {
+  padding: 12px 10px;
+  vertical-align: middle;
+  color: #3c4554;
+  border-bottom: 1px solid #f2f3f5;
+  white-space: nowrap;
+}
+.inv-table td.desc { white-space: normal; }
+.inv-table td.tc { text-align: center; }
+.inv-table td.bold { font-weight: 700; color: #1a1a2e; }
+.inv-table tbody tr:last-child td { border-bottom: none; }
+
+.row-num {
+  display: inline-flex;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--brand-light);
+  color: var(--brand);
+  font-size: 11px;
+  font-weight: 700;
+  align-items: center;
+  justify-content: center;
+}
+.disc-tag {
+  display: inline-block;
+  background: #fff3e6;
+  color: #d97706;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+/* ── TOTALS + PAYMENT ────────────────────────────────── */
+.bottom-wrap {
+  padding: 24px 40px 28px;
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* Totals box (right side in RTL = visual right = first flex child) */
+.totals-box {
+  flex: 1;
+  border: 1px solid #e8e9ec;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f8f9fb;
+}
+.t-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 18px;
+  font-size: 13px;
+  border-bottom: 1px solid #e8e9ec;
+}
+.t-row:last-child { border-bottom: none; }
+.t-label { color: #7a8595; font-weight: 500; }
+.t-value { font-weight: 700; color: #1a1a2e; }
+.t-row.grand { background: var(--brand); }
+.t-row.grand .t-label { color: rgba(255,255,255,.85); font-size: 14px; font-weight: 600; }
+.t-row.grand .t-value { color: #fff; font-size: 17px; font-weight: 800; }
+
+/* Payment status (left side in RTL = second flex child) */
+.payment-box {
+  flex: 1;
+}
+.payment-box .section-head { margin-bottom: 12px; }
+.p-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed #e8e9ec;
+  font-size: 13px;
+}
+.p-row:last-child { border-bottom: none; }
+.p-label { color: #7a8595; font-weight: 500; }
+.p-value { font-weight: 700; color: #1a1a2e; }
+.p-row.paid .p-label,
+.p-row.paid .p-value { color: #16a34a; }
+.p-row.remaining .p-label,
+.p-row.remaining .p-value { color: #dc2626; }
+
+/* ── BANK + NOTES ─────────────────────────────────────── */
+.extra-wrap { padding: 0 40px 28px; }
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.info-box {
+  background: #f8f9fb;
+  border: 1px solid #e8e9ec;
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+.ib-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: #a0a9b5;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.if-row { margin-bottom: 7px; }
+.if-row:last-child { margin-bottom: 0; }
+.if-label { font-size: 10px; color: #b5bcc6; font-weight: 600; margin-bottom: 1px; }
+.if-value { font-size: 13px; color: #3c4554; font-weight: 600; }
+
+/* ── FOOTER ───────────────────────────────────────────── */
+.inv-footer {
+  border-top: 1px solid #eff0f3;
+  padding: 14px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #a0a9b5;
+}
+.inv-footer a { color: var(--brand); font-weight: 700; text-decoration: none; }
+.inv-footer a:hover { text-decoration: underline; }
+
+/* ── PRINT ────────────────────────────────────────────── */
+@media print {
+  @page { size: A4 portrait; margin: 8mm 10mm; }
+  body { background: #fff; padding: 0; }
+  .print-bar { display: none !important; }
+  .invoice-card { box-shadow: none; border-radius: 0; max-width: 100%; }
+  .accent-bar,
+  .t-row.grand,
+  .logo-box,
+  .row-num { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<!-- Print Bar -->
+<div class="print-bar">
+  <a href="/invoices_list/code.html" class="back-link">
+    <span class="mat">arrow_forward</span>
+    العودة لقائمة الفواتير
+  </a>
+  <button class="btn-print" onclick="window.print()">
+    <span class="mat">print</span>
+    طباعة الفاتورة
+  </button>
+</div>
+
+<!-- Invoice Card -->
+<div class="invoice-card">
+  <div class="accent-bar"></div>
+
+  <!-- Header -->
+  <div class="inv-header">
+    <div class="title-block">
+      <div class="inv-title">فاتورة مبيعات</div>
+      <span class="status-badge" id="js-status">مدفوعة</span>
+    </div>
+    <div class="company-block">
+      <div class="co-text">
+        <div class="co-name" id="js-co-name">المعماري الدقيق</div>
+        <div class="co-sub" id="js-co-sub">
+          المملكة العربية السعودية – الرياض<br>
+          info@almaari.sa | 920 001 234<br>
+          الرقم الضريبي: 310012345600003
+        </div>
+      </div>
+      <div class="logo-box" id="js-logo-box">
+        <span class="mat">architecture</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Meta Card -->
+  <div class="meta-wrap">
+    <div class="meta-card">
+      <div class="meta-col">
+        <div class="m-label">فاتورة إلى</div>
+        <div class="m-value" id="js-client">شركة المعالي المحدودة</div>
+        <div class="m-sub" id="js-client-sub"></div>
+      </div>
+      <div class="meta-col">
+        <div class="m-label">رقم الفاتورة</div>
+        <div class="m-value brand" id="js-number">INV-2024-001</div>
+        <div class="m-gap">
+          <div class="m-label">شروط السداد</div>
+          <div class="m-value" id="js-terms" style="font-size:13px;">آجل ٣٠ يوم</div>
+        </div>
+      </div>
+      <div class="meta-col">
+        <div class="m-label">تاريخ الإصدار</div>
+        <div class="m-value" id="js-date">١٢ أكتوبر ٢٠٢٤</div>
+        <div class="m-gap">
+          <div class="m-label">تاريخ الاستحقاق</div>
+          <div class="m-value" id="js-due" style="font-size:13px;">١٢ نوفمبر ٢٠٢٤</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Items Table -->
+  <div class="table-section">
+    <div class="section-head">بنود الفاتورة</div>
+    <table class="inv-table">
+      <thead>
+        <tr>
+          <th class="tc" style="width:36px;">#</th>
+          <th>وصف المنتج / الخدمة</th>
+          <th class="tc">الكمية</th>
+          <th class="tc">سعر الوحدة</th>
+          <th class="tc">الخصم</th>
+          <th class="tc">المجموع</th>
+        </tr>
+      </thead>
+      <tbody id="js-tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- Totals + Payment -->
+  <div class="bottom-wrap">
+    <div class="totals-box" id="js-totals"></div>
+    <div class="payment-box">
+      <div class="section-head">حالة السداد</div>
+      <div id="js-payment"></div>
+    </div>
+  </div>
+
+  <!-- Bank + Notes -->
+  <div class="extra-wrap">
+    <div class="section-head">معلومات إضافية</div>
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="ib-title">بيانات التحويل البنكي</div>
+        <div class="if-row">
+          <div class="if-label">البنك</div>
+          <div class="if-value">بنك الراجحي</div>
+        </div>
+        <div class="if-row">
+          <div class="if-label">رقم الآيبان</div>
+          <div class="if-value" dir="ltr" style="text-align:right;">SA03 8000 0000 6080 1016 7519</div>
+        </div>
+        <div class="if-row">
+          <div class="if-label">رقم الحساب</div>
+          <div class="if-value" dir="ltr" style="text-align:right;">6080 1016 7519</div>
+        </div>
+      </div>
+      <div class="info-box">
+        <div class="ib-title">ملاحظات</div>
+        <div class="if-value" id="js-notes" style="line-height:1.75;color:#5a6373;font-weight:400;">
+          يُرجى الإشارة إلى رقم الفاتورة عند إجراء التحويل البنكي. للاستفسار تواصل معنا عبر البريد الإلكتروني.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="inv-footer">
+    <span>شكراً لتعاملكم معنا &nbsp;·&nbsp;</span>
+    <a href="#">الشروط والأحكام</a>
+  </div>
+</div>
+
+<script>
+(function () {
+
+  /* ── helpers ── */
+  function shade(hex, p) {
+    var n = parseInt(hex.replace('#',''), 16);
+    var r = Math.min(255, Math.max(0, (n >> 16) + p * 2.55 | 0));
+    var g = Math.min(255, Math.max(0, ((n >> 8) & 0xff) + p * 2.55 | 0));
+    var b = Math.min(255, Math.max(0, (n & 0xff) + p * 2.55 | 0));
+    return '#' + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
+  }
+  function rgba(hex, a) {
+    var n = parseInt(hex.replace('#',''), 16);
+    return 'rgba(' + (n >> 16) + ',' + ((n >> 8) & 0xff) + ',' + (n & 0xff) + ',' + a + ')';
+  }
+  function fmt(n) {
+    return (+n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  /* ── brand color ── */
+  var brand = '#00647c';
+  try { brand = localStorage.getItem('erp_brand_color') || brand; } catch(e) {}
+  var R = document.documentElement;
+  R.style.setProperty('--brand',       brand);
+  R.style.setProperty('--brand-dark',  shade(brand, -15));
+  R.style.setProperty('--brand-light', rgba(brand, .09));
+
+  /* ── load company settings ── */
+  try {
+    var cname = localStorage.getItem('erp_company_name');
+    if (cname) document.getElementById('js-co-name').textContent = cname;
+    var logo = localStorage.getItem('erp_logo_data');
+    if (logo) {
+      var lb = document.getElementById('js-logo-box');
+      lb.innerHTML = '<img src="' + logo + '" alt="logo"/>';
+    }
+  } catch(e) {}
+
+  /* ── sample data (shown when no print data in localStorage) ── */
+  var DEF = {
+    number: 'INV-2024-001',
+    date: '١٢ أكتوبر ٢٠٢٤',
+    dueDate: '١٢ نوفمبر ٢٠٢٤',
+    paymentTerms: 'آجل ٣٠ يوم',
+    status: 'مدفوعة',
+    client: 'شركة المعالي المحدودة',
+    clientAddress: 'الرياض، حي العليا، شارع الملك فهد',
+    phone: '0501234567',
+    email: 'info@almaali.sa',
+    clientTax: '300124567800003',
+    paidAmount: null,
+    notes: '',
+    items: [
+      { name: 'طلاء جداري داخلي عالي الجودة', qty: 10, unit: 300, discount: 0, tax: 15 },
+      { name: 'أدوات دهان متكاملة (طقم)',       qty: 5,  unit: 120, discount: 0, tax: 15 },
+      { name: 'خدمة تحضير الأسطح والتنظيف',     qty: 2,  unit: 450, discount: 10, tax: 15 }
+    ]
+  };
+
+  var inv = DEF;
+  try {
+    var s = JSON.parse(localStorage.getItem('erp_print_invoice') || 'null');
+    if (s && s.number) {
+      inv = {
+        number:        s.number        || DEF.number,
+        date:          s.date          || DEF.date,
+        dueDate:       s.dueDate       || DEF.dueDate,
+        paymentTerms:  s.paymentTerms  || DEF.paymentTerms,
+        status:        s.status        || DEF.status,
+        client:        s.client        || DEF.client,
+        clientAddress: s.clientAddress || DEF.clientAddress,
+        phone:         s.phone         || '',
+        email:         s.email         || '',
+        clientTax:     s.clientTax     || '',
+        paidAmount:    typeof s.paidAmount === 'number' ? s.paidAmount : null,
+        notes:         s.notes         || '',
+        items:         (s.items && s.items.length) ? s.items : DEF.items
+      };
+    }
+  } catch(e) {}
+
+  /* ── status styles ── */
+  var SC = {
+    'مدفوعة':        ['#16a34a', '#f0fdf4'],
+    'مدفوعة جزئياً': ['#d97706', '#fffbeb'],
+    'قيد الانتظار':  ['#3b82f6', '#eff6ff'],
+    'مسودة':         ['#6b7280', '#f9fafb']
+  };
+  var sc = SC[inv.status] || SC['مسودة'];
+  document.title = 'فاتورة #' + inv.number + ' | المعماري الدقيق';
+
+  var badge = document.getElementById('js-status');
+  badge.textContent = '✓ ' + inv.status;
+  badge.style.color      = sc[0];
+  badge.style.borderColor= sc[0];
+  badge.style.background = sc[1];
+
+  /* ── meta ── */
+  document.getElementById('js-number').textContent = inv.number;
+  document.getElementById('js-date').textContent   = inv.date;
+  document.getElementById('js-due').textContent    = inv.dueDate || '—';
+  document.getElementById('js-terms').textContent  = inv.paymentTerms;
+  document.getElementById('js-client').textContent = inv.client;
+
+  var sub = [];
+  if (inv.email)         sub.push(inv.email);
+  if (inv.phone)         sub.push(inv.phone);
+  if (inv.clientAddress) sub.push(inv.clientAddress);
+  if (inv.clientTax)     sub.push('الرقم الضريبي: ' + inv.clientTax);
+  document.getElementById('js-client-sub').innerHTML = sub.join('<br>');
+
+  if (inv.notes && inv.notes.trim())
+    document.getElementById('js-notes').textContent = inv.notes;
+
+  /* ── currency symbol ── */
+  var cur = 'ر.س';
+  try { cur = localStorage.getItem('erp_currency_symbol') || cur; } catch(e) {}
+
+  /* ── line items ── */
+  var subtotal = 0, totalTax = 0, taxByRate = {};
+  var tbody = document.getElementById('js-tbody');
+
+  inv.items.forEach(function (it, i) {
+    var base     = it.qty * it.unit * (1 - (it.discount || 0) / 100);
+    var taxAmt   = base * ((it.tax || 0) / 100);
+    var lineTotal = base + taxAmt;
+    subtotal += base;
+    totalTax += taxAmt;
+    var r = it.tax || 0;
+    taxByRate[r] = (taxByRate[r] || 0) + taxAmt;
+
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+        '<td class="tc"><span class="row-num">' + (i + 1) + '</span></td>'
+      + '<td class="bold desc">' + esc(it.name) + '</td>'
+      + '<td class="tc">' + it.qty + '</td>'
+      + '<td class="tc">' + fmt(it.unit) + '</td>'
+      + '<td class="tc">' + ((it.discount || 0) > 0 ? '<span class="disc-tag">-' + it.discount + '%</span>' : '—') + '</td>'
+      + '<td class="tc bold">' + fmt(lineTotal) + '</td>';
+    tbody.appendChild(tr);
+  });
+
+  var grand = subtotal + totalTax;
+
+  /* ── totals box ── */
+  var th = '<div class="t-row"><span class="t-label">المجموع قبل الضريبة</span><span class="t-value">' + fmt(subtotal) + ' ' + cur + '</span></div>';
+  Object.keys(taxByRate).forEach(function (r) {
+    th += '<div class="t-row"><span class="t-label">ضريبة القيمة المضافة (' + r + '%)</span><span class="t-value">' + fmt(taxByRate[r]) + ' ' + cur + '</span></div>';
+  });
+  th += '<div class="t-row grand"><span class="t-label">الإجمالي النهائي</span><span class="t-value">' + cur + ' ' + fmt(grand) + '</span></div>';
+  document.getElementById('js-totals').innerHTML = th;
+
+  /* ── payment info ── */
+  var paid, remaining;
+  if (inv.status === 'مدفوعة')       { paid = grand; remaining = 0; }
+  else if (inv.status === 'مسودة' || inv.status === 'قيد الانتظار') { paid = 0; remaining = grand; }
+  else {
+    paid      = (typeof inv.paidAmount === 'number') ? inv.paidAmount : 0;
+    remaining = Math.max(0, grand - paid);
+  }
+
+  document.getElementById('js-payment').innerHTML =
+      '<div class="p-row"><span class="p-label">الإجمالي الكلي</span><span class="p-value">' + fmt(grand) + ' ' + cur + '</span></div>'
+    + '<div class="p-row paid"><span class="p-label">المبلغ المدفوع</span><span class="p-value">+ ' + fmt(paid) + ' ' + cur + '</span></div>'
+    + '<div class="p-row remaining"><span class="p-label">المبلغ المتبقي</span><span class="p-value">- ' + fmt(remaining) + ' ' + cur + '</span></div>';
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>المعماري الدقيق | التقارير والتحليلات</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=IBM+Plex+Sans+Arabic:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed": "#d1e4ff",
+              "surface-container-highest": "#e0e3e5",
+              "surface-variant": "#e0e3e5",
+              "on-secondary-container": "#4b637e",
+              "error-container": "#ffdad6",
+              "surface-dim": "#d8dadc",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#67758b",
+              "on-error-container": "#93000a",
+              "surface-container-low": "#f2f4f6",
+              "on-background": "#191c1e",
+              "on-error": "#ffffff",
+              "secondary": "#49607c",
+              "tertiary": "#4f5d71",
+              "outline": "#6e797e",
+              "surface-tint": "#006780",
+              "on-primary": "#ffffff",
+              "on-primary-fixed": "#001f28",
+              "on-primary-container": "#fafdff",
+              "secondary-container": "#c7dfff",
+              "on-tertiary-fixed": "#0d1c2e",
+              "primary": "#00647c",
+              "outline-variant": "#bdc8ce",
+              "surface-container-high": "#e6e8ea",
+              "on-surface": "#191c1e",
+              "inverse-primary": "#6cd3f7",
+              "tertiary-fixed-dim": "#b9c7df",
+              "on-tertiary-fixed-variant": "#3a485b",
+              "surface-container": "#eceef0",
+              "surface-bright": "#f7f9fb",
+              "on-tertiary-container": "#fdfcff",
+              "primary-fixed-dim": "#6cd3f7",
+              "primary-fixed": "#b7eaff",
+              "on-primary-fixed-variant": "#004e61",
+              "on-secondary-fixed-variant": "#314863",
+              "error": "#ba1a1a",
+              "inverse-surface": "#2d3133",
+              "on-tertiary": "#ffffff",
+              "surface": "#f7f9fb",
+              "background": "#f7f9fb",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#eff1f3",
+              "secondary-fixed-dim": "#b0c9e8",
+              "on-surface-variant": "#3e484d",
+              "tertiary-fixed": "#d5e3fc",
+              "primary-container": "#007f9d",
+              "on-secondary-fixed": "#011d35"
+            },
+            fontFamily: {
+              "headline": ["Manrope", "IBM Plex Sans Arabic"],
+              "body": ["Inter", "IBM Plex Sans Arabic"],
+              "label": ["Inter", "IBM Plex Sans Arabic"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+        .font-manrope { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar Shell -->
+<aside class="fixed right-0 top-0 h-full w-60 bg-[#011d35] shadow-2xl z-50 flex flex-col" id="sidebar" dir="rtl">
+
+  <!-- Logo -->
+  <div class="px-4 py-5 flex items-center gap-3 cursor-pointer" onclick="window.location.href='/'">
+    <div class="w-9 h-9 bg-[#007f9d] rounded-lg flex items-center justify-center flex-shrink-0">
+      <span class="material-symbols-outlined text-white text-lg">architecture</span>
+    </div>
+    <div>
+      <div class="text-white font-bold text-sm leading-tight">المعماري الدقيق</div>
+      <div class="text-slate-400 text-[10px]">ID: 987654</div>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="flex-1 overflow-y-auto px-3 py-2 space-y-1" id="sidebar-nav">
+
+    <!-- Dashboard -->
+    <a href="/dashboard_updated/code.html" data-page="dashboard"
+       class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 group">
+      <span class="material-symbols-outlined text-xl flex-shrink-0">dashboard</span>
+      <span class="text-sm font-medium">لوحة التحكم</span>
+    </a>
+
+    <!-- المبيعات with sub-items -->
+    <div class="sidebar-group" data-group="sales">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none" data-page="sales" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">receipt_long</span>
+        <span class="text-sm font-medium flex-1">المبيعات</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/customer_management_updated/code.html" data-page="customer"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">العملاء</a>
+        <a href="/invoices_list/code.html" data-page="invoices-list"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">قائمة الفواتير</a>
+        <a href="/create_invoice_updated/code.html" data-page="invoice"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">إنشاء فاتورة جديدة</a>
+      </div>
+    </div>
+
+    <!-- المنتجات والخدمات with sub-items -->
+    <div class="sidebar-group" data-group="products">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none"
+           data-page="products" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">inventory_2</span>
+        <span class="text-sm font-medium flex-1">المنتجات والخدمات</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/products_inventory_updated/code.html" data-page="products-list"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">قائمة المنتجات</a>
+        <a href="/products_inventory_updated/code.html" data-page="inventory"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">إدارة المخزون</a>
+        <a href="/products_inventory_updated/code.html?tab=catunits" data-page="catunits"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">التصنيفات والوحدات</a>
+      </div>
+    </div>
+
+    <!-- المحاسبة المالية with sub-items -->
+    <div class="sidebar-group" data-group="accounting">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none"
+           data-page="accounting" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">account_balance</span>
+        <span class="text-sm font-medium flex-1">المحاسبة المالية</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/customer_management_updated/code.html" data-page="accounts"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">الحسابات العامة</a>
+        <a href="/create_invoice_updated/code.html" data-page="payments"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">المدفوعات</a>
+      </div>
+    </div>
+
+    <!-- التقارير التحليلية with sub-items -->
+    <div class="sidebar-group" data-group="analytics">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none"
+           data-page="analytics" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">analytics</span>
+        <span class="text-sm font-medium flex-1">التقارير التحليلية</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/analytics_reports_updated/code.html" data-page="sales-reports"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">تقارير المبيعات</a>
+        <a href="/analytics_reports_updated/code.html" data-page="financial-reports"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">التقارير المالية</a>
+        <a href="/analytics_reports_updated/code.html" data-page="tax-reports"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">التقارير الضريبية</a>
+      </div>
+    </div>
+
+  </nav>
+
+  <!-- Bottom -->
+  <div class="px-3 pb-4 space-y-1 border-t border-slate-700/50 pt-3">
+    <a href="/settings_updated_with_logo_currency/code.html" data-page="settings"
+       class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150">
+      <span class="material-symbols-outlined text-xl flex-shrink-0">settings</span>
+      <span class="text-sm">الإعدادات</span>
+    </a>
+    <a href="/"
+       class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all duration-150">
+      <span class="material-symbols-outlined text-xl flex-shrink-0">logout</span>
+      <span class="text-sm">تسجيل الخروج</span>
+    </a>
+  </div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 left-0 right-0 h-16 z-40 bg-white/80 dark:bg-[#191c1e]/80 backdrop-blur-md shadow-sm flex flex-row-reverse justify-between items-center px-6 w-full ml-0 md:pr-64">
+<div class="flex items-center gap-6 flex-row-reverse">
+<h2 class="text-lg font-black text-[#011d35] dark:text-white font-manrope">إدارة الموارد</h2>
+<div class="hidden md:flex items-center bg-surface-container-low px-4 py-1.5 rounded-full border border-outline-variant/20 focus-within:ring-2 focus-within:ring-[#0091B2] transition-all">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 text-right pr-2" placeholder="بحث سريع في النظام..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-slate-500 hover:text-[#0091B2] transition-all">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-slate-500 hover:text-[#0091B2] transition-all relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant/30 mx-2"></div>
+<div class="flex items-center gap-3 flex-row-reverse">
+<div class="text-left hidden lg:block">
+<p class="text-xs font-bold text-on-surface">أحمد السعدني</p>
+<p class="text-[10px] text-on-surface-variant">مدير النظام</p>
+</div>
+<img alt="User Profile" class="w-9 h-9 rounded-full border-2 border-primary-container/20" data-alt="professional portrait of a middle-eastern man in corporate attire with a clean modern office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsv5mS7m3AgQJH7Ikr92SvAm3A_iSjh8-S0YMBKLyG_T3k5ilF2y-UJ2nVFMY2FfsaxtzFpeLj2_FuaggKxpGSlAGrU5WAG3_AX4px2-Suesw7_f0bMsdWgyY5AxGcYJamrUJuvJDd1SrRV3bMR4EBSPTL5dGCX0qJ5zRDUUXis0fxOlqRDfWT7yxmjTC5b_KB4wx5UdekVQ-HO6f9R4uBNb8Tiox9j6NLSQFa2_czP4atqZC-EZQje4-b4bZ_mdm8QegdbQE13BwC"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-16 pr-64 min-h-screen">
+<div class="p-8 max-w-[1600px] mx-auto">
+<!-- Breadcrumbs & Header -->
+<div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="space-y-2">
+<nav class="flex items-center gap-2 text-xs font-medium text-on-surface-variant/70 mb-2">
+<span>الرئيسية</span>
+<span class="material-symbols-outlined text-[10px]" data-icon="chevron_left">chevron_left</span>
+<span class="text-primary font-bold">التقارير والتحليلات</span>
+</nav>
+<h2 class="text-4xl font-extrabold tracking-tight text-on-surface font-manrope">نظرة عامة على الأداء</h2>
+<p class="text-on-surface-variant max-w-xl">متابعة مؤشرات أداء المبيعات، الأرباح، والالتزامات الضريبية من خلال لوحات تفاعلية دقيقة.</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex bg-surface-container-low p-1 rounded-xl shadow-inner border border-outline-variant/10">
+<button class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-on-surface-variant hover:bg-surface-container">اليوم</button>
+<button class="px-4 py-2 text-xs font-bold rounded-lg transition-all bg-white shadow-sm text-primary">هذا الشهر</button>
+<button class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-on-surface-variant hover:bg-surface-container">الربع السابق</button>
+<button class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-on-surface-variant hover:bg-surface-container">سنوي</button>
+</div>
+<button class="flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-xl font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+<span>تصدير البيانات</span>
+</button>
+</div>
+</div>
+<!-- Bento Layout Container -->
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Main Analytics Area -->
+<div class="flex-1 space-y-8">
+<!-- KPI Cards Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border-r-4 border-primary relative overflow-hidden group">
+<div class="absolute -left-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:scale-150 transition-transform"></div>
+<div class="flex justify-between items-start mb-4">
+<p class="text-sm font-bold text-on-surface-variant">إجمالي المبيعات</p>
+<span class="material-symbols-outlined text-primary" data-icon="payments">payments</span>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="text-3xl font-black font-manrope">1,245,890</h3>
+<span class="text-xs text-on-surface-variant">ج.م</span>
+</div>
+<p class="text-[10px] text-green-600 font-bold mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="trending_up">trending_up</span>
+<span>+12.4% عن الشهر السابق</span>
+</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border-r-4 border-[#0091B2] relative overflow-hidden group">
+<div class="absolute -left-4 -top-4 w-24 h-24 bg-[#0091B2]/5 rounded-full blur-2xl group-hover:scale-150 transition-transform"></div>
+<div class="flex justify-between items-start mb-4">
+<p class="text-sm font-bold text-on-surface-variant">صافي الأرباح</p>
+<span class="material-symbols-outlined text-[#0091B2]" data-icon="monitoring">monitoring</span>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="text-3xl font-black font-manrope">482,150</h3>
+<span class="text-xs text-on-surface-variant">ج.م</span>
+</div>
+<p class="text-[10px] text-green-600 font-bold mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="trending_up">trending_up</span>
+<span>+8.2% عن الشهر السابق</span>
+</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border-r-4 border-error relative overflow-hidden group">
+<div class="absolute -left-4 -top-4 w-24 h-24 bg-error/5 rounded-full blur-2xl group-hover:scale-150 transition-transform"></div>
+<div class="flex justify-between items-start mb-4">
+<p class="text-sm font-bold text-on-surface-variant">الضرائب المستحقة</p>
+<span class="material-symbols-outlined text-error" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="text-3xl font-black font-manrope">186,880</h3>
+<span class="text-xs text-on-surface-variant">ج.م</span>
+</div>
+<p class="text-[10px] text-error font-bold mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="trending_flat">trending_flat</span>
+<span>مستقر بنسبة 0.2%</span>
+</p>
+</div>
+</div>
+<!-- Main Chart: Monthly Revenue -->
+<div class="bg-surface-container-lowest p-8 rounded-3xl shadow-sm">
+<div class="flex justify-between items-center mb-10">
+<div>
+<h4 class="text-xl font-bold text-on-surface">إيرادات المبيعات الشهرية</h4>
+<p class="text-xs text-on-surface-variant">مقارنة أداء المبيعات للعام الحالي مقابل العام السابق</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-[10px] font-bold text-on-surface-variant">العام الحالي</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-surface-container-high"></span>
+<span class="text-[10px] font-bold text-on-surface-variant">العام السابق</span>
+</div>
+</div>
+</div>
+<!-- Pseudo Bar Chart -->
+<div class="h-64 flex items-end justify-between gap-4 px-2">
+<div class="flex-1 flex flex-col gap-2 items-center group cursor-pointer">
+<div class="w-full flex items-end gap-1 h-full">
+<div class="flex-1 bg-surface-container-high rounded-t-lg h-[40%]"></div>
+<div class="flex-1 bg-primary/40 group-hover:bg-primary rounded-t-lg h-[65%] transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">يناير</span>
+</div>
+<div class="flex-1 flex flex-col gap-2 items-center group cursor-pointer">
+<div class="w-full flex items-end gap-1 h-full">
+<div class="flex-1 bg-surface-container-high rounded-t-lg h-[50%]"></div>
+<div class="flex-1 bg-primary/40 group-hover:bg-primary rounded-t-lg h-[80%] transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">فبراير</span>
+</div>
+<div class="flex-1 flex flex-col gap-2 items-center group cursor-pointer">
+<div class="w-full flex items-end gap-1 h-full">
+<div class="flex-1 bg-surface-container-high rounded-t-lg h-[30%]"></div>
+<div class="flex-1 bg-primary/40 group-hover:bg-primary rounded-t-lg h-[55%] transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">مارس</span>
+</div>
+<div class="flex-1 flex flex-col gap-2 items-center group cursor-pointer">
+<div class="w-full flex items-end gap-1 h-full">
+<div class="flex-1 bg-surface-container-high rounded-t-lg h-[60%]"></div>
+<div class="flex-1 bg-primary/40 group-hover:bg-primary rounded-t-lg h-[90%] transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">أبريل</span>
+</div>
+<div class="flex-1 flex flex-col gap-2 items-center group cursor-pointer">
+<div class="w-full flex items-end gap-1 h-full">
+<div class="flex-1 bg-surface-container-high rounded-t-lg h-[45%]"></div>
+<div class="flex-1 bg-primary/40 group-hover:bg-primary rounded-t-lg h-[75%] transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">مايو</span>
+</div>
+<div class="flex-1 flex flex-col gap-2 items-center group cursor-pointer">
+<div class="w-full flex items-end gap-1 h-full">
+<div class="flex-1 bg-surface-container-high rounded-t-lg h-[70%]"></div>
+<div class="flex-1 bg-primary/40 group-hover:bg-primary rounded-t-lg h-[95%] transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">يونيو</span>
+</div>
+<div class="flex-1 flex flex-col gap-2 items-center group cursor-pointer">
+<div class="w-full flex items-end gap-1 h-full">
+<div class="flex-1 bg-surface-container-high rounded-t-lg h-[55%]"></div>
+<div class="flex-1 bg-primary rounded-t-lg h-[100%] shadow-lg shadow-primary/20"></div>
+</div>
+<span class="text-[10px] font-bold text-primary">يوليو</span>
+</div>
+</div>
+</div>
+<!-- Lower Section: Tables & Secondary Analytics -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm">
+<h4 class="text-lg font-bold mb-6">المبيعات حسب التصنيف</h4>
+<div class="flex items-center gap-8 py-4">
+<div class="relative w-40 h-40">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container-low" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="100, 100" stroke-width="4"></path>
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="45, 100" stroke-linecap="round" stroke-width="4"></path>
+<path class="text-[#0091B2]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="30, 100" stroke-dashoffset="-45" stroke-linecap="round" stroke-width="4"></path>
+<path class="text-error" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="15, 100" stroke-dashoffset="-75" stroke-linecap="round" stroke-width="4"></path>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl font-black font-manrope">100%</span>
+<span class="text-[8px] text-on-surface-variant font-bold">إجمالي الفئات</span>
+</div>
+</div>
+<div class="flex-1 space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-xs font-bold">خدمات الإنشاءات</span>
+</div>
+<span class="text-xs font-manrope">45%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#0091B2]"></span>
+<span class="text-xs font-bold">المواد الخام</span>
+</div>
+<span class="text-xs font-manrope">30%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="text-xs font-bold">استشارات هندسية</span>
+</div>
+<span class="text-xs font-manrope">15%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-surface-container-high"></span>
+<span class="text-xs font-bold">أخرى</span>
+</div>
+<span class="text-xs font-manrope">10%</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm">
+<h4 class="text-lg font-bold mb-6">المنتجات الأكثر مبيعاً</h4>
+<div class="space-y-5">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center font-bold text-primary font-manrope">01</div>
+<div class="flex-1">
+<p class="text-sm font-bold">حديد تسليح - صب عالي القوة</p>
+<div class="w-full bg-surface-container-low h-1.5 rounded-full mt-1.5">
+<div class="bg-primary h-full rounded-full w-[88%]"></div>
+</div>
+</div>
+<span class="text-xs font-black font-manrope">88%</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center font-bold text-primary font-manrope">02</div>
+<div class="flex-1">
+<p class="text-sm font-bold">أسمنت مقاوم للأملاح</p>
+<div class="w-full bg-surface-container-low h-1.5 rounded-full mt-1.5">
+<div class="bg-primary h-full rounded-full w-[72%]"></div>
+</div>
+</div>
+<span class="text-xs font-black font-manrope">72%</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center font-bold text-primary font-manrope">03</div>
+<div class="flex-1">
+<p class="text-sm font-bold">رخام إيطالي نخب أول</p>
+<div class="w-full bg-surface-container-low h-1.5 rounded-full mt-1.5">
+<div class="bg-primary h-full rounded-full w-[54%]"></div>
+</div>
+</div>
+<span class="text-xs font-black font-manrope">54%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Inner Content Sidebar (Report Categories) -->
+<aside class="w-full lg:w-72 space-y-4">
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-outline-variant/5">
+<h5 class="text-sm font-black mb-6 text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="folder_open">folder_open</span>
+<span>تصنيفات التقارير</span>
+</h5>
+<ul class="space-y-2">
+<li>
+<button class="w-full flex items-center justify-between p-3 rounded-xl bg-primary-container text-white shadow-md font-bold text-sm transition-all scale-100">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]" data-icon="bar_chart">bar_chart</span>
+<span>تقارير المبيعات</span>
+</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_left">chevron_left</span>
+</button>
+</li>
+<li>
+<button class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-surface-container text-on-surface-variant font-bold text-sm transition-all">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]" data-icon="percent">percent</span>
+<span>التقارير الضريبية</span>
+</span>
+</button>
+</li>
+<li>
+<button class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-surface-container text-on-surface-variant font-bold text-sm transition-all">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]" data-icon="warehouse">warehouse</span>
+<span>تقارير المخزون</span>
+</span>
+</button>
+</li>
+<li>
+<button class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-surface-container text-on-surface-variant font-bold text-sm transition-all">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]" data-icon="account_balance">account_balance</span>
+<span>تقارير المصروفات</span>
+</span>
+</button>
+</li>
+</ul>
+</div>
+<div class="bg-gradient-to-br from-primary to-primary-container p-6 rounded-3xl text-white shadow-xl shadow-primary/20 relative overflow-hidden group">
+<div class="absolute right-0 top-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
+<span class="material-symbols-outlined text-[120px]" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<h5 class="font-bold mb-2">تحليلات الذكاء الاصطناعي</h5>
+<p class="text-[11px] leading-relaxed opacity-90 mb-4">احصل على تنبؤات ذكية لحجم المبيعات في الربع القادم بناءً على الأداء التاريخي والبيانات المسجلة.</p>
+<button class="w-full py-2 bg-white text-primary font-black text-xs rounded-lg hover:bg-opacity-90 transition-all">بدء التحليل التنبؤي</button>
+</div>
+<!-- Export Options Card -->
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm">
+<h5 class="text-xs font-black mb-4 uppercase tracking-widest text-on-surface-variant/60">تنسيقات التصدير المتاحة</h5>
+<div class="grid grid-cols-3 gap-2">
+<button class="flex flex-col items-center justify-center p-3 rounded-xl border border-outline-variant/20 hover:border-primary hover:text-primary transition-all group">
+<span class="material-symbols-outlined mb-1 group-hover:scale-110 transition-transform" data-icon="picture_as_pdf">picture_as_pdf</span>
+<span class="text-[10px] font-bold">PDF</span>
+</button>
+<button class="flex flex-col items-center justify-center p-3 rounded-xl border border-outline-variant/20 hover:border-primary hover:text-primary transition-all group">
+<span class="material-symbols-outlined mb-1 group-hover:scale-110 transition-transform" data-icon="description">description</span>
+<span class="text-[10px] font-bold">Excel</span>
+</button>
+<button class="flex flex-col items-center justify-center p-3 rounded-xl border border-outline-variant/20 hover:border-primary hover:text-primary transition-all group">
+<span class="material-symbols-outlined mb-1 group-hover:scale-110 transition-transform" data-icon="csv">csv</span>
+<span class="text-[10px] font-bold">CSV</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-8 left-8 w-14 h-14 bg-primary-container text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+
+
+
+
+
+
+
+<script id="nav-fix">
+function toggleGroup(el) {
+  var sub = el.nextElementSibling;
+  var chevron = el.querySelector('.chevron');
+  var isOpen = !sub.classList.contains('hidden');
+  if (isOpen) {
+    sub.classList.add('hidden');
+    chevron.style.transform = '';
+    el.classList.remove('bg-[#007f9d]','text-white');
+    el.classList.add('text-slate-300');
+  } else {
+    sub.classList.remove('hidden');
+    chevron.style.transform = 'rotate(180deg)';
+    el.classList.add('bg-[#007f9d]','text-white');
+    el.classList.remove('text-slate-300','hover:text-white','hover:bg-[#1a3a54]');
+  }
+}
+
+(function() {
+  var path = window.location.pathname;
+
+  // Map URL path segment to group + sub-item highlight
+  var config = {
+    'dashboard_updated':           { group: null,        page: 'dashboard' },
+    'create_invoice_updated':      { group: 'sales',     page: 'invoice' },
+    'products_inventory_updated':  { group: 'products',  page: 'products-list' },
+    'customer_management_updated': { group: 'sales',     page: 'customer' },
+    'analytics_reports_updated':   { group: 'analytics', page: 'sales-reports' },
+    'settings_updated':            { group: null,        page: 'settings' },
+  };
+
+  var active = null;
+  Object.keys(config).forEach(function(key) {
+    if (path.indexOf(key) !== -1) active = config[key];
+  });
+
+  if (!active) return;
+
+  // Highlight top-level item or open group
+  if (active.group) {
+    // Open the group
+    var groupEl = document.querySelector('[data-group="' + active.group + '"]');
+    if (groupEl) {
+      var parent = groupEl.querySelector('.sidebar-parent');
+      var sub = groupEl.querySelector('.sidebar-sub');
+      var chevron = groupEl.querySelector('.chevron');
+      if (parent && sub && chevron) {
+        sub.classList.remove('hidden');
+        chevron.style.transform = 'rotate(180deg)';
+        parent.classList.add('bg-[#007f9d]','text-white');
+        parent.classList.remove('text-slate-300');
+      }
+      // Highlight active sub-item
+      var subItems = sub.querySelectorAll('[data-page]');
+      subItems.forEach(function(item) {
+        if (item.getAttribute('data-page') === active.page) {
+          item.classList.add('text-white','font-semibold','border-r-2','border-[#00c4e8]','bg-[#1a3a54]');
+          item.classList.remove('text-slate-400');
+        }
+      });
+    }
+  } else {
+    // Highlight direct nav item
+    var el = document.querySelector('[data-page="' + active.page + '"].sidebar-item');
+    if (el) {
+      el.classList.add('bg-[#007f9d]','text-white');
+      el.classList.remove('text-slate-300');
+    }
+  }
+
+  // Fix remaining href=# breadcrumb links
+  document.querySelectorAll('a[href="#"]').forEach(function(link) {
+    var t = link.textContent.trim();
+    if (t === 'الرئيسية') link.href = '/';
+    if (t === 'المبيعات' || t === 'قائمة الفواتير') link.href = '/create_invoice_updated/code.html';
+    if (t === 'العملاء') link.href = '/customer_management_updated/code.html';
+    if (t === 'الفواتير الضريبية') link.href = '/create_invoice_updated/code.html';
+  });
+
+  // Action buttons
+  document.querySelectorAll('button').forEach(function(btn) {
+    var t = btn.textContent.trim();
+    if (t === 'عرض كافة الفواتير') {
+      btn.addEventListener('click', function() { window.location.href = '/create_invoice_updated/code.html'; });
+      btn.style.cursor = 'pointer';
+    }
+  });
+  document.querySelectorAll('button.fixed').forEach(function(btn) {
+    var icon = btn.querySelector('.material-symbols-outlined');
+    if (icon && icon.textContent.trim() === 'add') {
+      btn.addEventListener('click', function() { window.location.href = '/create_invoice_updated/code.html'; });
+      btn.style.cursor = 'pointer';
+    }
+  });
+
+  // Page transitions
+  var style = document.createElement('style');
+  style.textContent = 'body{transition:opacity .15s ease;}body.fade-out{opacity:0;}';
+  document.head.appendChild(style);
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href]');
+    if (link && link.href && !link.href.includes('#') && !link.target && link.hostname === window.location.hostname) {
+      e.preventDefault();
+      document.body.classList.add('fade-out');
+      setTimeout(function() { window.location.href = link.href; }, 140);
+    }
+  });
+})();
+</script>
+<script id="analytics-fx">
+(function () {
+  'use strict';
+
+  // ===================================================
+  // PERIOD SWITCHER
+  // ===================================================
+  var periodData = {
+    'اليوم':       { sales: '42,350', profit: '16,180', tax: '6,352',  bars: [12,8,25,18,30,22,40,15,35,28,42,20] },
+    'هذا الشهر':  { sales: '1,245,890', profit: '482,150', tax: '186,880', bars: [65,80,55,90,75,95,100,60,85,70,88,78] },
+    'الربع السابق':{ sales: '3,821,540', profit: '1,421,600', tax: '573,230', bars: [70,65,90,80,95,88,72,85,78,92,68,76] },
+    'سنوي':       { sales: '14,750,200', profit: '5,312,800', tax: '2,212,530', bars: [60,75,55,85,70,95,80,65,90,72,88,82] }
+  };
+
+  var periodBtns = document.querySelectorAll('.flex.bg-surface-container-low.p-1.rounded-xl button');
+  var kpiSales   = null, kpiProfit = null, kpiTax = null;
+
+  // Find KPI h3 elements
+  document.querySelectorAll('.bg-surface-container-lowest.p-6.rounded-2xl h3').forEach(function(h, idx) {
+    if (idx === 0) kpiSales  = h;
+    if (idx === 1) kpiProfit = h;
+    if (idx === 2) kpiTax    = h;
+  });
+
+  function setActivePeriod(label) {
+    periodBtns.forEach(function(btn) {
+      var isActive = btn.textContent.trim() === label;
+      btn.className = 'px-4 py-2 text-xs font-bold rounded-lg transition-all ' + (isActive ? 'bg-white shadow-sm text-primary' : 'text-on-surface-variant hover:bg-surface-container');
+    });
+    var d = periodData[label];
+    if (!d) return;
+    if (kpiSales)  kpiSales.textContent  = d.sales;
+    if (kpiProfit) kpiProfit.textContent = d.profit;
+    if (kpiTax)    kpiTax.textContent    = d.tax;
+    updateBars(d.bars);
+  }
+
+  // ===================================================
+  // BAR CHART TOOLTIPS
+  // ===================================================
+  var barColumns = document.querySelectorAll('.h-64.flex.items-end > .flex-1.flex.flex-col');
+  var monthAmountsBase = [95000,120000,82000,145000,108000,165000,185000];
+
+  function updateBars(percentages) {
+    barColumns.forEach(function(col, idx) {
+      var pct = percentages[idx] || 50;
+      var currentBar = col.querySelector('.flex-1.bg-primary\\/40, .flex-1.bg-primary');
+      if (currentBar) currentBar.style.height = pct + '%';
+    });
+  }
+
+  barColumns.forEach(function(col, idx) {
+    var monthEl = col.querySelector('span');
+    var monthName = monthEl ? monthEl.textContent.trim() : '';
+    var tip = null;
+    col.addEventListener('mouseenter', function() {
+      if (tip) return;
+      tip = document.createElement('div');
+      Object.assign(tip.style, { position:'absolute', background:'#011d35', color:'#fff', padding:'8px 12px', borderRadius:'8px', fontSize:'11px', fontWeight:'700', whiteSpace:'nowrap', zIndex:'1000', pointerEvents:'none', boxShadow:'0 4px 12px rgba(0,0,0,.2)', direction:'rtl' });
+      var amt = (monthAmountsBase[idx] || 100000).toLocaleString('ar-EG');
+      tip.textContent = monthName + ': ' + amt + ' ج.م';
+      col.style.position = 'relative';
+      col.appendChild(tip);
+      tip.style.bottom = '110%';
+      tip.style.right  = '50%';
+      tip.style.transform = 'translateX(50%)';
+    });
+    col.addEventListener('mouseleave', function() {
+      if (tip) { tip.remove(); tip = null; }
+    });
+  });
+
+  periodBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() { setActivePeriod(btn.textContent.trim()); });
+  });
+
+  // ===================================================
+  // REPORT CATEGORY TABS
+  // ===================================================
+  var reportBtns = document.querySelectorAll('.space-y-2 > li button');
+  reportBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      reportBtns.forEach(function(b) {
+        b.className = 'w-full flex items-center justify-between p-3 rounded-xl hover:bg-surface-container text-on-surface-variant font-bold text-sm transition-all';
+      });
+      btn.className = 'w-full flex items-center justify-between p-3 rounded-xl bg-primary-container text-white shadow-md font-bold text-sm transition-all scale-100';
+      var labelEl = btn.querySelector('span span');
+      var label = labelEl ? labelEl.textContent.trim() : '';
+      showToast('عرض ' + label, 'info');
+    });
+  });
+
+  // ===================================================
+  // EXPORT BUTTON
+  // ===================================================
+  var exportBtn = document.querySelector('button span[data-icon="download"]');
+  if (exportBtn) {
+    var expEl = exportBtn.closest('button');
+    if (expEl) expEl.addEventListener('click', function() { showToast('جاري تصدير البيانات... سيُرسل الملف إلى بريدك الإلكتروني', 'success'); });
+  }
+
+  // ===================================================
+  // TOAST
+  // ===================================================
+  function showToast(msg, type) {
+    var old = document.getElementById('erp-toast-a');
+    if (old) old.remove();
+    var p = { success: { bg: '#16a34a', icon: 'check_circle' }, info: { bg: '#0369a1', icon: 'info' }, error: { bg: '#ba1a1a', icon: 'cancel' } }[type] || { bg: '#0369a1', icon: 'info' };
+    var s = document.getElementById('tap-a'); if (!s) { s = document.createElement('style'); s.id = 'tap-a'; s.textContent = '@keyframes tInA{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}'; document.head.appendChild(s); }
+    var t = document.createElement('div'); t.id = 'erp-toast-a'; t.setAttribute('dir','rtl');
+    Object.assign(t.style,{position:'fixed',bottom:'28px',left:'50%',transform:'translateX(-50%)',background:p.bg,color:'#fff',borderRadius:'12px',padding:'14px 22px',boxShadow:'0 8px 24px rgba(0,0,0,.18)',zIndex:'99999',display:'flex',alignItems:'center',gap:'10px',fontSize:'14px',fontWeight:'600',minWidth:'260px',animation:'tInA .3s ease',whiteSpace:'nowrap'});
+    var i=document.createElement('span');i.className='material-symbols-outlined';i.style.fontSize='20px';i.textContent=p.icon;
+    var tx=document.createElement('span');tx.textContent=msg;
+    t.appendChild(i);t.appendChild(tx);document.body.appendChild(t);
+    setTimeout(function(){t.style.transition='opacity .3s,transform .3s';t.style.opacity='0';t.style.transform='translate(-50%,20px)';setTimeout(function(){t.remove();},300);},3500);
+  }
+
+  // default active
+  setActivePeriod('هذا الشهر');
+})();
+
+</script>
+</body></html>

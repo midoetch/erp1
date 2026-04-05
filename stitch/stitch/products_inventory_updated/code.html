@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+
+<html class="light" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>إدارة المنتجات والمخزون | المعماري الدقيق</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'IBM Plex Sans Arabic', 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+        .font-manrope { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom Scrollbar for ERP look */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #007f9d; border-radius: 10px; }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed": "#d1e4ff",
+              "surface-container-highest": "#e0e3e5",
+              "surface-variant": "#e0e3e5",
+              "on-secondary-container": "#4b637e",
+              "error-container": "#ffdad6",
+              "surface-dim": "#d8dadc",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#67758b",
+              "on-error-container": "#93000a",
+              "surface-container-low": "#f2f4f6",
+              "on-background": "#191c1e",
+              "on-error": "#ffffff",
+              "secondary": "#49607c",
+              "tertiary": "#4f5d71",
+              "outline": "#6e797e",
+              "surface-tint": "#006780",
+              "on-primary": "#ffffff",
+              "on-primary-fixed": "#001f28",
+              "on-primary-container": "#fafdff",
+              "secondary-container": "#c7dfff",
+              "on-tertiary-fixed": "#0d1c2e",
+              "primary": "#00647c",
+              "outline-variant": "#bdc8ce",
+              "surface-container-high": "#e6e8ea",
+              "on-surface": "#191c1e",
+              "inverse-primary": "#6cd3f7",
+              "tertiary-fixed-dim": "#b9c7df",
+              "on-tertiary-fixed-variant": "#3a485b",
+              "surface-container": "#eceef0",
+              "surface-bright": "#f7f9fb",
+              "on-tertiary-container": "#fdfcff",
+              "primary-fixed-dim": "#6cd3f7",
+              "primary-fixed": "#b7eaff",
+              "on-primary-fixed-variant": "#004e61",
+              "on-secondary-fixed-variant": "#314863",
+              "error": "#ba1a1a",
+              "inverse-surface": "#2d3133",
+              "on-tertiary": "#ffffff",
+              "surface": "#f7f9fb",
+              "background": "#f7f9fb",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#eff1f3",
+              "secondary-fixed-dim": "#b0c9e8",
+              "on-surface-variant": "#3e484d",
+              "tertiary-fixed": "#d5e3fc",
+              "primary-container": "#007f9d",
+              "on-secondary-fixed": "#011d35"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar (Authority: JSON) -->
+<aside class="fixed right-0 top-0 h-full w-60 bg-[#011d35] shadow-2xl z-50 flex flex-col" id="sidebar" dir="rtl">
+
+  <!-- Logo -->
+  <div class="px-4 py-5 flex items-center gap-3 cursor-pointer" onclick="window.location.href='/'">
+    <div class="w-9 h-9 bg-[#007f9d] rounded-lg flex items-center justify-center flex-shrink-0">
+      <span class="material-symbols-outlined text-white text-lg">architecture</span>
+    </div>
+    <div>
+      <div class="text-white font-bold text-sm leading-tight">المعماري الدقيق</div>
+      <div class="text-slate-400 text-[10px]">ID: 987654</div>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="flex-1 overflow-y-auto px-3 py-2 space-y-1" id="sidebar-nav">
+
+    <!-- Dashboard -->
+    <a href="/dashboard_updated/code.html" data-page="dashboard"
+       class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 group">
+      <span class="material-symbols-outlined text-xl flex-shrink-0">dashboard</span>
+      <span class="text-sm font-medium">لوحة التحكم</span>
+    </a>
+
+    <!-- المبيعات with sub-items -->
+    <div class="sidebar-group" data-group="sales">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none" data-page="sales" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">receipt_long</span>
+        <span class="text-sm font-medium flex-1">المبيعات</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/customer_management_updated/code.html" data-page="customer"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">العملاء</a>
+        <a href="/invoices_list/code.html" data-page="invoices-list"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">قائمة الفواتير</a>
+        <a href="/create_invoice_updated/code.html" data-page="invoice"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">إنشاء فاتورة جديدة</a>
+      </div>
+    </div>
+
+    <!-- المنتجات والخدمات with sub-items -->
+    <div class="sidebar-group" data-group="products">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none"
+           data-page="products" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">inventory_2</span>
+        <span class="text-sm font-medium flex-1">المنتجات والخدمات</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="javascript:void(0)" data-tab="products" onclick="switchTab('products');setSidebarActive(this)"
+           class="sidebar-sub-item sidebar-tab-link block px-3 py-2 rounded-lg text-white bg-[#1a3a54] text-sm transition-all duration-150">قائمة المنتجات</a>
+        <a href="javascript:void(0)" data-tab="inventory" onclick="switchTab('inventory');setSidebarActive(this)"
+           class="sidebar-sub-item sidebar-tab-link block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">إدارة المخزون</a>
+        <a href="javascript:void(0)" data-tab="catunits" onclick="switchTab('catunits');setSidebarActive(this)"
+           class="sidebar-sub-item sidebar-tab-link block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">التصنيفات والوحدات</a>
+      </div>
+    </div>
+
+    <!-- المحاسبة المالية with sub-items -->
+    <div class="sidebar-group" data-group="accounting">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none"
+           data-page="accounting" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">account_balance</span>
+        <span class="text-sm font-medium flex-1">المحاسبة المالية</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/customer_management_updated/code.html" data-page="accounts"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">الحسابات العامة</a>
+        <a href="/create_invoice_updated/code.html" data-page="payments"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">المدفوعات</a>
+      </div>
+    </div>
+
+    <!-- التقارير التحليلية with sub-items -->
+    <div class="sidebar-group" data-group="analytics">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none"
+           data-page="analytics" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">analytics</span>
+        <span class="text-sm font-medium flex-1">التقارير التحليلية</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/analytics_reports_updated/code.html" data-page="sales-reports"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">تقارير المبيعات</a>
+        <a href="/analytics_reports_updated/code.html" data-page="financial-reports"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">التقارير المالية</a>
+        <a href="/analytics_reports_updated/code.html" data-page="tax-reports"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">التقارير الضريبية</a>
+      </div>
+    </div>
+
+  </nav>
+
+  <!-- Bottom -->
+  <div class="px-3 pb-4 space-y-1 border-t border-slate-700/50 pt-3">
+    <a href="/settings_updated_with_logo_currency/code.html" data-page="settings"
+       class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150">
+      <span class="material-symbols-outlined text-xl flex-shrink-0">settings</span>
+      <span class="text-sm">الإعدادات</span>
+    </a>
+    <a href="/"
+       class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all duration-150">
+      <span class="material-symbols-outlined text-xl flex-shrink-0">logout</span>
+      <span class="text-sm">تسجيل الخروج</span>
+    </a>
+  </div>
+</aside>
+<!-- TopNavBar (Authority: JSON) -->
+<header class="fixed top-0 left-0 right-0 h-16 z-40 bg-white/80 dark:bg-[#191c1e]/80 backdrop-blur-md shadow-sm flex flex-row-reverse justify-between items-center px-6 ml-0 md:mr-60 border-b border-slate-200/20">
+<div class="flex items-center gap-6 flex-row-reverse">
+<h2 class="text-lg font-black text-[#011d35] dark:text-white">نظام موارد المؤسسة</h2>
+<div class="relative w-72">
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pr-10 pl-4 text-sm focus:ring-2 focus:ring-[#0091B2] transition-all placeholder:text-slate-400" placeholder="البحث السريع في النظام..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center text-slate-500 hover:text-[#0091B2] transition-all">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-slate-500 hover:text-[#0091B2] transition-all relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="h-8 w-px bg-slate-200 mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer group">
+<div class="text-left hidden sm:block">
+<p class="text-xs font-bold text-on-surface">أحمد العتيبي</p>
+<p class="text-[10px] text-on-surface-variant">مدير المستودعات</p>
+</div>
+<img alt="User Profile" class="w-10 h-10 rounded-full border-2 border-primary/10 group-hover:border-primary transition-all" data-alt="professional portrait of a middle-eastern businessman wearing a smart casual suit in a modern office environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpVQj0AO98c_Sqy_NFbzYyi8VTcJfs72dHv8SzIW8H7cgZ8JMUjUXDz1LeoaGCo9RTKE_W5AtDmoQKwa_g-tfcUBglJCyvIRLwr9su35z3DOPjuk21NXI6Vxf2WgEZQcmckVpgejWR55X1Ryu1J_7QOP3XFwz7d6dldbvAJNJN_6TllZ5fCSM90zFUm3Vm-A6C1S4blfwWfxBIAfkDvUzUKutY89z98zVJjqQX_2g5jGwWKT443mRCgHx44xziJoGDaPplR66-VxqD"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-12 pr-0 md:pr-64 min-h-screen">
+<div class="max-w-7xl mx-auto px-6 lg:px-10">
+<!-- Breadcrumbs & Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-6">
+<div>
+<nav class="flex items-center gap-2 text-on-surface-variant text-sm mb-2">
+<a class="hover:text-primary transition-colors" href="/">الرئيسية</a>
+<span class="material-symbols-outlined text-xs">chevron_left</span>
+<span class="font-semibold text-on-surface">المنتجات والخدمات</span>
+</nav>
+<h1 class="text-3xl font-extrabold tracking-tight text-on-surface">المنتجات والخدمات</h1>
+<p class="text-on-surface-variant mt-1 text-sm">إدارة كتالوج المنتجات، مستويات المخزون، والتصنيفات والوحدات.</p>
+</div>
+<button id="add-product-btn" class="bg-primary text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 transition-all active:scale-95">
+<span class="material-symbols-outlined">add_box</span>
+<span id="add-btn-label">إضافة منتج جديد</span>
+</button>
+</div>
+
+<!-- Tab Bar -->
+<div class="flex items-center gap-1 mb-6 border-b border-outline-variant/20">
+  <button id="tab-btn-products" onclick="switchTab('products')" class="tab-main-btn px-5 py-3 text-sm font-bold border-b-2 border-primary text-primary transition-all">قائمة المنتجات</button>
+  <button id="tab-btn-inventory" onclick="switchTab('inventory')" class="tab-main-btn px-5 py-3 text-sm font-bold border-b-2 border-transparent text-on-surface-variant hover:text-on-surface transition-all">إدارة المخزون</button>
+  <button id="tab-btn-catunits" onclick="switchTab('catunits')" class="tab-main-btn px-5 py-3 text-sm font-bold border-b-2 border-transparent text-on-surface-variant hover:text-on-surface transition-all">التصنيفات والوحدات</button>
+</div>
+<!-- ===== TAB 1: PRODUCTS LIST ===== -->
+<div id="pane-products" class="tab-pane">
+  <!-- KPI Cards -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-outline-variant/10 flex flex-col gap-3">
+      <span class="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center"><span class="material-symbols-outlined text-lg">inventory_2</span></span>
+      <div><p class="text-on-surface-variant text-xs font-medium">إجمالي الأصناف</p><p id="kpi-total" class="text-2xl font-manrope font-extrabold">4</p></div>
+    </div>
+    <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-outline-variant/10 flex flex-col gap-3">
+      <span class="w-9 h-9 rounded-lg bg-orange-500/10 text-orange-600 flex items-center justify-center"><span class="material-symbols-outlined text-lg">warning</span></span>
+      <div><p class="text-on-surface-variant text-xs font-medium">مخزون منخفض</p><p id="kpi-low" class="text-2xl font-manrope font-extrabold text-orange-600">0</p></div>
+    </div>
+    <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-outline-variant/10 flex flex-col gap-3">
+      <span class="w-9 h-9 rounded-lg bg-red-500/10 text-red-600 flex items-center justify-center"><span class="material-symbols-outlined text-lg">error</span></span>
+      <div><p class="text-on-surface-variant text-xs font-medium">أصناف نافذة</p><p id="kpi-out" class="text-2xl font-manrope font-extrabold text-red-600">0</p></div>
+    </div>
+    <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-outline-variant/10 flex flex-col gap-3">
+      <span class="w-9 h-9 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center"><span class="material-symbols-outlined text-lg">payments</span></span>
+      <div><p class="text-on-surface-variant text-xs font-medium">قيمة المخزون</p><p id="kpi-value" class="text-xl font-manrope font-extrabold text-emerald-600">0 ج.م</p></div>
+    </div>
+  </div>
+  <!-- Filters -->
+  <div class="bg-surface-container-low p-4 rounded-2xl mb-4 flex flex-wrap items-end gap-4 border border-outline-variant/5">
+    <div class="flex-1 min-w-[200px]">
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">بحث بالاسم أو الكود</label>
+      <div class="relative"><span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">search</span>
+      <input id="product-search" class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-2.5 pr-9 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="اسم المنتج أو الرمز..." type="text"/></div>
+    </div>
+    <div class="w-44">
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">التصنيف</label>
+      <select id="cat-filter" class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-primary">
+        <option value="">جميع التصنيفات</option>
+      </select>
+    </div>
+    <div class="w-44">
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">حالة التوفر</label>
+      <select id="avail-filter" class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-primary">
+        <option value="">كل الحالات</option>
+        <option value="متوفر">متوفر</option>
+        <option value="منخفض">منخفض</option>
+        <option value="نافذ">نافذ</option>
+      </select>
+    </div>
+    <div class="w-44">
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">ترتيب حسب</label>
+      <select id="sort-select" class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-primary">
+        <option value="">الافتراضي</option>
+        <option value="name-asc">الاسم (أ-ي)</option>
+        <option value="name-desc">الاسم (ي-أ)</option>
+        <option value="price-asc">السعر: الأقل</option>
+        <option value="price-desc">السعر: الأعلى</option>
+        <option value="stock-asc">المخزون: الأقل</option>
+        <option value="stock-desc">المخزون: الأعلى</option>
+      </select>
+    </div>
+  </div>
+  <!-- Category quick-filter chips -->
+  <div id="cat-tabs" class="flex flex-wrap items-center gap-2 mb-4"></div>
+  <!-- Table -->
+  <div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden border border-outline-variant/10">
+    <table class="w-full text-right border-collapse">
+      <thead><tr class="bg-surface-container-low border-b border-outline-variant/10">
+        <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">تفاصيل المنتج</th>
+        <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">التصنيف</th>
+        <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">الوحدة</th>
+        <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">الكمية</th>
+        <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">سعر الشراء</th>
+        <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">سعر البيع</th>
+        <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant text-center">إجراءات</th>
+      </tr></thead>
+      <tbody id="products-tbody" class="divide-y divide-outline-variant/5"></tbody>
+    </table>
+    <div class="px-5 py-3 bg-surface-container-low border-t border-outline-variant/10">
+      <p id="prod-count-label" class="text-xs text-on-surface-variant font-medium"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 2: INVENTORY MANAGEMENT ===== -->
+<div id="pane-inventory" class="tab-pane hidden">
+  <!-- KPI Cards -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-outline-variant/10 flex flex-col gap-3">
+      <span class="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center"><span class="material-symbols-outlined text-lg">warehouse</span></span>
+      <div><p class="text-on-surface-variant text-xs font-medium">إجمالي وحدات المخزون</p><p id="inv-kpi-total" class="text-2xl font-manrope font-extrabold">0</p></div>
+    </div>
+    <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-outline-variant/10 flex flex-col gap-3">
+      <span class="w-9 h-9 rounded-lg bg-orange-500/10 text-orange-600 flex items-center justify-center"><span class="material-symbols-outlined text-lg">warning_amber</span></span>
+      <div><p class="text-on-surface-variant text-xs font-medium">أصناف تحت الحد الأدنى</p><p id="inv-kpi-low" class="text-2xl font-manrope font-extrabold text-orange-600">0</p></div>
+    </div>
+    <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-outline-variant/10 flex flex-col gap-3">
+      <span class="w-9 h-9 rounded-lg bg-red-500/10 text-red-600 flex items-center justify-center"><span class="material-symbols-outlined text-lg">do_not_disturb_on</span></span>
+      <div><p class="text-on-surface-variant text-xs font-medium">أصناف نافذة تماماً</p><p id="inv-kpi-out" class="text-2xl font-manrope font-extrabold text-red-600">0</p></div>
+    </div>
+    <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-outline-variant/10 flex flex-col gap-3">
+      <span class="w-9 h-9 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center"><span class="material-symbols-outlined text-lg">account_balance_wallet</span></span>
+      <div><p class="text-on-surface-variant text-xs font-medium">إجمالي قيمة المخزون</p><p id="inv-kpi-value" class="text-xl font-manrope font-extrabold text-emerald-600">0 ج.م</p></div>
+    </div>
+  </div>
+  <!-- Filters -->
+  <div class="bg-surface-container-low p-4 rounded-2xl mb-4 flex flex-wrap items-end gap-4 border border-outline-variant/5">
+    <div class="flex-1 min-w-[200px]">
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">بحث</label>
+      <div class="relative"><span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">search</span>
+      <input id="inv-search" class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-2.5 pr-9 text-sm focus:ring-2 focus:ring-primary" placeholder="ابحث عن منتج..." type="text"/></div>
+    </div>
+    <div class="w-44">
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">التصنيف</label>
+      <select id="inv-cat-filter" class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-primary">
+        <option value="">جميع التصنيفات</option>
+      </select>
+    </div>
+    <div class="w-44">
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">حالة المخزون</label>
+      <select id="inv-status-filter" class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-primary">
+        <option value="">كل الحالات</option>
+        <option value="متوفر">متوفر</option>
+        <option value="منخفض">منخفض</option>
+        <option value="نافذ">نافذ</option>
+      </select>
+    </div>
+  </div>
+  <!-- Inventory Table -->
+  <div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden border border-outline-variant/10">
+    <table class="w-full text-right border-collapse">
+      <thead><tr class="bg-surface-container-low border-b border-outline-variant/10">
+        <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">المنتج</th>
+        <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">التصنيف</th>
+        <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">الكمية الحالية</th>
+        <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">الحد الأدنى</th>
+        <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">الوحدة</th>
+        <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">الحالة</th>
+        <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">آخر حركة</th>
+        <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant text-center">تعديل المخزون</th>
+      </tr></thead>
+      <tbody id="inv-tbody" class="divide-y divide-outline-variant/5"></tbody>
+    </table>
+    <div class="px-5 py-3 bg-surface-container-low border-t border-outline-variant/10">
+      <p id="inv-count-label" class="text-xs text-on-surface-variant font-medium"></p>
+    </div>
+  </div>
+  <!-- Recent Activity -->
+  <div class="mt-6 bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10">
+    <h4 class="font-bold text-on-surface mb-4 flex items-center gap-2 text-sm">
+      <span class="material-symbols-outlined text-primary text-base">history</span> سجل حركات المخزون
+    </h4>
+    <ul id="inv-activity-log" class="space-y-3 text-xs text-on-surface-variant">
+      <li class="flex gap-3 items-start"><span class="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span><span>لا توجد حركات مسجلة بعد.</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== TAB 3: CLASSIFICATIONS & UNITS ===== -->
+<div id="pane-catunits" class="tab-pane hidden">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+    <!-- Classifications Card -->
+    <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 shadow-sm overflow-hidden">
+      <div class="px-6 py-4 border-b border-outline-variant/10 bg-surface-container-low flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-lg">label</span>
+          <h3 class="font-bold text-on-surface">التصنيفات</h3>
+        </div>
+        <span id="cat-count-badge" class="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold">0</span>
+      </div>
+      <div class="p-6">
+        <!-- Add form -->
+        <div class="flex gap-2 mb-5">
+          <input id="new-cat-input" type="text" placeholder="اسم التصنيف الجديد..." class="flex-1 bg-surface-container-low border border-outline-variant/20 rounded-xl py-2.5 px-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" maxlength="40"/>
+          <button id="add-cat-btn" class="bg-primary text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:opacity-90 active:scale-95 transition-all flex items-center gap-1">
+            <span class="material-symbols-outlined text-base">add</span> إضافة
+          </button>
+        </div>
+        <!-- List -->
+        <div id="cat-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
+        <p id="cat-empty" class="text-center text-on-surface-variant text-sm py-8 hidden">لا توجد تصنيفات. أضف تصنيفاً أولاً.</p>
+      </div>
+    </div>
+
+    <!-- Units Card -->
+    <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 shadow-sm overflow-hidden">
+      <div class="px-6 py-4 border-b border-outline-variant/10 bg-surface-container-low flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-lg">straighten</span>
+          <h3 class="font-bold text-on-surface">وحدات القياس</h3>
+        </div>
+        <span id="unit-count-badge" class="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold">0</span>
+      </div>
+      <div class="p-6">
+        <!-- Add form -->
+        <div class="flex gap-2 mb-5">
+          <input id="new-unit-name-input" type="text" placeholder="اسم الوحدة (مثال: متر)" class="flex-1 bg-surface-container-low border border-outline-variant/20 rounded-xl py-2.5 px-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent" maxlength="30"/>
+          <input id="new-unit-sym-input" type="text" placeholder="رمز (م)" class="w-20 bg-surface-container-low border border-outline-variant/20 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent text-center" maxlength="6"/>
+          <button id="add-unit-btn" class="bg-primary text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:opacity-90 active:scale-95 transition-all flex items-center gap-1">
+            <span class="material-symbols-outlined text-base">add</span> إضافة
+          </button>
+        </div>
+        <!-- List -->
+        <div id="unit-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
+        <p id="unit-empty" class="text-center text-on-surface-variant text-sm py-8 hidden">لا توجد وحدات. أضف وحدة قياس أولاً.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Info note -->
+  <div class="mt-6 bg-primary/5 border border-primary/20 rounded-2xl p-4 flex gap-3 items-start">
+    <span class="material-symbols-outlined text-primary text-lg flex-shrink-0 mt-0.5">info</span>
+    <p class="text-sm text-on-surface-variant leading-relaxed">التصنيفات والوحدات المضافة هنا ستظهر تلقائياً في قائمة المنتجات وعند إنشاء الفواتير.</p>
+  </div>
+</div>
+
+</div>
+</main>
+
+
+
+
+
+
+
+<script id="nav-fix">
+function setSidebarActive(el) {
+  document.querySelectorAll('.sidebar-tab-link').forEach(function(a) {
+    a.classList.remove('text-white','font-semibold','bg-[#1a3a54]','border-r-2','border-[#00c4e8]');
+    a.classList.add('text-slate-400');
+  });
+  el.classList.remove('text-slate-400');
+  el.classList.add('text-white','font-semibold','bg-[#1a3a54]','border-r-2','border-[#00c4e8]');
+}
+
+function toggleGroup(el) {
+  var sub = el.nextElementSibling;
+  var chevron = el.querySelector('.chevron');
+  var isOpen = !sub.classList.contains('hidden');
+  if (isOpen) {
+    sub.classList.add('hidden');
+    chevron.style.transform = '';
+    el.classList.remove('bg-[#007f9d]','text-white');
+    el.classList.add('text-slate-300');
+  } else {
+    sub.classList.remove('hidden');
+    chevron.style.transform = 'rotate(180deg)';
+    el.classList.add('bg-[#007f9d]','text-white');
+    el.classList.remove('text-slate-300','hover:text-white','hover:bg-[#1a3a54]');
+  }
+}
+
+(function() {
+  var path = window.location.pathname;
+
+  // Map URL path segment to group + sub-item highlight
+  var config = {
+    'dashboard_updated':           { group: null,        page: 'dashboard' },
+    'create_invoice_updated':      { group: 'sales',     page: 'invoice' },
+    'products_inventory_updated':  { group: 'products',  page: 'products-list' },
+    'customer_management_updated': { group: 'sales',     page: 'customer' },
+    'analytics_reports_updated':   { group: 'analytics', page: 'sales-reports' },
+    'settings_updated':            { group: null,        page: 'settings' },
+  };
+
+  var active = null;
+  Object.keys(config).forEach(function(key) {
+    if (path.indexOf(key) !== -1) active = config[key];
+  });
+
+  if (!active) return;
+
+  // Highlight top-level item or open group
+  if (active.group) {
+    // Open the group
+    var groupEl = document.querySelector('[data-group="' + active.group + '"]');
+    if (groupEl) {
+      var parent = groupEl.querySelector('.sidebar-parent');
+      var sub = groupEl.querySelector('.sidebar-sub');
+      var chevron = groupEl.querySelector('.chevron');
+      if (parent && sub && chevron) {
+        sub.classList.remove('hidden');
+        chevron.style.transform = 'rotate(180deg)';
+        parent.classList.add('bg-[#007f9d]','text-white');
+        parent.classList.remove('text-slate-300');
+      }
+      // Highlight active sub-item
+      var subItems = sub.querySelectorAll('[data-page]');
+      subItems.forEach(function(item) {
+        if (item.getAttribute('data-page') === active.page) {
+          item.classList.add('text-white','font-semibold','border-r-2','border-[#00c4e8]','bg-[#1a3a54]');
+          item.classList.remove('text-slate-400');
+        }
+      });
+    }
+  } else {
+    // Highlight direct nav item
+    var el = document.querySelector('[data-page="' + active.page + '"].sidebar-item');
+    if (el) {
+      el.classList.add('bg-[#007f9d]','text-white');
+      el.classList.remove('text-slate-300');
+    }
+  }
+
+  // Fix remaining href=# breadcrumb links
+  document.querySelectorAll('a[href="#"]').forEach(function(link) {
+    var t = link.textContent.trim();
+    if (t === 'الرئيسية') link.href = '/';
+    if (t === 'المبيعات' || t === 'قائمة الفواتير') link.href = '/create_invoice_updated/code.html';
+    if (t === 'العملاء') link.href = '/customer_management_updated/code.html';
+    if (t === 'الفواتير الضريبية') link.href = '/create_invoice_updated/code.html';
+  });
+
+  // Action buttons
+  document.querySelectorAll('button').forEach(function(btn) {
+    var t = btn.textContent.trim();
+    if (t === 'عرض كافة الفواتير') {
+      btn.addEventListener('click', function() { window.location.href = '/create_invoice_updated/code.html'; });
+      btn.style.cursor = 'pointer';
+    }
+  });
+  document.querySelectorAll('button.fixed').forEach(function(btn) {
+    var icon = btn.querySelector('.material-symbols-outlined');
+    if (icon && icon.textContent.trim() === 'add') {
+      btn.addEventListener('click', function() { window.location.href = '/create_invoice_updated/code.html'; });
+      btn.style.cursor = 'pointer';
+    }
+  });
+
+  // Auto-open products group and highlight first tab link on this page
+  var prodGroup = document.querySelector('[data-group="products"]');
+  if (prodGroup) {
+    var prodParent = prodGroup.querySelector('.sidebar-parent');
+    var prodSub    = prodGroup.querySelector('.sidebar-sub');
+    var prodChev   = prodGroup.querySelector('.chevron');
+    if (prodParent && prodSub && prodChev) {
+      prodSub.classList.remove('hidden');
+      prodChev.style.transform = 'rotate(180deg)';
+      prodParent.classList.add('bg-[#007f9d]','text-white');
+      prodParent.classList.remove('text-slate-300','hover:text-white','hover:bg-[#1a3a54]');
+    }
+    // Highlight "قائمة المنتجات" as default active
+    var firstTabLink = prodGroup.querySelector('[data-tab="products"]');
+    if (firstTabLink && typeof setSidebarActive === 'function') setSidebarActive(firstTabLink);
+  }
+
+  // Page transitions
+  var style = document.createElement('style');
+  style.textContent = 'body{transition:opacity .15s ease;}body.fade-out{opacity:0;}';
+  document.head.appendChild(style);
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href]');
+    if (link && link.href && !link.href.startsWith('javascript') && !link.href.includes('#') && !link.target && link.hostname === window.location.hostname) {
+      e.preventDefault();
+      document.body.classList.add('fade-out');
+      setTimeout(function() { window.location.href = link.href; }, 140);
+    }
+  });
+})();
+</script>
+<script id="products-fx">
+(function () {
+'use strict';
+
+// ============================================================
+// DATA
+// ============================================================
+var categories = ['مواد بناء', 'أدوات كهربائية', 'دهانات', 'تجهيزات سباكة'];
+var units = [
+  { name: 'قطعة', sym: 'قط' },
+  { name: 'متر', sym: 'م' },
+  { name: 'كيلوجرام', sym: 'كجم' },
+  { name: 'لتر', sym: 'لتر' },
+  { name: 'متر مربع', sym: 'م²' },
+  { name: 'طن', sym: 'طن' }
+];
+var products = [
+  { id:1, name:'مثقاب كهربائي احترافي 850 واط', sku:'PRD-9821', category:'أدوات كهربائية', unit:'قطعة',    stock:452,  minStock:50,  buyPrice:200.00, sellPrice:245.00, updated:'منذ ساعتين', img:'' },
+  { id:2, name:'طلاء أكريليك فاخر - أبيض ناصع',  sku:'PRD-4412', category:'دهانات',          unit:'لتر',     stock:12,   minStock:30,  buyPrice:90.00,  sellPrice:120.50, updated:'منذ يوم',    img:'' },
+  { id:3, name:'أنابيب فولاذية مجلفنة 2 بوصة',    sku:'PRD-1029', category:'تجهيزات سباكة',  unit:'متر',     stock:0,    minStock:20,  buyPrice:60.00,  sellPrice:85.00,  updated:'منذ 3 أيام', img:'' },
+  { id:4, name:'بلاط سيراميك رخامي 60x60',         sku:'PRD-7762', category:'مواد بناء',      unit:'متر مربع',stock:1200, minStock:100, buyPrice:35.00,  sellPrice:45.00,  updated:'مؤخراً',     img:'' }
+];
+var nextId = 5;
+var activityLog = [];
+var currentTab = 'products';
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+window.switchTab = function(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-pane').forEach(function(p){ p.classList.add('hidden'); });
+  document.getElementById('pane-' + tab).classList.remove('hidden');
+  document.querySelectorAll('.tab-main-btn').forEach(function(b){
+    b.classList.remove('border-primary','text-primary');
+    b.classList.add('border-transparent','text-on-surface-variant');
+  });
+  var activeBtn = document.getElementById('tab-btn-' + tab);
+  if (activeBtn) { activeBtn.classList.add('border-primary','text-primary'); activeBtn.classList.remove('border-transparent','text-on-surface-variant'); }
+  // Keep sidebar in sync
+  var sidebarLink = document.querySelector('.sidebar-tab-link[data-tab="' + tab + '"]');
+  if (sidebarLink && typeof setSidebarActive === 'function') setSidebarActive(sidebarLink);
+
+  var addLabel = document.getElementById('add-btn-label');
+  if (tab === 'products') { if(addLabel) addLabel.textContent = 'إضافة منتج جديد'; }
+  else if (tab === 'inventory') { if(addLabel) addLabel.textContent = 'تعديل مخزون'; }
+  else { if(addLabel) addLabel.textContent = 'إضافة تصنيف/وحدة'; }
+
+  if (tab === 'products') { renderProducts(); updateProductKPIs(); }
+  if (tab === 'inventory') { renderInventory(); updateInvKPIs(); }
+  if (tab === 'catunits') { renderCatList(); renderUnitList(); }
+};
+
+// Add button global handler
+document.getElementById('add-product-btn').addEventListener('click', function() {
+  if (currentTab === 'products') openProductPanel(null);
+  else if (currentTab === 'inventory') openAdjustPanel(null);
+  else switchTab('catunits');
+});
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg, type) {
+  var old = document.getElementById('erp-toast'); if (old) old.remove();
+  var pal = { success:{bg:'#16a34a',ic:'check_circle'}, warning:{bg:'#ca8a04',ic:'warning'}, info:{bg:'#0369a1',ic:'info'}, error:{bg:'#ba1a1a',ic:'cancel'} };
+  var p = pal[type]||pal.info;
+  var s = document.getElementById('_tst'); if(!s){s=document.createElement('style');s.id='_tst';s.textContent='@keyframes toastIn{from{opacity:0;transform:translate(-50%,16px)}to{opacity:1;transform:translate(-50%,0)}}';document.head.appendChild(s);}
+  var t = document.createElement('div'); t.id='erp-toast'; t.setAttribute('dir','rtl');
+  Object.assign(t.style,{position:'fixed',bottom:'28px',left:'50%',transform:'translateX(-50%)',background:p.bg,color:'#fff',borderRadius:'12px',padding:'13px 20px',boxShadow:'0 8px 24px rgba(0,0,0,.18)',zIndex:'99999',display:'flex',alignItems:'center',gap:'10px',fontSize:'14px',fontWeight:'600',minWidth:'260px',animation:'toastIn .25s ease forwards',whiteSpace:'nowrap'});
+  var ic=document.createElement('span');ic.className='material-symbols-outlined';ic.style.fontSize='18px';ic.textContent=p.ic;
+  var tx=document.createElement('span');tx.textContent=msg;
+  t.appendChild(ic);t.appendChild(tx);document.body.appendChild(t);
+  setTimeout(function(){t.style.transition='opacity .25s';t.style.opacity='0';setTimeout(function(){t.remove();},260);},3000);
+}
+
+// ============================================================
+// STATUS BADGE
+// ============================================================
+function statusBadge(s) {
+  var m={'متوفر':'bg-green-100 text-green-700','منخفض':'bg-orange-100 text-orange-700','نافذ':'bg-red-100 text-red-700'};
+  return m[s]||'bg-slate-100 text-slate-600';
+}
+function computeStatus(p) {
+  if (p.stock === 0) return 'نافذ';
+  if (p.stock < p.minStock) return 'منخفض';
+  return 'متوفر';
+}
+
+// ============================================================
+// TAB 1 - PRODUCTS LIST
+// ============================================================
+function updateProductKPIs() {
+  var total=products.length, low=0, out=0, val=0;
+  products.forEach(function(p){ var s=computeStatus(p); if(s==='منخفض')low++; if(s==='نافذ')out++; val+=p.stock*(p.buyPrice||0); });
+  var kt=document.getElementById('kpi-total'); if(kt)kt.textContent=total;
+  var kl=document.getElementById('kpi-low'); if(kl)kl.textContent=low;
+  var ko=document.getElementById('kpi-out'); if(ko)ko.textContent=out;
+  var kv=document.getElementById('kpi-value'); if(kv)kv.textContent=val.toLocaleString('ar-SA',{maximumFractionDigits:0})+' ج.م';
+}
+
+function rebuildCatTabs() {
+  var tabs = document.getElementById('cat-tabs');
+  if (!tabs) return;
+  tabs.innerHTML = '';
+  var allCats = [''].concat(categories);
+  allCats.forEach(function(cat) {
+    var btn = document.createElement('button');
+    btn.setAttribute('data-cat', cat);
+    btn.className = 'cat-tab-btn px-4 py-1.5 rounded-xl text-xs font-bold transition-all ' +
+      (cat==='' ? 'bg-primary text-white shadow-sm' : 'bg-surface-container-lowest border border-outline-variant/20 text-on-surface-variant hover:bg-primary/10');
+    btn.textContent = cat==='' ? 'الكل' : cat;
+    btn.addEventListener('click', function(){
+      var sel = document.getElementById('cat-filter'); if(sel) sel.value = cat;
+      syncCatTabs();
+      renderProducts();
+    });
+    tabs.appendChild(btn);
+  });
+  // rebuild dropdown options
+  rebuildCatDropdowns();
+}
+
+function syncCatTabs() {
+  var sel = document.getElementById('cat-filter');
+  var val = sel ? sel.value : '';
+  document.querySelectorAll('.cat-tab-btn').forEach(function(btn){
+    var isA = btn.getAttribute('data-cat') === val;
+    btn.className = 'cat-tab-btn px-4 py-1.5 rounded-xl text-xs font-bold transition-all ' +
+      (isA ? 'bg-primary text-white shadow-sm' : 'bg-surface-container-lowest border border-outline-variant/20 text-on-surface-variant hover:bg-primary/10');
+  });
+}
+
+function rebuildCatDropdowns() {
+  ['cat-filter','inv-cat-filter'].forEach(function(id){
+    var sel = document.getElementById(id); if (!sel) return;
+    var cur = sel.value;
+    while (sel.options.length > 1) sel.remove(1);
+    categories.forEach(function(c){ var o=document.createElement('option'); o.value=c; o.textContent=c; sel.appendChild(o); });
+    sel.value = cur;
+  });
+}
+
+function renderProducts() {
+  var tbody = document.getElementById('products-tbody'); if (!tbody) return;
+  var search  = (document.getElementById('product-search')||{}).value || '';
+  var cat     = (document.getElementById('cat-filter')||{}).value || '';
+  var avail   = (document.getElementById('avail-filter')||{}).value || '';
+  var sort    = (document.getElementById('sort-select')||{}).value || '';
+  var list = products.filter(function(p){
+    var s = computeStatus(p);
+    return (!search || p.name.includes(search) || p.sku.toLowerCase().includes(search.toLowerCase())) &&
+           (!cat    || p.category === cat) &&
+           (!avail  || s === avail);
+  });
+  if (sort) list = list.slice().sort(function(a,b){
+    if(sort==='name-asc')  return a.name.localeCompare(b.name,'ar');
+    if(sort==='name-desc') return b.name.localeCompare(a.name,'ar');
+    if(sort==='price-asc') return (a.sellPrice||0)-(b.sellPrice||0);
+    if(sort==='price-desc')return (b.sellPrice||0)-(a.sellPrice||0);
+    if(sort==='stock-asc') return a.stock-b.stock;
+    if(sort==='stock-desc')return b.stock-a.stock;
+    return 0;
+  });
+  tbody.innerHTML = '';
+  var lbl = document.getElementById('prod-count-label');
+  if (lbl) lbl.textContent = 'عرض ' + list.length + ' من ' + products.length + ' منتج';
+  if (!list.length) {
+    var tr=document.createElement('tr'); var td=document.createElement('td'); td.colSpan=7;
+    Object.assign(td.style,{textAlign:'center',padding:'40px',color:'#6e797e',fontSize:'14px'});
+    td.textContent='لا توجد منتجات مطابقة'; tr.appendChild(td); tbody.appendChild(tr); return;
+  }
+  list.forEach(function(prod){
+    var status = computeStatus(prod);
+    var tr = document.createElement('tr'); tr.className = 'hover:bg-surface-container-low transition-colors group'; tr.setAttribute('data-prod-id', prod.id);
+    // Col 1: name + sku sub-label + status badge
+    var td1 = document.createElement('td'); td1.className = 'px-5 py-4';
+    var wrap = document.createElement('div'); wrap.className = 'flex items-center gap-3';
+    var box = document.createElement('div'); box.className = 'w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center flex-shrink-0';
+    var ico = document.createElement('span'); ico.className = 'material-symbols-outlined text-on-surface-variant text-base'; ico.textContent = 'inventory_2';
+    box.appendChild(ico);
+    var inf = document.createElement('div');
+    var np = document.createElement('p'); np.className = 'text-sm font-semibold text-on-surface leading-tight'; np.textContent = prod.name;
+    var sp = document.createElement('p'); sp.className = 'text-[10px] text-on-surface-variant font-mono mt-0.5'; sp.textContent = prod.sku + ' | ' + prod.category;
+    var bdRow = document.createElement('div'); bdRow.className = 'flex items-center gap-1 mt-1';
+    var bd2 = document.createElement('span'); bd2.className = 'px-1.5 py-0.5 rounded-full text-[9px] font-bold ' + statusBadge(status); bd2.textContent = status;
+    bdRow.appendChild(bd2);
+    inf.appendChild(np); inf.appendChild(sp); inf.appendChild(bdRow);
+    wrap.appendChild(box); wrap.appendChild(inf); td1.appendChild(wrap);
+    // Col 2: unit
+    var td2 = document.createElement('td'); td2.className = 'px-5 py-4 text-sm text-on-surface-variant'; td2.textContent = prod.category;
+    // Col 3: unit
+    var td3 = document.createElement('td'); td3.className = 'px-5 py-4 text-sm text-on-surface-variant'; td3.textContent = prod.unit || '—';
+    // Col 4: qty
+    var td4 = document.createElement('td'); td4.className = 'px-5 py-4';
+    var sn = document.createElement('span'); sn.className = 'font-bold text-sm text-on-surface'; sn.textContent = prod.stock.toLocaleString('ar-EG');
+    td4.appendChild(sn);
+    // Col 5: buy price
+    var td5 = document.createElement('td'); td5.className = 'px-5 py-4 text-sm text-on-surface-variant'; td5.textContent = (prod.buyPrice||0).toFixed(2) + ' ج.م';
+    // Col 6: sell price
+    var td6 = document.createElement('td'); td6.className = 'px-5 py-4 font-bold text-sm text-primary'; td6.textContent = (prod.sellPrice||0).toFixed(2) + ' ج.م';
+    // Col 7: actions
+    var td7 = document.createElement('td'); td7.className = 'px-5 py-4';
+    var aw = document.createElement('div'); aw.className = 'flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity';
+    var eb = document.createElement('button'); eb.className = 'w-8 h-8 flex items-center justify-center rounded-lg hover:bg-primary/10 text-primary transition-colors'; eb.title = 'تعديل';
+    var ei = document.createElement('span'); ei.className = 'material-symbols-outlined text-base'; ei.textContent = 'edit'; eb.appendChild(ei);
+    eb.addEventListener('click', function(e){ e.stopPropagation(); openProductPanel(prod.id); });
+    var db = document.createElement('button'); db.className = 'w-8 h-8 flex items-center justify-center rounded-lg hover:bg-error/10 text-error transition-colors'; db.title = 'حذف';
+    var di = document.createElement('span'); di.className = 'material-symbols-outlined text-base'; di.textContent = 'delete'; db.appendChild(di);
+    db.addEventListener('click', function(e){
+      e.stopPropagation(); aw.innerHTML = '';
+      var cm = document.createElement('span'); cm.style.cssText='font-size:11px;color:#6e797e;white-space:nowrap;'; cm.textContent='تأكيد الحذف؟';
+      var yb = document.createElement('button'); yb.className='px-2 py-1 bg-error text-white rounded text-xs font-bold'; yb.textContent='حذف';
+      yb.addEventListener('click', function(ev){ ev.stopPropagation(); products=products.filter(function(p){return p.id!==prod.id;}); renderProducts(); updateProductKPIs(); showToast('تم حذف المنتج','success'); });
+      var nb = document.createElement('button'); nb.className='px-2 py-1 bg-surface-container text-on-surface rounded text-xs font-bold'; nb.textContent='إلغاء';
+      nb.addEventListener('click', function(ev){ ev.stopPropagation(); renderProducts(); });
+      aw.appendChild(cm); aw.appendChild(yb); aw.appendChild(nb); aw.style.opacity='1';
+    });
+    aw.appendChild(eb); aw.appendChild(db); td7.appendChild(aw);
+    tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3); tr.appendChild(td4); tr.appendChild(td5); tr.appendChild(td6); tr.appendChild(td7);
+    tbody.appendChild(tr);
+  });
+}
+
+// Wire product filters
+['product-search','cat-filter','avail-filter','sort-select'].forEach(function(id){
+  var el = document.getElementById(id); if (!el) return;
+  el.addEventListener(el.tagName==='INPUT'?'input':'change', function(){ syncCatTabs(); renderProducts(); updateProductKPIs(); });
+});
+
+// ============================================================
+// TAB 1 - ADD/EDIT PRODUCT PANEL
+// ============================================================
+var editingId = null;
+
+function buildUnitOptions(selEl, current) {
+  while (selEl.options.length > 1) selEl.remove(1);
+  units.forEach(function(u){ var o=document.createElement('option'); o.value=u.name; o.textContent=u.name+' ('+u.sym+')'; selEl.appendChild(o); });
+  selEl.value = current || '';
+}
+function buildCatOptions(selEl, current) {
+  while (selEl.options.length > 1) selEl.remove(1);
+  categories.forEach(function(c){ var o=document.createElement('option'); o.value=c; o.textContent=c; selEl.appendChild(o); });
+  selEl.value = current || '';
+}
+
+function openProductPanel(prodId) {
+  if (!document.getElementById('prod-panel-overlay')) {
+    var s=document.createElement('style'); s.textContent='@keyframes slideP{from{transform:translateX(100%)}to{transform:translateX(0)}}'; document.head.appendChild(s);
+    var ov=document.createElement('div'); ov.id='prod-panel-overlay'; ov.setAttribute('dir','rtl');
+    Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(25,28,30,.45)',zIndex:'9990',display:'none'});
+    ov.addEventListener('click',function(e){if(e.target===ov)closeProdPanel();});
+    var pn=document.createElement('div'); pn.id='prod-panel';
+    Object.assign(pn.style,{position:'fixed',top:'0',right:'0',width:'420px',maxWidth:'96vw',height:'100vh',background:'#fff',zIndex:'9991',display:'flex',flexDirection:'column',boxShadow:'-4px 0 32px rgba(0,0,0,.14)',animation:'slideP .3s cubic-bezier(.4,0,.2,1)'});
+    var ph=document.createElement('div'); Object.assign(ph.style,{padding:'18px 22px',borderBottom:'1px solid #e0e3e5',display:'flex',justifyContent:'space-between',alignItems:'center',background:'#011d35'});
+    var pt=document.createElement('h3'); pt.id='prod-panel-title'; Object.assign(pt.style,{fontSize:'16px',fontWeight:'700',color:'#fff'}); pt.textContent='إضافة منتج';
+    var cb=document.createElement('button'); cb.innerHTML='<span class="material-symbols-outlined" style="color:#fff;font-size:22px">close</span>'; cb.addEventListener('click',closeProdPanel);
+    ph.appendChild(pt); ph.appendChild(cb);
+    var pb=document.createElement('div'); pb.id='prod-panel-body'; pb.style.cssText='flex:1;overflow-y:auto;padding:22px;';
+    function fld(lbl,id,type,ph2){
+      var w=document.createElement('div'); w.style.marginBottom='16px';
+      var l=document.createElement('label'); l.textContent=lbl; l.setAttribute('for',id); Object.assign(l.style,{display:'block',fontSize:'12px',fontWeight:'700',color:'#3e484d',marginBottom:'5px'});
+      var inp;
+      if(type==='cat-select'){inp=document.createElement('select'); var d=document.createElement('option');d.value='';d.textContent='اختر التصنيف...';inp.appendChild(d);}
+      else if(type==='unit-select'){inp=document.createElement('select'); var d2=document.createElement('option');d2.value='';d2.textContent='اختر الوحدة...';inp.appendChild(d2);}
+      else if(type==='status-select'){inp=document.createElement('select');[['متوفر','متوفر'],['منخفض','مخزون منخفض'],['نافذ','نافذ']].forEach(function(s){var o=document.createElement('option');o.value=s[0];o.textContent=s[1];inp.appendChild(o);});}
+      else{inp=document.createElement('input');inp.type=type||'text';inp.placeholder=ph2||'';}
+      inp.id=id; inp.className='pf-field'; Object.assign(inp.style,{width:'100%',background:'#f2f4f6',border:'1px solid #bdc8ce',borderRadius:'8px',padding:'10px 12px',fontSize:'14px',outline:'none',boxSizing:'border-box'});
+      w.appendChild(l); w.appendChild(inp); return w;
+    }
+    pb.appendChild(fld('اسم المنتج / الخدمة','pf-name','text','أدخل اسم المنتج...'));
+    pb.appendChild(fld('كود الصنف (SKU)','pf-sku','text','PRD-XXXX'));
+    pb.appendChild(fld('التصنيف','pf-cat','cat-select'));
+    pb.appendChild(fld('وحدة القياس','pf-unit','unit-select'));
+    pb.appendChild(fld('الكمية الحالية','pf-stock','number','0'));
+    pb.appendChild(fld('الحد الأدنى للمخزون','pf-minstock','number','10'));
+    // Two-price row
+    var priceRow=document.createElement('div'); priceRow.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;';
+    var bp=fld('سعر الشراء (ج.م)','pf-buy-price','number','0.00'); bp.style.marginBottom='0';
+    var sp2=fld('سعر البيع (ج.م)','pf-sell-price','number','0.00'); sp2.style.marginBottom='0';
+    priceRow.appendChild(bp); priceRow.appendChild(sp2); pb.appendChild(priceRow);
+    var pf2=document.createElement('div'); Object.assign(pf2.style,{padding:'14px 22px',borderTop:'1px solid #e0e3e5',display:'flex',gap:'10px',background:'#f7f9fb'});
+    var sv=document.createElement('button'); sv.id='prod-panel-save'; Object.assign(sv.style,{flex:'1',background:'#007f9d',color:'#fff',border:'none',borderRadius:'10px',padding:'11px',fontSize:'14px',fontWeight:'700',cursor:'pointer'}); sv.textContent='حفظ المنتج';
+    sv.addEventListener('click',saveProd);
+    var cn=document.createElement('button'); Object.assign(cn.style,{background:'#e0e3e5',color:'#191c1e',border:'none',borderRadius:'10px',padding:'11px 16px',fontSize:'14px',fontWeight:'600',cursor:'pointer'}); cn.textContent='إلغاء'; cn.addEventListener('click',closeProdPanel);
+    pf2.appendChild(sv); pf2.appendChild(cn);
+    pn.appendChild(ph); pn.appendChild(pb); pn.appendChild(pf2); ov.appendChild(pn); document.body.appendChild(ov);
+  }
+  editingId = prodId || null;
+  var ov=document.getElementById('prod-panel-overlay');
+  var titleEl=document.getElementById('prod-panel-title');
+  var saveEl=document.getElementById('prod-panel-save');
+  var catSel=document.getElementById('pf-cat');
+  var unitSel=document.getElementById('pf-unit');
+  buildCatOptions(catSel,''); buildUnitOptions(unitSel,'');
+  ['pf-name','pf-sku','pf-cat','pf-unit','pf-stock','pf-minstock','pf-buy-price','pf-sell-price'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('pf-stock').value='0'; document.getElementById('pf-minstock').value='10';
+  document.getElementById('pf-buy-price').value='0'; document.getElementById('pf-sell-price').value='0';
+  if (prodId) {
+    var pr=products.find(function(p){return p.id===prodId;});
+    if (pr) {
+      titleEl.textContent='تعديل المنتج'; saveEl.textContent='حفظ التعديلات';
+      document.getElementById('pf-name').value=pr.name;
+      document.getElementById('pf-sku').value=pr.sku;
+      buildCatOptions(catSel, pr.category);
+      buildUnitOptions(unitSel, pr.unit||'');
+      document.getElementById('pf-stock').value=pr.stock;
+      document.getElementById('pf-minstock').value=pr.minStock||10;
+      document.getElementById('pf-buy-price').value=(pr.buyPrice||0).toFixed(2);
+      document.getElementById('pf-sell-price').value=(pr.sellPrice||0).toFixed(2);
+    }
+  } else {
+    titleEl.textContent='إضافة منتج جديد'; saveEl.textContent='حفظ المنتج';
+    document.getElementById('pf-sku').value='PRD-'+(1000+products.length+1);
+  }
+  ov.style.display='block'; document.body.style.overflow='hidden';
+  setTimeout(function(){var n=document.getElementById('pf-name');if(n)n.focus();},100);
+}
+
+function closeProdPanel() {
+  var ov=document.getElementById('prod-panel-overlay'); if(ov)ov.style.display='none';
+  document.body.style.overflow=''; editingId=null;
+}
+
+function saveProd() {
+  var name=((document.getElementById('pf-name')||{}).value||'').trim();
+  var sku=((document.getElementById('pf-sku')||{}).value||'').trim();
+  var cat=(document.getElementById('pf-cat')||{}).value||'';
+  var unit=(document.getElementById('pf-unit')||{}).value||'';
+  var stock=parseInt((document.getElementById('pf-stock')||{}).value||'0',10)||0;
+  var minStock=parseInt((document.getElementById('pf-minstock')||{}).value||'10',10)||10;
+  var buyPrice=parseFloat((document.getElementById('pf-buy-price')||{}).value||'0')||0;
+  var sellPrice=parseFloat((document.getElementById('pf-sell-price')||{}).value||'0')||0;
+  if (!name){showToast('يرجى إدخال اسم المنتج','error');return;}
+  if (!cat){showToast('يرجى اختيار التصنيف','error');return;}
+  if (editingId) {
+    var idx=products.findIndex(function(p){return p.id===editingId;});
+    if(idx>-1){products[idx].name=name;products[idx].sku=sku;products[idx].category=cat;products[idx].unit=unit;products[idx].stock=stock;products[idx].minStock=minStock;products[idx].buyPrice=buyPrice;products[idx].sellPrice=sellPrice;products[idx].updated='الآن';showToast('تم تحديث المنتج بنجاح','success');}
+  } else {
+    products.push({id:nextId++,name:name,sku:sku,category:cat,unit:unit,stock:stock,minStock:minStock,buyPrice:buyPrice,sellPrice:sellPrice,updated:'الآن',img:''});
+    showToast('تم إضافة المنتج "'+name+'" بنجاح','success');
+  }
+  closeProdPanel(); renderProducts(); updateProductKPIs();
+}
+
+// ============================================================
+// TAB 2 - INVENTORY MANAGEMENT
+// ============================================================
+function updateInvKPIs() {
+  var total=0,low=0,out=0,val=0;
+  products.forEach(function(p){ var s=computeStatus(p); total+=p.stock; if(s==='منخفض')low++; if(s==='نافذ')out++; val+=p.stock*(p.buyPrice||0); });
+  var a=document.getElementById('inv-kpi-total'); if(a)a.textContent=total.toLocaleString('ar-EG');
+  var b=document.getElementById('inv-kpi-low'); if(b)b.textContent=low;
+  var c=document.getElementById('inv-kpi-out'); if(c)c.textContent=out;
+  var d=document.getElementById('inv-kpi-value'); if(d)d.textContent=val.toLocaleString('ar-SA',{maximumFractionDigits:0})+' ج.م';
+}
+
+function renderInventory() {
+  var tbody=document.getElementById('inv-tbody'); if(!tbody)return;
+  var search=(document.getElementById('inv-search')||{}).value||'';
+  var cat=(document.getElementById('inv-cat-filter')||{}).value||'';
+  var status=(document.getElementById('inv-status-filter')||{}).value||'';
+  var list=products.filter(function(p){
+    var s=computeStatus(p);
+    return (!search||p.name.includes(search)||p.sku.toLowerCase().includes(search.toLowerCase()))&&(!cat||p.category===cat)&&(!status||s===status);
+  });
+  tbody.innerHTML='';
+  var lbl=document.getElementById('inv-count-label'); if(lbl)lbl.textContent='عرض '+list.length+' من '+products.length+' صنف';
+  if(!list.length){var tr=document.createElement('tr');var td=document.createElement('td');td.colSpan=8;Object.assign(td.style,{textAlign:'center',padding:'40px',color:'#6e797e',fontSize:'14px'});td.textContent='لا توجد نتائج مطابقة';tr.appendChild(td);tbody.appendChild(tr);return;}
+  list.forEach(function(prod){
+    var st=computeStatus(prod);
+    var tr=document.createElement('tr'); tr.className='hover:bg-surface-container-low transition-colors group';
+    function td(cls,txt){ var t=document.createElement('td');t.className=cls;t.textContent=txt;return t;}
+    // product name
+    var t1=document.createElement('td');t1.className='px-5 py-3.5';
+    var d1=document.createElement('div');d1.className='flex flex-col';
+    var n1=document.createElement('span');n1.className='text-sm font-bold text-on-surface';n1.textContent=prod.name;
+    var s1=document.createElement('span');s1.className='text-[10px] text-on-surface-variant font-mono';s1.textContent=prod.sku;
+    d1.appendChild(n1);d1.appendChild(s1);t1.appendChild(d1);
+    tr.appendChild(t1);
+    tr.appendChild(td('px-5 py-3.5 text-sm text-on-surface-variant',prod.category));
+    // current qty
+    var tq=document.createElement('td');tq.className='px-5 py-3.5';
+    var qw=document.createElement('div');qw.className='flex items-center gap-2';
+    var qn=document.createElement('span');qn.className='font-bold text-lg text-on-surface';qn.textContent=prod.stock.toLocaleString('ar-EG');
+    qw.appendChild(qn);tq.appendChild(qw);
+    tr.appendChild(tq);
+    tr.appendChild(td('px-5 py-3.5 text-sm text-on-surface-variant',(prod.minStock||10).toString()));
+    tr.appendChild(td('px-5 py-3.5 text-sm text-on-surface-variant',prod.unit||'—'));
+    // status badge
+    var tsb=document.createElement('td');tsb.className='px-5 py-3.5';
+    var sb2=document.createElement('span');sb2.className='px-2.5 py-1 rounded-full text-xs font-bold '+statusBadge(st);sb2.textContent=st;tsb.appendChild(sb2);
+    tr.appendChild(tsb);
+    tr.appendChild(td('px-5 py-3.5 text-xs text-on-surface-variant',prod.updated));
+    // adjust btn
+    var ta=document.createElement('td');ta.className='px-5 py-3.5 text-center';
+    var ab=document.createElement('button');ab.className='px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-xs font-bold hover:bg-primary hover:text-white transition-colors flex items-center gap-1 mx-auto';
+    var ai=document.createElement('span');ai.className='material-symbols-outlined text-sm';ai.textContent='tune';
+    ab.appendChild(ai);ab.appendChild(document.createTextNode('تعديل'));
+    ab.addEventListener('click',function(){openAdjustPanel(prod.id);});
+    ta.appendChild(ab);tr.appendChild(ta);
+    tbody.appendChild(tr);
+  });
+  renderActivityLog();
+}
+
+['inv-search','inv-cat-filter','inv-status-filter'].forEach(function(id){
+  var el=document.getElementById(id);if(!el)return;
+  el.addEventListener(el.tagName==='INPUT'?'input':'change',function(){renderInventory();updateInvKPIs();});
+});
+
+function renderActivityLog() {
+  var ul=document.getElementById('inv-activity-log');if(!ul)return;
+  ul.innerHTML='';
+  if(!activityLog.length){
+    var li=document.createElement('li');li.className='flex gap-3 items-start';
+    var dot=document.createElement('span');dot.className='w-1.5 h-1.5 rounded-full bg-slate-300 mt-1.5 flex-shrink-0';
+    var tx=document.createElement('span');tx.textContent='لا توجد حركات مسجلة بعد.';
+    li.appendChild(dot);li.appendChild(tx);ul.appendChild(li);return;
+  }
+  activityLog.slice().reverse().forEach(function(entry){
+    var li=document.createElement('li');li.className='flex gap-3 items-start';
+    var dot=document.createElement('span');dot.className='w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 '+(entry.type==='add'?'bg-emerald-500':entry.type==='remove'?'bg-red-500':'bg-primary');
+    var tx=document.createElement('span');tx.textContent=entry.msg;
+    li.appendChild(dot);li.appendChild(tx);ul.appendChild(li);
+  });
+}
+
+// Adjust stock panel
+function buildProdSelector(selEl, selectedId) {
+  selEl.innerHTML='';
+  var ph=document.createElement('option');ph.value='';ph.textContent='اختر المنتج...';selEl.appendChild(ph);
+  products.forEach(function(p){
+    var o=document.createElement('option');o.value=p.id;
+    o.textContent=p.name+' ('+p.sku+') — المخزون: '+p.stock;
+    selEl.appendChild(o);
+  });
+  selEl.value = selectedId ? selectedId.toString() : '';
+}
+
+function refreshAdjInfo() {
+  var sel=document.getElementById('adj-prod-sel');
+  var info=document.getElementById('adj-prod-info');
+  if (!sel||!info) return;
+  var pid=parseInt(sel.value,10);
+  var prod=products.find(function(p){return p.id===pid;});
+  if (prod) {
+    var st=computeStatus(prod);
+    info.innerHTML='';
+    var row1=document.createElement('div');row1.style.cssText='font-weight:700;font-size:13px;margin-bottom:4px;';row1.textContent=prod.name;
+    var row2=document.createElement('div');row2.style.cssText='font-size:11px;color:#6e797e;display:flex;gap:12px;';
+    var r2a=document.createElement('span');r2a.textContent='SKU: '+prod.sku;
+    var r2b=document.createElement('span');r2b.textContent='الوحدة: '+(prod.unit||'—');
+    var r2c=document.createElement('span');
+    var stBadge=document.createElement('span');stBadge.className='px-1.5 py-0.5 rounded-full text-[9px] font-bold '+statusBadge(st);stBadge.textContent=st;
+    r2c.appendChild(document.createTextNode('الكمية الحالية: '));
+    var stockSpan=document.createElement('strong');stockSpan.style.color='#191c1e';stockSpan.textContent=prod.stock;
+    r2c.appendChild(stockSpan);
+    row2.appendChild(r2a);row2.appendChild(r2b);row2.appendChild(r2c);row2.appendChild(stBadge);
+    info.appendChild(row1);info.appendChild(row2);
+    info.style.display='block';
+  } else {
+    info.style.display='none';
+  }
+}
+
+function openAdjustPanel(prodId) {
+  if (!document.getElementById('adj-panel-overlay')) {
+    var s=document.createElement('style');s.textContent='@keyframes slideAdj{from{transform:translateX(100%)}to{transform:translateX(0)}}';document.head.appendChild(s);
+    var ov=document.createElement('div');ov.id='adj-panel-overlay';ov.setAttribute('dir','rtl');
+    Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(25,28,30,.45)',zIndex:'9990',display:'none'});
+    ov.addEventListener('click',function(e){if(e.target===ov)closeAdjPanel();});
+    var pn=document.createElement('div');pn.id='adj-panel';
+    Object.assign(pn.style,{position:'fixed',top:'0',right:'0',width:'400px',maxWidth:'96vw',height:'100vh',background:'#fff',zIndex:'9991',display:'flex',flexDirection:'column',boxShadow:'-4px 0 32px rgba(0,0,0,.14)',animation:'slideAdj .3s cubic-bezier(.4,0,.2,1)'});
+    var ph=document.createElement('div');Object.assign(ph.style,{padding:'18px 22px',borderBottom:'1px solid #e0e3e5',display:'flex',justifyContent:'space-between',alignItems:'center',background:'#011d35'});
+    var pt=document.createElement('h3');pt.id='adj-panel-title';Object.assign(pt.style,{fontSize:'16px',fontWeight:'700',color:'#fff'});pt.textContent='تعديل المخزون';
+    var cb=document.createElement('button');cb.innerHTML='<span class="material-symbols-outlined" style="color:#fff;font-size:22px">close</span>';cb.addEventListener('click',closeAdjPanel);
+    ph.appendChild(pt);ph.appendChild(cb);
+    var pb=document.createElement('div');pb.id='adj-panel-body';pb.style.cssText='flex:1;overflow-y:auto;padding:22px;';
+
+    function adjFld(lbl,id,inner){ var w=document.createElement('div');w.style.marginBottom='16px'; var l=document.createElement('label');l.textContent=lbl;Object.assign(l.style,{display:'block',fontSize:'12px',fontWeight:'700',color:'#3e484d',marginBottom:'6px'}); w.appendChild(l);w.appendChild(inner); return w; }
+    function adjInpStyle(el){ Object.assign(el.style,{width:'100%',background:'#f2f4f6',border:'1px solid #bdc8ce',borderRadius:'8px',padding:'10px 12px',fontSize:'14px',outline:'none',boxSizing:'border-box'}); return el; }
+
+    // Product selector
+    var prodSel=document.createElement('select');prodSel.id='adj-prod-sel';adjInpStyle(prodSel);
+    prodSel.addEventListener('change', refreshAdjInfo);
+    pb.appendChild(adjFld('المنتج',  'adj-prod-sel', prodSel));
+
+    // Product info card
+    var prodInfoDiv=document.createElement('div');prodInfoDiv.id='adj-prod-info';
+    Object.assign(prodInfoDiv.style,{background:'#f2f4f6',borderRadius:'10px',padding:'10px 14px',marginBottom:'18px',fontSize:'13px',color:'#3e484d',display:'none'});
+    pb.appendChild(prodInfoDiv);
+
+    // Operation type
+    var opSel=document.createElement('select');opSel.id='adj-op';adjInpStyle(opSel);
+    [['add','إضافة للمخزون ➕'],['remove','خصم من المخزون ➖'],['set','تحديد الكمية الجديدة ✏️']].forEach(function(o){var opt=document.createElement('option');opt.value=o[0];opt.textContent=o[1];opSel.appendChild(opt);});
+    pb.appendChild(adjFld('نوع العملية','adj-op',opSel));
+
+    // Qty
+    var qInp=document.createElement('input');qInp.type='number';qInp.id='adj-qty';qInp.min='0';qInp.placeholder='0';adjInpStyle(qInp);
+    pb.appendChild(adjFld('الكمية','adj-qty',qInp));
+
+    // Reason
+    var rInp=document.createElement('input');rInp.type='text';rInp.id='adj-reason';rInp.placeholder='مثال: وصول بضاعة جديدة...';adjInpStyle(rInp);
+    pb.appendChild(adjFld('السبب / ملاحظة','adj-reason',rInp));
+
+    var pf2=document.createElement('div');Object.assign(pf2.style,{padding:'14px 22px',borderTop:'1px solid #e0e3e5',display:'flex',gap:'10px',background:'#f7f9fb'});
+    var sv=document.createElement('button');sv.id='adj-save-btn';Object.assign(sv.style,{flex:'1',background:'#007f9d',color:'#fff',border:'none',borderRadius:'10px',padding:'11px',fontSize:'14px',fontWeight:'700',cursor:'pointer'});sv.textContent='تطبيق التعديل';
+    sv.addEventListener('click',saveAdjust);
+    var cn=document.createElement('button');Object.assign(cn.style,{background:'#e0e3e5',color:'#191c1e',border:'none',borderRadius:'10px',padding:'11px 16px',fontSize:'14px',fontWeight:'600',cursor:'pointer'});cn.textContent='إلغاء';cn.addEventListener('click',closeAdjPanel);
+    pf2.appendChild(sv);pf2.appendChild(cn);
+    pn.appendChild(ph);pn.appendChild(pb);pn.appendChild(pf2);ov.appendChild(pn);document.body.appendChild(ov);
+  }
+  var prodSel=document.getElementById('adj-prod-sel');
+  buildProdSelector(prodSel, prodId||null);
+  refreshAdjInfo();
+  document.getElementById('adj-op').value='add';
+  document.getElementById('adj-qty').value='';
+  document.getElementById('adj-reason').value='';
+  var ov=document.getElementById('adj-panel-overlay');ov.style.display='block';document.body.style.overflow='hidden';
+  setTimeout(function(){var q=document.getElementById('adj-qty');if(q)q.focus();},100);
+}
+
+function closeAdjPanel(){var ov=document.getElementById('adj-panel-overlay');if(ov)ov.style.display='none';document.body.style.overflow='';}
+
+function saveAdjust(){
+  var pid=parseInt((document.getElementById('adj-prod-sel')||{}).value,10);
+  if(!pid){showToast('يرجى اختيار المنتج','error');return;}
+  var op=document.getElementById('adj-op').value;
+  var qty=parseInt(document.getElementById('adj-qty').value||'0',10)||0;
+  var reason=document.getElementById('adj-reason').value.trim();
+  var prod=products.find(function(p){return p.id===pid;});
+  if(!prod)return;
+  if(qty<0||isNaN(qty)){showToast('يرجى إدخال كمية صحيحة','error');return;}
+  var oldStock=prod.stock;
+  if(op==='add'){prod.stock+=qty;}
+  else if(op==='remove'){prod.stock=Math.max(0,prod.stock-qty);}
+  else{prod.stock=qty;}
+  prod.updated='الآن';
+  var opLabel={'add':'إضافة','remove':'خصم','set':'تحديث'}[op]||op;
+  var logMsg=opLabel+' '+qty+' '+(prod.unit||'وحدة')+' من "'+prod.name+'" | '+oldStock+'→'+prod.stock+(reason?' | '+reason:'');
+  activityLog.push({type:op,msg:logMsg});
+  showToast('تم تعديل المخزون بنجاح','success');
+  closeAdjPanel();renderInventory();updateInvKPIs();
+}
+
+// ============================================================
+// TAB 3 - CLASSIFICATIONS & UNITS
+// ============================================================
+function renderCatList() {
+  var list=document.getElementById('cat-list');var empty=document.getElementById('cat-empty');var badge=document.getElementById('cat-count-badge');
+  if(!list)return;list.innerHTML='';
+  if(badge)badge.textContent=categories.length;
+  if(!categories.length){if(empty)empty.classList.remove('hidden');return;}
+  if(empty)empty.classList.add('hidden');
+  categories.forEach(function(cat,idx){
+    var row=document.createElement('div');row.className='flex items-center justify-between px-4 py-2.5 rounded-xl border border-outline-variant/10 bg-surface-container-low group hover:border-primary/20 transition-all';
+    var lft=document.createElement('div');lft.className='flex items-center gap-2';
+    var ic=document.createElement('span');ic.className='material-symbols-outlined text-primary text-base';ic.textContent='label';
+    var nm=document.createElement('span');nm.className='text-sm font-medium text-on-surface';nm.textContent=cat;
+    lft.appendChild(ic);lft.appendChild(nm);
+    var del=document.createElement('button');del.className='w-7 h-7 flex items-center justify-center rounded-lg hover:bg-error/10 text-error opacity-0 group-hover:opacity-100 transition-all';
+    var di=document.createElement('span');di.className='material-symbols-outlined text-sm';di.textContent='delete';del.appendChild(di);
+    del.addEventListener('click',function(){
+      categories.splice(idx,1); rebuildCatTabs(); renderCatList();
+      showToast('تم حذف التصنيف "'+cat+'"','success');
+    });
+    row.appendChild(lft);row.appendChild(del);list.appendChild(row);
+  });
+}
+
+function renderUnitList() {
+  var list=document.getElementById('unit-list');var empty=document.getElementById('unit-empty');var badge=document.getElementById('unit-count-badge');
+  if(!list)return;list.innerHTML='';
+  if(badge)badge.textContent=units.length;
+  if(!units.length){if(empty)empty.classList.remove('hidden');return;}
+  if(empty)empty.classList.add('hidden');
+  units.forEach(function(unit,idx){
+    var row=document.createElement('div');row.className='flex items-center justify-between px-4 py-2.5 rounded-xl border border-outline-variant/10 bg-surface-container-low group hover:border-primary/20 transition-all';
+    var lft=document.createElement('div');lft.className='flex items-center gap-3';
+    var sym=document.createElement('span');sym.className='px-2 py-0.5 rounded-md bg-primary/10 text-primary text-xs font-bold font-mono min-w-[32px] text-center';sym.textContent=unit.sym;
+    var nm=document.createElement('span');nm.className='text-sm font-medium text-on-surface';nm.textContent=unit.name;
+    lft.appendChild(sym);lft.appendChild(nm);
+    var del=document.createElement('button');del.className='w-7 h-7 flex items-center justify-center rounded-lg hover:bg-error/10 text-error opacity-0 group-hover:opacity-100 transition-all';
+    var di=document.createElement('span');di.className='material-symbols-outlined text-sm';di.textContent='delete';del.appendChild(di);
+    del.addEventListener('click',function(){
+      units.splice(idx,1); renderUnitList();
+      showToast('تم حذف الوحدة "'+unit.name+'"','success');
+    });
+    row.appendChild(lft);row.appendChild(del);list.appendChild(row);
+  });
+}
+
+document.getElementById('add-cat-btn').addEventListener('click',function(){
+  var inp=document.getElementById('new-cat-input');var val=inp.value.trim();
+  if(!val){showToast('يرجى إدخال اسم التصنيف','error');return;}
+  if(categories.indexOf(val)>-1){showToast('هذا التصنيف موجود مسبقاً','warning');return;}
+  categories.push(val);inp.value='';rebuildCatTabs();renderCatList();showToast('تم إضافة التصنيف "'+val+'"','success');
+});
+document.getElementById('new-cat-input').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('add-cat-btn').click();});
+
+document.getElementById('add-unit-btn').addEventListener('click',function(){
+  var ni=document.getElementById('new-unit-name-input');var si=document.getElementById('new-unit-sym-input');
+  var name=ni.value.trim();var sym=si.value.trim();
+  if(!name){showToast('يرجى إدخال اسم الوحدة','error');return;}
+  if(!sym){showToast('يرجى إدخال رمز الوحدة','error');return;}
+  if(units.find(function(u){return u.name===name;})){showToast('هذه الوحدة موجودة مسبقاً','warning');return;}
+  units.push({name:name,sym:sym});ni.value='';si.value='';renderUnitList();showToast('تم إضافة الوحدة "'+name+'"','success');
+});
+document.getElementById('new-unit-sym-input').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('add-unit-btn').click();});
+
+// ============================================================
+// INIT
+// ============================================================
+rebuildCatTabs();
+renderProducts();
+updateProductKPIs();
+
+// Detect ?tab= URL param and switch to that tab
+(function() {
+  var urlTab = new URLSearchParams(window.location.search).get('tab');
+  if (urlTab && ['products','inventory','catunits'].indexOf(urlTab) !== -1) {
+    switchTab(urlTab);
+  }
+})();
+
+})();
+</script>
+</body></html>

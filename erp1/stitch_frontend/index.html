@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>نوريا - نظام تخطيط موارد المؤسسة</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Manrope:wght@400;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    background: linear-gradient(135deg, #f7f9fb 0%, #eef3f7 100%);
+    min-height: 100vh;
+    opacity: 0;
+    animation: fadeIn .4s ease forwards;
+  }
+  @keyframes fadeIn { to { opacity: 1; } }
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-size: 1.5rem;
+    vertical-align: middle;
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  }
+  .card {
+    background: #ffffff;
+    border: 1px solid rgba(189,200,206,0.3);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    cursor: pointer;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,100,124,0.1);
+    border-color: rgba(0,100,124,0.25);
+  }
+  .card:active { transform: translateY(0); }
+  .icon-wrap {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+  }
+  body.fade-out { opacity: 0; transition: opacity .15s ease; }
+</style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- Top bar -->
+  <header style="background: linear-gradient(135deg, #011d35, #014d6b);" class="px-8 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="bg-white/10 p-2 rounded-xl">
+        <span class="material-symbols-outlined text-white text-2xl">architecture</span>
+      </div>
+      <div>
+        <h1 class="text-white font-bold text-lg" style="font-family:'Manrope',sans-serif;">المعماري الدقيق</h1>
+        <p class="text-slate-400 text-xs">كود المنشأة: 987654</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-content-center text-white text-sm font-bold flex items-center justify-center">أ</div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="flex-1 px-6 py-10 max-w-5xl mx-auto w-full">
+
+    <!-- Hero -->
+    <div class="mb-10 text-center">
+      <h2 class="text-3xl font-bold mb-2" style="color:#011d35; font-family:'Manrope',sans-serif;">نوريا ERP</h2>
+      <p class="text-base" style="color:#6e797e;">نظام تخطيط موارد المؤسسة — اختر القسم للبدء</p>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <a href="/dashboard_updated/code.html" class="card">
+        <div class="icon-wrap" style="background:rgba(0,100,124,0.1);">
+          <span class="material-symbols-outlined" style="color:#00647c;">dashboard</span>
+        </div>
+        <h3 class="font-bold text-base mb-1" style="color:#011d35;">لوحة التحكم</h3>
+        <p class="text-sm" style="color:#6e797e;">نظرة عامة على الأداء والمؤشرات الرئيسية</p>
+        <div class="mt-4 flex items-center gap-1 text-xs font-semibold" style="color:#00647c;">
+          <span>فتح</span>
+          <span class="material-symbols-outlined text-sm">arrow_back</span>
+        </div>
+      </a>
+
+      <a href="/create_invoice_updated/code.html" class="card">
+        <div class="icon-wrap" style="background:rgba(73,96,124,0.1);">
+          <span class="material-symbols-outlined" style="color:#49607c;">receipt_long</span>
+        </div>
+        <h3 class="font-bold text-base mb-1" style="color:#011d35;">المبيعات والفواتير</h3>
+        <p class="text-sm" style="color:#6e797e;">إنشاء وإدارة الفواتير والعروض</p>
+        <div class="mt-4 flex items-center gap-1 text-xs font-semibold" style="color:#49607c;">
+          <span>فتح</span>
+          <span class="material-symbols-outlined text-sm">arrow_back</span>
+        </div>
+      </a>
+
+      <a href="/products_inventory_updated/code.html" class="card">
+        <div class="icon-wrap" style="background:rgba(79,93,113,0.1);">
+          <span class="material-symbols-outlined" style="color:#4f5d71;">inventory_2</span>
+        </div>
+        <h3 class="font-bold text-base mb-1" style="color:#011d35;">المنتجات والمخزون</h3>
+        <p class="text-sm" style="color:#6e797e;">إدارة المخزون والمنتجات والمستودعات</p>
+        <div class="mt-4 flex items-center gap-1 text-xs font-semibold" style="color:#4f5d71;">
+          <span>فتح</span>
+          <span class="material-symbols-outlined text-sm">arrow_back</span>
+        </div>
+      </a>
+
+      <a href="/customer_management_updated/code.html" class="card">
+        <div class="icon-wrap" style="background:rgba(0,100,124,0.08);">
+          <span class="material-symbols-outlined" style="color:#00647c;">account_balance</span>
+        </div>
+        <h3 class="font-bold text-base mb-1" style="color:#011d35;">إدارة العملاء</h3>
+        <p class="text-sm" style="color:#6e797e;">قاعدة بيانات العملاء وإدارة العلاقات</p>
+        <div class="mt-4 flex items-center gap-1 text-xs font-semibold" style="color:#00647c;">
+          <span>فتح</span>
+          <span class="material-symbols-outlined text-sm">arrow_back</span>
+        </div>
+      </a>
+
+      <a href="/analytics_reports_updated/code.html" class="card">
+        <div class="icon-wrap" style="background:rgba(73,96,124,0.08);">
+          <span class="material-symbols-outlined" style="color:#49607c;">analytics</span>
+        </div>
+        <h3 class="font-bold text-base mb-1" style="color:#011d35;">التحليلات والتقارير</h3>
+        <p class="text-sm" style="color:#6e797e;">تقارير مفصلة وتحليلات الأداء المالي</p>
+        <div class="mt-4 flex items-center gap-1 text-xs font-semibold" style="color:#49607c;">
+          <span>فتح</span>
+          <span class="material-symbols-outlined text-sm">arrow_back</span>
+        </div>
+      </a>
+
+      <a href="/settings_updated_with_logo_currency/code.html" class="card">
+        <div class="icon-wrap" style="background:rgba(110,121,126,0.1);">
+          <span class="material-symbols-outlined" style="color:#6e797e;">settings</span>
+        </div>
+        <h3 class="font-bold text-base mb-1" style="color:#011d35;">إعدادات النظام</h3>
+        <p class="text-sm" style="color:#6e797e;">إعدادات الشعار والعملة وتخصيص النظام</p>
+        <div class="mt-4 flex items-center gap-1 text-xs font-semibold" style="color:#6e797e;">
+          <span>فتح</span>
+          <span class="material-symbols-outlined text-sm">arrow_back</span>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <footer class="text-center py-4 text-xs" style="color:#bdc8ce;">
+    نوريا ERP &mdash; نظام تخطيط موارد المؤسسة
+  </footer>
+
+  <script>
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest('a[href]');
+      if (link && link.href && !link.href.includes('#')) {
+        e.preventDefault();
+        document.body.classList.add('fade-out');
+        setTimeout(function() { window.location.href = link.href; }, 140);
+      }
+    });
+  </script>
+</body>
+</html>

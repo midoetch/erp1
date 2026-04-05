@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+
+<html class="light" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>إدارة العملاء - المعماري الدقيق</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed": "#d1e4ff",
+              "surface-container-highest": "#e0e3e5",
+              "surface-variant": "#e0e3e5",
+              "on-secondary-container": "#4b637e",
+              "error-container": "#ffdad6",
+              "surface-dim": "#d8dadc",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#67758b",
+              "on-error-container": "#93000a",
+              "surface-container-low": "#f2f4f6",
+              "on-background": "#191c1e",
+              "on-error": "#ffffff",
+              "secondary": "#49607c",
+              "tertiary": "#4f5d71",
+              "outline": "#6e797e",
+              "surface-tint": "#006780",
+              "on-primary": "#ffffff",
+              "on-primary-fixed": "#001f28",
+              "on-primary-container": "#fafdff",
+              "secondary-container": "#c7dfff",
+              "on-tertiary-fixed": "#0d1c2e",
+              "primary": "#00647c",
+              "outline-variant": "#bdc8ce",
+              "surface-container-high": "#e6e8ea",
+              "on-surface": "#191c1e",
+              "inverse-primary": "#6cd3f7",
+              "tertiary-fixed-dim": "#b9c7df",
+              "on-tertiary-fixed-variant": "#3a485b",
+              "surface-container": "#eceef0",
+              "surface-bright": "#f7f9fb",
+              "on-tertiary-container": "#fdfcff",
+              "primary-fixed-dim": "#6cd3f7",
+              "primary-fixed": "#b7eaff",
+              "on-primary-fixed-variant": "#004e61",
+              "on-secondary-fixed-variant": "#314863",
+              "error": "#ba1a1a",
+              "inverse-surface": "#2d3133",
+              "on-tertiary": "#ffffff",
+              "surface": "#f7f9fb",
+              "background": "#f7f9fb",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#eff1f3",
+              "secondary-fixed-dim": "#b0c9e8",
+              "on-surface-variant": "#3e484d",
+              "tertiary-fixed": "#d5e3fc",
+              "primary-container": "#007f9d",
+              "on-secondary-fixed": "#011d35"
+            },
+            fontFamily: {
+              "headline": ["Manrope", "IBM Plex Sans Arabic"],
+              "body": ["Inter", "IBM Plex Sans Arabic"],
+              "label": ["Inter", "IBM Plex Sans Arabic"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar -->
+<aside class="fixed right-0 top-0 h-full w-60 bg-[#011d35] shadow-2xl z-50 flex flex-col" id="sidebar" dir="rtl">
+
+  <!-- Logo -->
+  <div class="px-4 py-5 flex items-center gap-3 cursor-pointer" onclick="window.location.href='/'">
+    <div class="w-9 h-9 bg-[#007f9d] rounded-lg flex items-center justify-center flex-shrink-0">
+      <span class="material-symbols-outlined text-white text-lg">architecture</span>
+    </div>
+    <div>
+      <div class="text-white font-bold text-sm leading-tight">المعماري الدقيق</div>
+      <div class="text-slate-400 text-[10px]">ID: 987654</div>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="flex-1 overflow-y-auto px-3 py-2 space-y-1" id="sidebar-nav">
+
+    <!-- Dashboard -->
+    <a href="/dashboard_updated/code.html" data-page="dashboard"
+       class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 group">
+      <span class="material-symbols-outlined text-xl flex-shrink-0">dashboard</span>
+      <span class="text-sm font-medium">لوحة التحكم</span>
+    </a>
+
+    <!-- المبيعات with sub-items -->
+    <div class="sidebar-group" data-group="sales">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none" data-page="sales" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">receipt_long</span>
+        <span class="text-sm font-medium flex-1">المبيعات</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/customer_management_updated/code.html" data-page="customer"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">العملاء</a>
+        <a href="/invoices_list/code.html" data-page="invoices-list"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">قائمة الفواتير</a>
+        <a href="/create_invoice_updated/code.html" data-page="invoice"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">إنشاء فاتورة جديدة</a>
+      </div>
+    </div>
+
+    <!-- المنتجات والخدمات with sub-items -->
+    <div class="sidebar-group" data-group="products">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none"
+           data-page="products" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">inventory_2</span>
+        <span class="text-sm font-medium flex-1">المنتجات والخدمات</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/products_inventory_updated/code.html" data-page="products-list"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">قائمة المنتجات</a>
+        <a href="/products_inventory_updated/code.html" data-page="inventory"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">إدارة المخزون</a>
+        <a href="/products_inventory_updated/code.html?tab=catunits" data-page="catunits"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">التصنيفات والوحدات</a>
+      </div>
+    </div>
+
+    <!-- المحاسبة المالية with sub-items -->
+    <div class="sidebar-group" data-group="accounting">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none"
+           data-page="accounting" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">account_balance</span>
+        <span class="text-sm font-medium flex-1">المحاسبة المالية</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/customer_management_updated/code.html" data-page="accounts"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">الحسابات العامة</a>
+        <a href="/create_invoice_updated/code.html" data-page="payments"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">المدفوعات</a>
+      </div>
+    </div>
+
+    <!-- التقارير التحليلية with sub-items -->
+    <div class="sidebar-group" data-group="analytics">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none"
+           data-page="analytics" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">analytics</span>
+        <span class="text-sm font-medium flex-1">التقارير التحليلية</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/analytics_reports_updated/code.html" data-page="sales-reports"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">تقارير المبيعات</a>
+        <a href="/analytics_reports_updated/code.html" data-page="financial-reports"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">التقارير المالية</a>
+        <a href="/analytics_reports_updated/code.html" data-page="tax-reports"
+           class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">التقارير الضريبية</a>
+      </div>
+    </div>
+
+  </nav>
+
+  <!-- Bottom -->
+  <div class="px-3 pb-4 space-y-1 border-t border-slate-700/50 pt-3">
+    <a href="/settings_updated_with_logo_currency/code.html" data-page="settings"
+       class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150">
+      <span class="material-symbols-outlined text-xl flex-shrink-0">settings</span>
+      <span class="text-sm">الإعدادات</span>
+    </a>
+    <a href="/"
+       class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all duration-150">
+      <span class="material-symbols-outlined text-xl flex-shrink-0">logout</span>
+      <span class="text-sm">تسجيل الخروج</span>
+    </a>
+  </div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 right-0 h-16 z-40 bg-white/80 backdrop-blur-md shadow-sm flex flex-row-reverse justify-between items-center px-6 mr-60 border-b border-slate-200/20 font-manrope font-medium">
+<div class="flex items-center gap-4">
+<div class="relative group">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-all" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-all" data-icon="help_outline">help_outline</span>
+<div class="h-8 w-[1px] bg-outline-variant/30 mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-sm font-bold text-on-surface leading-tight">أحمد المهندس</p>
+<p class="text-[10px] text-on-surface-variant">مدير النظام</p>
+</div>
+<img alt="User Profile" class="w-10 h-10 rounded-full border-2 border-primary-container shadow-sm" data-alt="professional portrait of a middle-aged man in a business suit with a friendly expression and clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmCthW9RLRlU6Ux7JslheKSqi26kkx-S5sk2eUx9N7qm_Ux2UuQepGt_eSozEGJcW-ukyux32KRB9mXEJNQQfx0IFfzVeFF8nLHXRGweCJvDXUHf4NHPZOIXWyl8ZjHitwkSnmWrWHQL9nL0Jrf990j6I6ocBmcF57npbPuHF433_jpghyB2emdaMN7U9Dg_KTua4mXAIFQSjeNqyV5hA0yYk4XIk_ZsDO4ozLNJVvLYTQA7XNFQA4QIiuIFJh5FR_jYN7fuFnX-6G"/>
+</div>
+</div>
+<div class="flex-1 max-w-xl mx-8">
+<div class="relative group">
+<input class="w-full bg-surface-container-low border-none rounded-xl py-2 pr-10 pl-4 focus:ring-2 focus:ring-primary/20 text-sm transition-all text-right outline-none" placeholder="البحث في النظام..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary" data-icon="search">search</span>
+</div>
+</div>
+<div class="text-lg font-black text-[#011d35]">نظام الموارد المتكامل</div>
+</header>
+<!-- Main Content -->
+<main class="mr-60 pt-16 min-h-screen bg-surface p-8">
+<!-- Breadcrumbs & Header -->
+<div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-10">
+<div class="space-y-2 text-right">
+<nav class="flex items-center justify-end gap-2 text-sm text-on-surface-variant">
+<span class="hover:text-primary cursor-pointer">إدارة المبيعات</span>
+<span class="material-symbols-outlined text-xs" data-icon="chevron_left">chevron_left</span>
+<span class="text-primary font-bold">دليل العملاء</span>
+</nav>
+<h1 class="text-4xl font-extrabold text-on-surface tracking-tight leading-tight">قاعدة بيانات العملاء</h1>
+<p class="text-on-surface-variant text-lg">نظرة شاملة على حسابات العملاء والمركز المالي لكل حساب</p>
+</div>
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl font-bold flex items-center gap-3 shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+                إضافة عميل جديد
+            </button>
+</div>
+<!-- Search and Filters -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm mb-10 flex flex-wrap items-center gap-4">
+<div class="flex-1 min-w-[300px] relative">
+<input class="w-full bg-surface-container-low border-none rounded-xl py-4 pr-12 pl-4 focus:ring-2 focus:ring-primary/20 text-base transition-all text-right outline-none" placeholder="البحث بالاسم، اسم الشركة، أو رقم الهاتف..." type="text"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 py-3 rounded-xl bg-surface-container border border-outline-variant/10 text-on-surface-variant hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+                    تصفية النتائج
+                </button>
+<button class="flex items-center gap-2 px-5 py-3 rounded-xl bg-surface-container border border-outline-variant/10 text-on-surface-variant hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined" data-icon="sort">sort</span>
+                    ترتيب حسب
+                </button>
+</div>
+</div>
+<!-- Customer Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest group rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all border border-transparent hover:border-primary/10 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-150"></div>
+<div class="flex justify-between items-start mb-6 relative">
+<div class="w-16 h-16 rounded-2xl bg-primary-fixed flex items-center justify-center text-primary text-2xl font-black shadow-inner">ع</div>
+<span class="bg-success/10 text-success text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest text-[#00647c]">نشط</span>
+</div>
+<div class="space-y-1 mb-6 relative text-right">
+<h3 class="text-xl font-bold text-on-surface">عبدالله منصور</h3>
+<p class="text-on-surface-variant text-sm">مؤسسة الأفق للمقاولات العامة</p>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center justify-end gap-3 text-sm text-on-surface-variant">
+<span>01012345678</span>
+<span class="material-symbols-outlined text-primary text-lg" data-icon="call">call</span>
+</div>
+<div class="flex items-center justify-end gap-3 text-sm text-on-surface-variant">
+<span>a.mansour@alofaq.eg</span>
+<span class="material-symbols-outlined text-primary text-lg" data-icon="mail">mail</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl mb-6 text-right">
+<p class="text-[10px] text-on-surface-variant mb-1 uppercase tracking-wider font-bold">الرصيد المتبقي</p>
+<p class="text-xl font-black text-primary">12,450.00 <span class="text-xs font-normal text-on-surface-variant">ج.م</span></p>
+</div>
+<div class="flex gap-2 relative">
+<button class="flex-1 bg-surface-container-high text-on-surface-variant py-3 rounded-lg font-bold text-sm hover:bg-primary hover:text-white transition-all">الملف التعريفي</button>
+<button class="w-12 h-12 bg-primary-container text-white rounded-lg flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-110 active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="add_notes">add_notes</span>
+</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest group rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all border border-transparent hover:border-primary/10 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-150"></div>
+<div class="flex justify-between items-start mb-6 relative">
+<img alt="Creative Agency" class="w-16 h-16 rounded-2xl object-cover shadow-sm border border-outline-variant/20" data-alt="minimalist modern corporate logo of a creative agency with geometric shapes on a white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGDxzgA2COES2UvYKuiCl5WfhkHUrUtsgzdMIif_qZL14MeGCEY5u0wsuXardzY3Xp2sWc-Qq34PYiPSu8V9xizfzMsTKen6jhOANFsJ0z4DsSGgP-BcK3NN3RISk5kXlfCt_an-0i-BcUPpvYEgvJpPYBXUdj7bl79_w1qm5nML-G1SEm0F06fVZ6t5J9Hkd9aQHFjpxCiI7Zs7q7OgC6OO4hYriObpk7cVkf8zvIElMYNl6f0TlzwqyoD4oB-U_2nmVEOEqw8ZgM"/>
+<span class="bg-error-container text-on-error-container text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">متأخر بالسداد</span>
+</div>
+<div class="space-y-1 mb-6 relative text-right">
+<h3 class="text-xl font-bold text-on-surface">سارة العمري</h3>
+<p class="text-on-surface-variant text-sm">وكالة الإبداع الرقمي للتسويق</p>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center justify-end gap-3 text-sm text-on-surface-variant">
+<span>01598765432</span>
+<span class="material-symbols-outlined text-primary text-lg" data-icon="call">call</span>
+</div>
+<div class="flex items-center justify-end gap-3 text-sm text-on-surface-variant">
+<span>sara@creative.eg</span>
+<span class="material-symbols-outlined text-primary text-lg" data-icon="mail">mail</span>
+</div>
+</div>
+<div class="bg-error-container/20 p-4 rounded-xl mb-6 text-right">
+<p class="text-[10px] text-on-error-container mb-1 uppercase tracking-wider font-bold">إجمالي المديونية</p>
+<p class="text-xl font-black text-error">45,000.00 <span class="text-xs font-normal text-on-error-container">ج.م</span></p>
+</div>
+<div class="flex gap-2 relative">
+<button class="flex-1 bg-surface-container-high text-on-surface-variant py-3 rounded-lg font-bold text-sm hover:bg-primary hover:text-white transition-all">الملف التعريفي</button>
+<button class="w-12 h-12 bg-primary-container text-white rounded-lg flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-110 active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="add_notes">add_notes</span>
+</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest group rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all border border-transparent hover:border-primary/10 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-150"></div>
+<div class="flex justify-between items-start mb-6 relative">
+<div class="w-16 h-16 rounded-2xl bg-secondary-container flex items-center justify-center text-on-secondary-container text-2xl font-black shadow-inner">خ</div>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">عميل جديد</span>
+</div>
+<div class="space-y-1 mb-6 relative text-right">
+<h3 class="text-xl font-bold text-on-surface">خالد إبراهيم</h3>
+<p class="text-on-surface-variant text-sm">مجموعة الحلول اللوجستية المتطورة</p>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center justify-end gap-3 text-sm text-on-surface-variant">
+<span>01200011122</span>
+<span class="material-symbols-outlined text-primary text-lg" data-icon="call">call</span>
+</div>
+<div class="flex items-center justify-end gap-3 text-sm text-on-surface-variant">
+<span>khalid@lsgroup.eg</span>
+<span class="material-symbols-outlined text-primary text-lg" data-icon="mail">mail</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl mb-6 text-right">
+<p class="text-[10px] text-on-surface-variant mb-1 uppercase tracking-wider font-bold">الرصيد الحالي</p>
+<p class="text-xl font-black text-primary">0.00 <span class="text-xs font-normal text-on-surface-variant">ج.م</span></p>
+</div>
+<div class="flex gap-2 relative">
+<button class="flex-1 bg-surface-container-high text-on-surface-variant py-3 rounded-lg font-bold text-sm hover:bg-primary hover:text-white transition-all">الملف التعريفي</button>
+<button class="w-12 h-12 bg-primary-container text-white rounded-lg flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-110 active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="add_notes">add_notes</span>
+</button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest group rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all border border-transparent hover:border-primary/10 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-150"></div>
+<div class="flex justify-between items-start mb-6 relative">
+<div class="w-16 h-16 rounded-2xl bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed text-2xl font-black shadow-inner">ن</div>
+<span class="bg-success/10 text-success text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest text-[#00647c]">نشط</span>
+</div>
+<div class="space-y-1 mb-6 relative text-right">
+<h3 class="text-xl font-bold text-on-surface">نورة فهد</h3>
+<p class="text-on-surface-variant text-sm">فندق أرجوان ريزيدنس الفاخر</p>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center justify-end gap-3 text-sm text-on-surface-variant">
+<span>01145566778</span>
+<span class="material-symbols-outlined text-primary text-lg" data-icon="call">call</span>
+</div>
+<div class="flex items-center justify-end gap-3 text-sm text-on-surface-variant">
+<span>noura@arjuwan.eg</span>
+<span class="material-symbols-outlined text-primary text-lg" data-icon="mail">mail</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl mb-6 text-right">
+<p class="text-[10px] text-on-surface-variant mb-1 uppercase tracking-wider font-bold">الرصيد المستحق</p>
+<p class="text-xl font-black text-primary">8,200.00 <span class="text-xs font-normal text-on-surface-variant">ج.م</span></p>
+</div>
+<div class="flex gap-2 relative">
+<button class="flex-1 bg-surface-container-high text-on-surface-variant py-3 rounded-lg font-bold text-sm hover:bg-primary hover:text-white transition-all">الملف التعريفي</button>
+<button class="w-12 h-12 bg-primary-container text-white rounded-lg flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-110 active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="add_notes">add_notes</span>
+</button>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="bg-surface-container-lowest group rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all border border-transparent hover:border-primary/10 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-150"></div>
+<div class="flex justify-between items-start mb-6 relative">
+<div class="w-16 h-16 rounded-2xl bg-[#f2f4f6] flex items-center justify-center text-on-surface-variant text-2xl font-black shadow-inner">م</div>
+<span class="bg-on-surface-variant/10 text-on-surface-variant text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">غير نشط حالياً</span>
+</div>
+<div class="space-y-1 mb-6 relative text-right">
+<h3 class="text-xl font-bold text-on-surface">محمد الحربي</h3>
+<p class="text-on-surface-variant text-sm">شركة التوريد المباشر للخدمات</p>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center justify-end gap-3 text-sm text-on-surface-variant">
+<span>01033334444</span>
+<span class="material-symbols-outlined text-primary text-lg" data-icon="call">call</span>
+</div>
+<div class="flex items-center justify-end gap-3 text-sm text-on-surface-variant">
+<span>m.harbi@direct.eg</span>
+<span class="material-symbols-outlined text-primary text-lg" data-icon="mail">mail</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl mb-6 text-right">
+<p class="text-[10px] text-on-surface-variant mb-1 uppercase tracking-wider font-bold">الرصيد المستحق</p>
+<p class="text-xl font-black text-primary">0.00 <span class="text-xs font-normal text-on-surface-variant">ج.م</span></p>
+</div>
+<div class="flex gap-2 relative">
+<button class="flex-1 bg-surface-container-high text-on-surface-variant py-3 rounded-lg font-bold text-sm hover:bg-primary hover:text-white transition-all">الملف التعريفي</button>
+<button class="w-12 h-12 bg-primary-container text-white rounded-lg flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-110 active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="add_notes">add_notes</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-12 flex justify-between items-center bg-surface-container-low p-4 rounded-2xl">
+<span class="text-sm text-on-surface-variant">عرض سجلات 1-12 من إجمالي 148 عميلاً</span>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 rounded-lg flex items-center justify-center bg-surface-container-lowest hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center bg-primary text-white font-bold">1</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center bg-surface-container-lowest hover:bg-primary hover:text-white transition-all">2</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center bg-surface-container-lowest hover:bg-primary hover:text-white transition-all">3</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center bg-surface-container-lowest hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+</div>
+</div>
+</main>
+
+
+
+
+
+
+
+<script id="nav-fix">
+function toggleGroup(el) {
+  var sub = el.nextElementSibling;
+  var chevron = el.querySelector('.chevron');
+  var isOpen = !sub.classList.contains('hidden');
+  if (isOpen) {
+    sub.classList.add('hidden');
+    chevron.style.transform = '';
+    el.classList.remove('bg-[#007f9d]','text-white');
+    el.classList.add('text-slate-300');
+  } else {
+    sub.classList.remove('hidden');
+    chevron.style.transform = 'rotate(180deg)';
+    el.classList.add('bg-[#007f9d]','text-white');
+    el.classList.remove('text-slate-300','hover:text-white','hover:bg-[#1a3a54]');
+  }
+}
+
+(function() {
+  var path = window.location.pathname;
+
+  // Map URL path segment to group + sub-item highlight
+  var config = {
+    'dashboard_updated':           { group: null,        page: 'dashboard' },
+    'create_invoice_updated':      { group: 'sales',     page: 'invoice' },
+    'products_inventory_updated':  { group: 'products',  page: 'products-list' },
+    'customer_management_updated': { group: 'sales',     page: 'customer' },
+    'analytics_reports_updated':   { group: 'analytics', page: 'sales-reports' },
+    'settings_updated':            { group: null,        page: 'settings' },
+  };
+
+  var active = null;
+  Object.keys(config).forEach(function(key) {
+    if (path.indexOf(key) !== -1) active = config[key];
+  });
+
+  if (!active) return;
+
+  // Highlight top-level item or open group
+  if (active.group) {
+    // Open the group
+    var groupEl = document.querySelector('[data-group="' + active.group + '"]');
+    if (groupEl) {
+      var parent = groupEl.querySelector('.sidebar-parent');
+      var sub = groupEl.querySelector('.sidebar-sub');
+      var chevron = groupEl.querySelector('.chevron');
+      if (parent && sub && chevron) {
+        sub.classList.remove('hidden');
+        chevron.style.transform = 'rotate(180deg)';
+        parent.classList.add('bg-[#007f9d]','text-white');
+        parent.classList.remove('text-slate-300');
+      }
+      // Highlight active sub-item
+      var subItems = sub.querySelectorAll('[data-page]');
+      subItems.forEach(function(item) {
+        if (item.getAttribute('data-page') === active.page) {
+          item.classList.add('text-white','font-semibold','border-r-2','border-[#00c4e8]','bg-[#1a3a54]');
+          item.classList.remove('text-slate-400');
+        }
+      });
+    }
+  } else {
+    // Highlight direct nav item
+    var el = document.querySelector('[data-page="' + active.page + '"].sidebar-item');
+    if (el) {
+      el.classList.add('bg-[#007f9d]','text-white');
+      el.classList.remove('text-slate-300');
+    }
+  }
+
+  // Fix remaining href=# breadcrumb links
+  document.querySelectorAll('a[href="#"]').forEach(function(link) {
+    var t = link.textContent.trim();
+    if (t === 'الرئيسية') link.href = '/';
+    if (t === 'المبيعات' || t === 'قائمة الفواتير') link.href = '/create_invoice_updated/code.html';
+    if (t === 'العملاء') link.href = '/customer_management_updated/code.html';
+    if (t === 'الفواتير الضريبية') link.href = '/create_invoice_updated/code.html';
+  });
+
+  // Action buttons
+  document.querySelectorAll('button').forEach(function(btn) {
+    var t = btn.textContent.trim();
+    if (t === 'عرض كافة الفواتير') {
+      btn.addEventListener('click', function() { window.location.href = '/create_invoice_updated/code.html'; });
+      btn.style.cursor = 'pointer';
+    }
+  });
+  document.querySelectorAll('button.fixed').forEach(function(btn) {
+    var icon = btn.querySelector('.material-symbols-outlined');
+    if (icon && icon.textContent.trim() === 'add') {
+      btn.addEventListener('click', function() { window.location.href = '/create_invoice_updated/code.html'; });
+      btn.style.cursor = 'pointer';
+    }
+  });
+
+  // Page transitions
+  var style = document.createElement('style');
+  style.textContent = 'body{transition:opacity .15s ease;}body.fade-out{opacity:0;}';
+  document.head.appendChild(style);
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href]');
+    if (link && link.href && !link.href.includes('#') && !link.target && link.hostname === window.location.hostname) {
+      e.preventDefault();
+      document.body.classList.add('fade-out');
+      setTimeout(function() { window.location.href = link.href; }, 140);
+    }
+  });
+})();
+</script>
+<script id="customers-fx">
+(function () {
+  'use strict';
+
+  // ===================================================
+  // DATA  (mirrors the 5 static cards)
+  // ===================================================
+  var customers = [
+    { id: 1, name: 'عبدالله منصور',  company: 'مؤسسة الأفق للمقاولات العامة',    phone: '01012345678', email: 'a.mansour@alofaq.eg',  balance: 12450.00, status: 'نشط',          notes: [], initial: 'ع', avatarBg: 'bg-primary-fixed',        textColor: 'text-primary' },
+    { id: 2, name: 'سارة العمري',    company: 'وكالة الإبداع الرقمي للتسويق',      phone: '01598765432', email: 'sara@creative.eg',      balance: 45000.00, status: 'متأخر بالسداد', notes: [], initial: null, img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDGDxzgA2COES2UvYKuiCl5WfhkHUrUtsgzdMIif_qZL14MeGCEY5u0wsuXardzY3Xp2sWc-Qq34PYiPSu8V9xizfzMsTKen6jhOANFsJ0z4DsSGgP-BcK3NN3RISk5kXlfCt_an-0i-BcUPpvYEgvJpPYBXUdj7bl79_w1qm5nML-G1SEm0F06fVZ6t5J9Hkd9aQHFjpxCiI7Zs7q7OgC6OO4hYriObpk7cVkf8zvIElMYNl6f0TlzwqyoD4oB-U_2nmVEOEqw8ZgM' },
+    { id: 3, name: 'خالد إبراهيم',   company: 'مجموعة الحلول اللوجستية المتطورة',  phone: '01200011122', email: 'khalid@lsgroup.eg',     balance: 0.00,     status: 'عميل جديد',    notes: [], initial: 'خ', avatarBg: 'bg-secondary-container',  textColor: 'text-on-secondary-container' },
+    { id: 4, name: 'نورة فهد',        company: 'فندق أرجوان ريزيدنس الفاخر',        phone: '01145566778', email: 'noura@arjuwan.eg',      balance: 8200.00,  status: 'نشط',          notes: [], initial: 'ن', avatarBg: 'bg-tertiary-fixed',       textColor: 'text-on-tertiary-fixed' },
+    { id: 5, name: 'محمد الحربي',     company: 'شركة التوريد المباشر للخدمات',       phone: '01033334444', email: 'm.harbi@direct.eg',     balance: 0.00,     status: 'غير نشط',      notes: [], initial: 'م', avatarBg: 'bg-[#f2f4f6]',           textColor: 'text-on-surface-variant' }
+  ];
+  var nextCustId = 6;
+
+  // ===================================================
+  // MERGE CUSTOMERS SAVED FROM INVOICE PAGE
+  // ===================================================
+  (function mergeStoredCustomers() {
+    var stored = [];
+    try { stored = JSON.parse(localStorage.getItem('erp_customers') || '[]'); } catch(e) {}
+    stored.forEach(function(c) {
+      var exists = customers.some(function(x){ return x.name === c.name && x.phone === (c.phone||''); });
+      if (!exists) {
+        var initials = c.name ? c.name.trim().charAt(0) : '؟';
+        customers.push({
+          id: nextCustId++,
+          name: c.name,
+          company: c.location ? c.location : '—',
+          phone: c.phone || '',
+          email: c.email || '',
+          balance: 0,
+          status: 'عميل جديد',
+          notes: [],
+          initial: initials,
+          avatarBg: 'bg-primary/10',
+          textColor: 'text-primary',
+          taxId: c.tax || '',
+          location: c.location || ''
+        });
+      }
+    });
+  })();
+
+  // ===================================================
+  // TOAST
+  // ===================================================
+  function showToast(msg, type) {
+    var old = document.getElementById('erp-toast');
+    if (old) old.remove();
+    var p = { success: { bg: '#16a34a', icon: 'check_circle' }, info: { bg: '#0369a1', icon: 'info' }, error: { bg: '#ba1a1a', icon: 'cancel' } }[type] || { bg: '#0369a1', icon: 'info' };
+    var s = document.getElementById('tap'); if (!s) { s = document.createElement('style'); s.id = 'tap'; s.textContent = '@keyframes tIn{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}'; document.head.appendChild(s); }
+    var t = document.createElement('div'); t.id = 'erp-toast'; t.setAttribute('dir','rtl');
+    Object.assign(t.style,{position:'fixed',bottom:'28px',left:'50%',transform:'translateX(-50%)',background:p.bg,color:'#fff',borderRadius:'12px',padding:'14px 22px',boxShadow:'0 8px 24px rgba(0,0,0,.18)',zIndex:'99999',display:'flex',alignItems:'center',gap:'10px',fontSize:'14px',fontWeight:'600',minWidth:'280px',animation:'tIn .3s ease',whiteSpace:'nowrap'});
+    var i=document.createElement('span');i.className='material-symbols-outlined';i.style.fontSize='20px';i.textContent=p.icon;
+    var tx=document.createElement('span');tx.textContent=msg;
+    t.appendChild(i);t.appendChild(tx);document.body.appendChild(t);
+    setTimeout(function(){t.style.transition='opacity .3s,transform .3s';t.style.opacity='0';t.style.transform='translate(-50%,20px)';setTimeout(function(){t.remove();},300);},3000);
+  }
+
+  // ===================================================
+  // STATUS BADGE
+  // ===================================================
+  function statusMeta(status) {
+    var m = {
+      'نشط':           { cls: 'bg-success/10 text-[#00647c]',          label: 'نشط' },
+      'متأخر بالسداد': { cls: 'bg-error-container text-on-error-container', label: 'متأخر بالسداد' },
+      'عميل جديد':     { cls: 'bg-primary/10 text-primary',            label: 'عميل جديد' },
+      'غير نشط':       { cls: 'bg-on-surface-variant/10 text-on-surface-variant', label: 'غير نشط حالياً' }
+    };
+    return m[status] || m['غير نشط'];
+  }
+  function balanceMeta(c) {
+    if (c.status === 'متأخر بالسداد') return { wrapCls: 'bg-error-container/20', lblCls: 'text-on-error-container', valCls: 'text-error', title: 'إجمالي المديونية' };
+    if (c.balance > 0) return { wrapCls: 'bg-surface-container-low', lblCls: 'text-on-surface-variant', valCls: 'text-primary', title: 'الرصيد المتبقي' };
+    return { wrapCls: 'bg-surface-container-low', lblCls: 'text-on-surface-variant', valCls: 'text-primary', title: 'الرصيد الحالي' };
+  }
+
+  // ===================================================
+  // RENDER GRID
+  // ===================================================
+  var grid = null;
+  var searchInput = null;
+
+  function getSearch() { return searchInput ? searchInput.value.toLowerCase() : ''; }
+
+  function renderGrid() {
+    if (!grid) return;
+    var q = getSearch();
+    var visible = customers.filter(function(c) {
+      return !q || c.name.includes(q) || c.company.includes(q) || c.phone.includes(q) || c.email.includes(q);
+    });
+    grid.innerHTML = '';
+    if (!visible.length) {
+      var msg = document.createElement('div');
+      Object.assign(msg.style,{gridColumn:'1/-1',textAlign:'center',padding:'48px',color:'#6e797e',fontSize:'14px'});
+      msg.textContent = 'لا يوجد عملاء مطابقون لنتائج البحث';
+      grid.appendChild(msg); return;
+    }
+    visible.forEach(function(c) {
+      var sm = statusMeta(c.status);
+      var bm = balanceMeta(c);
+      var card = document.createElement('div');
+      card.className = 'bg-surface-container-lowest group rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all border border-transparent hover:border-primary/10 relative overflow-hidden';
+      card.setAttribute('data-cust-id', c.id);
+      // Decorative blob
+      var blob = document.createElement('div');
+      blob.className = 'absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-150';
+      card.appendChild(blob);
+      // Header row
+      var hdr = document.createElement('div');
+      hdr.className = 'flex justify-between items-start mb-6 relative';
+      // Avatar
+      var avatarBox = document.createElement('div');
+      if (c.img) {
+        var imgEl = document.createElement('img'); imgEl.src = c.img; imgEl.alt = c.name;
+        imgEl.className = 'w-16 h-16 rounded-2xl object-cover shadow-sm border border-outline-variant/20';
+        avatarBox.appendChild(imgEl);
+      } else {
+        avatarBox.className = 'w-16 h-16 rounded-2xl ' + (c.avatarBg||'bg-surface-container') + ' flex items-center justify-center ' + (c.textColor||'text-on-surface') + ' text-2xl font-black shadow-inner';
+        avatarBox.textContent = c.initial || c.name.charAt(0);
+      }
+      var badge = document.createElement('span');
+      badge.className = sm.cls + ' text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest';
+      badge.textContent = sm.label;
+      hdr.appendChild(avatarBox); hdr.appendChild(badge);
+      card.appendChild(hdr);
+      // Name + company
+      var info = document.createElement('div'); info.className = 'space-y-1 mb-6 relative text-right';
+      var nm = document.createElement('h3'); nm.className = 'text-xl font-bold text-on-surface'; nm.textContent = c.name;
+      var co = document.createElement('p'); co.className = 'text-on-surface-variant text-sm'; co.textContent = c.company;
+      info.appendChild(nm); info.appendChild(co); card.appendChild(info);
+      // Contact
+      var contact = document.createElement('div'); contact.className = 'space-y-3 mb-6';
+      function contactRow(icon, text) {
+        var row = document.createElement('div'); row.className = 'flex items-center justify-end gap-3 text-sm text-on-surface-variant';
+        var sp = document.createElement('span'); sp.textContent = text;
+        var ico = document.createElement('span'); ico.className = 'material-symbols-outlined text-primary text-lg'; ico.textContent = icon;
+        row.appendChild(sp); row.appendChild(ico); return row;
+      }
+      contact.appendChild(contactRow('call', c.phone));
+      contact.appendChild(contactRow('mail', c.email));
+      card.appendChild(contact);
+      // Balance
+      var bal = document.createElement('div'); bal.className = bm.wrapCls + ' p-4 rounded-xl mb-6 text-right';
+      var balLbl = document.createElement('p'); balLbl.className = 'text-[10px] ' + bm.lblCls + ' mb-1 uppercase tracking-wider font-bold'; balLbl.textContent = bm.title;
+      var balVal = document.createElement('p'); balVal.className = 'text-xl font-black ' + bm.valCls;
+      balVal.innerHTML = c.balance.toLocaleString('ar-EG', {minimumFractionDigits:2,maximumFractionDigits:2}) + ' <span class="text-xs font-normal ' + bm.lblCls + '">ج.م</span>';
+      bal.appendChild(balLbl); bal.appendChild(balVal); card.appendChild(bal);
+      // Buttons
+      var btns = document.createElement('div'); btns.className = 'flex gap-2 relative';
+      var profileBtn = document.createElement('button');
+      profileBtn.className = 'flex-1 bg-surface-container-high text-on-surface-variant py-3 rounded-lg font-bold text-sm hover:bg-primary hover:text-white transition-all';
+      profileBtn.textContent = 'الملف التعريفي';
+      profileBtn.addEventListener('click', function() { openProfileModal(c.id); });
+      var noteBtn = document.createElement('button');
+      noteBtn.className = 'w-12 h-12 bg-primary-container text-white rounded-lg flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-110 active:scale-90 transition-all';
+      var nIco = document.createElement('span'); nIco.className = 'material-symbols-outlined'; nIco.textContent = 'add_notes';
+      noteBtn.appendChild(nIco);
+      noteBtn.addEventListener('click', function() { openNotesModal(c.id); });
+      btns.appendChild(profileBtn); btns.appendChild(noteBtn);
+      card.appendChild(btns);
+      grid.appendChild(card);
+    });
+  }
+
+  // ===================================================
+  // ADD CUSTOMER MODAL
+  // ===================================================
+  function buildAddModal() {
+    if (document.getElementById('add-cust-modal')) return;
+    var s = document.createElement('style'); s.textContent = '@keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}'; document.head.appendChild(s);
+    var overlay = document.createElement('div'); overlay.id = 'add-cust-modal';
+    overlay.setAttribute('dir','rtl');
+    Object.assign(overlay.style,{position:'fixed',inset:'0',background:'rgba(25,28,30,.5)',zIndex:'9990',display:'none',alignItems:'center',justifyContent:'center'});
+    overlay.addEventListener('click',function(e){if(e.target===overlay)overlay.style.display='none';});
+    var box = document.createElement('div');
+    Object.assign(box.style,{background:'#fff',borderRadius:'20px',padding:'32px',width:'460px',maxWidth:'95vw',maxHeight:'90vh',overflowY:'auto',animation:'modalIn .25s ease'});
+    function mfield(lbl,id,type,ph,val){
+      var w=document.createElement('div');w.style.marginBottom='16px';
+      var l=document.createElement('label');l.textContent=lbl;l.setAttribute('for',id);Object.assign(l.style,{display:'block',fontSize:'12px',fontWeight:'700',color:'#3e484d',marginBottom:'6px'});
+      var i;
+      if(type==='select'){
+        i=document.createElement('select');
+        [['نشط','نشط'],['عميل جديد','عميل جديد'],['متأخر بالسداد','متأخر بالسداد'],['غير نشط','غير نشط']].forEach(function(o){var op=document.createElement('option');op.value=o[0];op.textContent=o[1];i.appendChild(op);});
+      } else { i=document.createElement('input');i.type=type||'text';i.placeholder=ph||''; if(val)i.value=val; }
+      i.id=id; Object.assign(i.style,{width:'100%',background:'#f2f4f6',border:'1px solid #bdc8ce',borderRadius:'8px',padding:'10px 12px',fontSize:'14px',boxSizing:'border-box'});
+      w.appendChild(l);w.appendChild(i);return w;
+    }
+    var title = document.createElement('h3'); Object.assign(title.style,{fontSize:'18px',fontWeight:'800',color:'#011d35',marginBottom:'24px'}); title.textContent = 'إضافة عميل جديد';
+    box.appendChild(title);
+    box.appendChild(mfield('الاسم الكامل','mc-name','text','أدخل اسم العميل...'));
+    box.appendChild(mfield('اسم الشركة / المؤسسة','mc-company','text','اسم الشركة أو المؤسسة...'));
+    box.appendChild(mfield('رقم الهاتف','mc-phone','tel','01XXXXXXXXX'));
+    box.appendChild(mfield('البريد الإلكتروني','mc-email','email','example@domain.com'));
+    box.appendChild(mfield('الحالة','mc-status','select'));
+    var footer = document.createElement('div'); Object.assign(footer.style,{display:'flex',gap:'12px',marginTop:'8px'});
+    var saveBtn = document.createElement('button');
+    Object.assign(saveBtn.style,{flex:'1',background:'#00647c',color:'#fff',border:'none',borderRadius:'10px',padding:'12px',fontSize:'14px',fontWeight:'700',cursor:'pointer'});
+    saveBtn.textContent = 'إضافة العميل';
+    saveBtn.addEventListener('click', function() {
+      var name    = (document.getElementById('mc-name')||{}).value||'';
+      var company = (document.getElementById('mc-company')||{}).value||'';
+      var phone   = (document.getElementById('mc-phone')||{}).value||'';
+      var email   = (document.getElementById('mc-email')||{}).value||'';
+      var status  = (document.getElementById('mc-status')||{}).value||'نشط';
+      if(!name.trim()){showToast('يرجى إدخال اسم العميل','error');return;}
+      customers.push({id:nextCustId++,name:name,company:company||'غير محدد',phone:phone,email:email,balance:0,status:status,notes:[],initial:name.charAt(0),avatarBg:'bg-primary-fixed',textColor:'text-primary'});
+      overlay.style.display='none';
+      renderGrid();
+      showToast('تم إضافة العميل "'+name+'" بنجاح','success');
+    });
+    var cancelBtn = document.createElement('button');
+    Object.assign(cancelBtn.style,{background:'#e0e3e5',color:'#191c1e',border:'none',borderRadius:'10px',padding:'12px 20px',fontSize:'14px',fontWeight:'600',cursor:'pointer'});
+    cancelBtn.textContent = 'إلغاء';
+    cancelBtn.addEventListener('click',function(){overlay.style.display='none';});
+    footer.appendChild(saveBtn);footer.appendChild(cancelBtn);
+    box.appendChild(footer);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+  }
+
+  // ===================================================
+  // PROFILE MODAL
+  // ===================================================
+  function openProfileModal(id) {
+    var c = customers.find(function(x){return x.id===id;});
+    if(!c) return;
+    var old=document.getElementById('profile-modal');if(old)old.remove();
+    var overlay=document.createElement('div');overlay.id='profile-modal';overlay.setAttribute('dir','rtl');
+    Object.assign(overlay.style,{position:'fixed',inset:'0',background:'rgba(25,28,30,.5)',zIndex:'9990',display:'flex',alignItems:'center',justifyContent:'center'});
+    overlay.addEventListener('click',function(e){if(e.target===overlay)overlay.remove();});
+    var box=document.createElement('div');
+    Object.assign(box.style,{background:'#fff',borderRadius:'20px',padding:'32px',width:'400px',maxWidth:'95vw',animation:'modalIn .25s ease'});
+    var sm=statusMeta(c.status);
+    // Header row
+    var pmHdr=document.createElement('div');Object.assign(pmHdr.style,{display:'flex',justifyContent:'space-between',alignItems:'start',marginBottom:'20px'});
+    var pmTitle=document.createElement('h3');Object.assign(pmTitle.style,{fontSize:'18px',fontWeight:'800',color:'#011d35'});pmTitle.textContent='الملف التعريفي';
+    var pmClose=document.createElement('button');pmClose.id='close-profile';Object.assign(pmClose.style,{background:'none',border:'none',cursor:'pointer'});
+    var pmCloseIco=document.createElement('span');pmCloseIco.className='material-symbols-outlined';Object.assign(pmCloseIco.style,{fontSize:'22px',color:'#6e797e'});pmCloseIco.textContent='close';
+    pmClose.appendChild(pmCloseIco);pmHdr.appendChild(pmTitle);pmHdr.appendChild(pmClose);box.appendChild(pmHdr);
+    // Avatar + name section
+    var pmCenter=document.createElement('div');Object.assign(pmCenter.style,{textAlign:'center',marginBottom:'24px'});
+    var pmAvatar=document.createElement('div');Object.assign(pmAvatar.style,{width:'72px',height:'72px',borderRadius:'18px',background:'#b7eaff',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'28px',fontWeight:'900',color:'#00647c',margin:'0 auto 12px'});pmAvatar.textContent=c.initial||c.name.charAt(0);
+    var pmName=document.createElement('h4');Object.assign(pmName.style,{fontSize:'18px',fontWeight:'800',color:'#191c1e',marginBottom:'4px'});pmName.textContent=c.name;
+    var pmCompany=document.createElement('p');Object.assign(pmCompany.style,{fontSize:'13px',color:'#6e797e'});pmCompany.textContent=c.company;
+    var pmBadge=document.createElement('span');Object.assign(pmBadge.style,{display:'inline-block',marginTop:'8px',padding:'4px 12px',borderRadius:'999px',fontSize:'11px',fontWeight:'700',background:'#e0f5f9',color:'#00647c'});pmBadge.textContent=c.status;
+    pmCenter.appendChild(pmAvatar);pmCenter.appendChild(pmName);pmCenter.appendChild(pmCompany);pmCenter.appendChild(pmBadge);box.appendChild(pmCenter);
+    // Contact section
+    var pmContact=document.createElement('div');Object.assign(pmContact.style,{background:'#f2f4f6',borderRadius:'12px',padding:'16px',marginBottom:'16px',textAlign:'right'});
+    function pmContactRow(icon,val){var row=document.createElement('div');Object.assign(row.style,{display:'flex',alignItems:'center',gap:'8px',marginBottom:'10px'});var ico=document.createElement('span');ico.className='material-symbols-outlined';Object.assign(ico.style,{color:'#00647c',fontSize:'18px'});ico.textContent=icon;var txt=document.createElement('span');txt.style.fontSize='14px';txt.textContent=val;row.appendChild(ico);row.appendChild(txt);return row;}
+    pmContact.appendChild(pmContactRow('call',c.phone));pmContact.appendChild(pmContactRow('mail',c.email));box.appendChild(pmContact);
+    // Balance section
+    var pmBal=document.createElement('div');Object.assign(pmBal.style,{textAlign:'center',background:'#e0f5f9',borderRadius:'12px',padding:'12px'});
+    var pmBalLbl=document.createElement('p');Object.assign(pmBalLbl.style,{fontSize:'11px',color:'#6e797e',marginBottom:'4px',fontWeight:'700',textTransform:'uppercase'});pmBalLbl.textContent='الرصيد';
+    var pmBalVal=document.createElement('p');Object.assign(pmBalVal.style,{fontSize:'22px',fontWeight:'900',color:'#00647c'});
+    var pmBalNum=document.createTextNode(c.balance.toLocaleString('ar-EG',{minimumFractionDigits:2}));
+    var pmBalUnit=document.createElement('span');Object.assign(pmBalUnit.style,{fontSize:'12px',fontWeight:'400',color:'#6e797e'});pmBalUnit.textContent=' ج.م';
+    pmBalVal.appendChild(pmBalNum);pmBalVal.appendChild(pmBalUnit);
+    pmBal.appendChild(pmBalLbl);pmBal.appendChild(pmBalVal);box.appendChild(pmBal);
+    if(c.notes && c.notes.length){
+      var nd=document.createElement('div');nd.style.cssText='margin-top:16px;text-align:right';
+      var nl=document.createElement('p');nl.style.cssText='font-size:11px;font-weight:700;color:#6e797e;text-transform:uppercase;margin-bottom:8px';nl.textContent='الملاحظات ('+c.notes.length+')';nd.appendChild(nl);
+      c.notes.slice(-3).reverse().forEach(function(n){var ni=document.createElement('div');ni.style.cssText='background:#fff3cd;padding:8px 12px;border-radius:8px;font-size:12px;color:#191c1e;margin-bottom:6px';ni.textContent=n;nd.appendChild(ni);});
+      box.appendChild(nd);
+    }
+    overlay.appendChild(box);document.body.appendChild(overlay);
+    var cp=document.getElementById('close-profile');if(cp)cp.addEventListener('click',function(){overlay.remove();});
+  }
+
+  // ===================================================
+  // NOTES MODAL
+  // ===================================================
+  function openNotesModal(id) {
+    var c = customers.find(function(x){return x.id===id;});
+    if(!c) return;
+    var old=document.getElementById('notes-modal');if(old)old.remove();
+    var overlay=document.createElement('div');overlay.id='notes-modal';overlay.setAttribute('dir','rtl');
+    Object.assign(overlay.style,{position:'fixed',inset:'0',background:'rgba(25,28,30,.5)',zIndex:'9990',display:'flex',alignItems:'center',justifyContent:'center'});
+    overlay.addEventListener('click',function(e){if(e.target===overlay)overlay.remove();});
+    var box=document.createElement('div');
+    Object.assign(box.style,{background:'#fff',borderRadius:'20px',padding:'28px',width:'420px',maxWidth:'95vw',animation:'modalIn .25s ease'});
+    var heading=document.createElement('h3');Object.assign(heading.style,{fontSize:'17px',fontWeight:'800',color:'#011d35',marginBottom:'6px'});heading.textContent='ملاحظات - '+c.name;
+    var sub=document.createElement('p');Object.assign(sub.style,{fontSize:'12px',color:'#6e797e',marginBottom:'20px'});sub.textContent=c.company;
+    box.appendChild(heading);box.appendChild(sub);
+    var notesList=document.createElement('div');notesList.style.cssText='max-height:160px;overflow-y:auto;margin-bottom:16px';
+    function refreshNotes(){notesList.innerHTML='';if(!c.notes.length){var em=document.createElement('p');em.style.cssText='text-align:center;color:#bdc8ce;font-size:13px;padding:16px';em.textContent='لا توجد ملاحظات مسجلة بعد';notesList.appendChild(em);return;}c.notes.slice().reverse().forEach(function(n){var ni=document.createElement('div');ni.style.cssText='background:#f2f4f6;padding:10px 12px;border-radius:8px;font-size:13px;color:#191c1e;margin-bottom:8px;text-align:right;direction:rtl';ni.textContent=n;notesList.appendChild(ni);});}
+    refreshNotes();
+    box.appendChild(notesList);
+    var ta=document.createElement('textarea');Object.assign(ta.style,{width:'100%',background:'#f2f4f6',border:'1px solid #bdc8ce',borderRadius:'8px',padding:'10px 12px',fontSize:'13px',minHeight:'72px',resize:'vertical',boxSizing:'border-box',direction:'rtl',fontFamily:'inherit'});ta.placeholder='اكتب ملاحظة جديدة...';
+    box.appendChild(ta);
+    var footer=document.createElement('div');Object.assign(footer.style,{display:'flex',gap:'10px',marginTop:'12px'});
+    var addBtn=document.createElement('button');Object.assign(addBtn.style,{flex:'1',background:'#00647c',color:'#fff',border:'none',borderRadius:'8px',padding:'10px',fontSize:'13px',fontWeight:'700',cursor:'pointer'});addBtn.textContent='إضافة الملاحظة';
+    addBtn.addEventListener('click',function(){var txt=ta.value.trim();if(!txt){showToast('يرجى كتابة ملاحظة','error');return;}c.notes.push(txt);ta.value='';refreshNotes();showToast('تم إضافة الملاحظة بنجاح','success');});
+    var closeBtn=document.createElement('button');Object.assign(closeBtn.style,{background:'#e0e3e5',color:'#191c1e',border:'none',borderRadius:'8px',padding:'10px 16px',fontSize:'13px',fontWeight:'600',cursor:'pointer'});closeBtn.textContent='إغلاق';closeBtn.addEventListener('click',function(){overlay.remove();});
+    footer.appendChild(addBtn);footer.appendChild(closeBtn);box.appendChild(footer);
+    overlay.appendChild(box);document.body.appendChild(overlay);
+  }
+
+  // ===================================================
+  // INIT
+  // ===================================================
+  // Find grid and search
+  grid = document.querySelector('.grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3');
+  searchInput = document.querySelector('input[placeholder*="البحث بالاسم"]');
+  if (searchInput) searchInput.addEventListener('input', renderGrid);
+
+  // Add customer button
+  var addBtn = document.querySelector('button span[data-icon="person_add"]');
+  if (addBtn) {
+    var addBtnEl = addBtn.closest('button');
+    if (addBtnEl) addBtnEl.addEventListener('click', function() {
+      buildAddModal();
+      var m = document.getElementById('add-cust-modal');
+      if (m) {
+        m.style.display = 'flex';
+        ['mc-name','mc-company','mc-phone','mc-email'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+        setTimeout(function(){var n=document.getElementById('mc-name');if(n)n.focus();},100);
+      }
+    });
+  }
+
+  renderGrid();
+})();
+
+</script>
+</body></html>

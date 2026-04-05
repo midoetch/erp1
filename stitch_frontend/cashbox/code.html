@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html class="light" dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>الخزنة | المعماري الدقيق</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config={
+  darkMode:"class",
+  theme:{extend:{
+    colors:{
+      "secondary-fixed":"#d1e4ff","surface-container-highest":"#e0e3e5","surface-variant":"#e0e3e5",
+      "on-secondary-container":"#4b637e","error-container":"#ffdad6","surface-dim":"#d8dadc",
+      "on-secondary":"#ffffff","tertiary-container":"#67758b","on-error-container":"#93000a",
+      "surface-container-low":"#f2f4f6","on-background":"#191c1e","on-error":"#ffffff",
+      "secondary":"#49607c","tertiary":"#4f5d71","outline":"#6e797e","surface-tint":"#006780",
+      "on-primary":"#ffffff","on-primary-fixed":"#001f28","on-primary-container":"#fafdff",
+      "secondary-container":"#c7dfff","on-tertiary-fixed":"#0d1c2e","primary":"#00647c",
+      "outline-variant":"#bdc8ce","surface-container-high":"#e6e8ea","on-surface":"#191c1e",
+      "inverse-primary":"#6cd3f7","primary-fixed":"#b7eaff","on-primary-fixed-variant":"#004e61",
+      "error":"#ba1a1a","inverse-surface":"#2d3133","on-tertiary":"#ffffff",
+      "surface":"#f7f9fb","background":"#f7f9fb","surface-container-lowest":"#ffffff",
+      "inverse-on-surface":"#eff1f3","on-surface-variant":"#3e484d",
+      "primary-container":"#007f9d","on-secondary-fixed":"#011d35","surface-container":"#eceef0"
+    },
+    fontFamily:{"headline":["Manrope","IBM Plex Sans Arabic"],"body":["Inter","IBM Plex Sans Arabic"]},
+    borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"}
+  }}
+}
+</script>
+<style>
+body{font-family:'IBM Plex Sans Arabic',sans-serif;}
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.row-anim{animation:fadeIn .15s ease both;}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,16px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes slidePanel{from{transform:translateX(100%)}to{transform:translateX(0)}}
+</style>
+<script src="/sidebar/sidebar.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface">
+
+
+<!-- Top Nav -->
+<header class="fixed top-0 left-0 right-0 h-16 z-40 bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200/20 flex flex-row-reverse justify-between items-center px-6 md:pr-64">
+  <div class="flex items-center gap-4">
+    <span class="text-lg font-black text-[#011d35]">إدارة الموارد ERP</span>
+  </div>
+  <div class="flex items-center gap-3">
+    <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-all text-on-surface-variant relative">
+      <span class="material-symbols-outlined">notifications</span>
+    </button>
+    <div class="w-9 h-9 rounded-full bg-primary-fixed border-2 border-primary/20 flex items-center justify-center font-bold text-primary text-sm">أ</div>
+  </div>
+</header>
+
+<!-- Main -->
+<main class="mr-60 pt-24 min-h-screen bg-surface px-8 pb-8">
+
+  <!-- Page Header -->
+  <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-8">
+    <div class="space-y-1 text-right">
+      <h1 class="text-3xl font-extrabold text-on-surface flex items-center gap-3">
+        <span class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+          <span class="material-symbols-outlined text-emerald-600 text-xl">account_balance_wallet</span>
+        </span>
+        شاشة الخزنة
+      </h1>
+      <p class="text-on-surface-variant text-sm">عرض رصيد الخزنة وجميع الحركات المالية الواردة والصادرة</p>
+    </div>
+    <button id="add-tx-btn" class="bg-primary text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 transition-all active:scale-95">
+      <span class="material-symbols-outlined">add</span>
+      إضافة حركة يدوية
+    </button>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+    <!-- Balance -->
+    <div class="bg-gradient-to-br from-[#011d35] to-[#00647c] rounded-2xl p-6 text-white shadow-xl shadow-primary/20 relative overflow-hidden">
+      <div class="absolute left-0 bottom-0 w-32 h-32 rounded-full bg-white/5 -translate-x-8 translate-y-8"></div>
+      <div class="relative">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
+            <span class="material-symbols-outlined text-sm">savings</span>
+          </span>
+          <p class="text-sm font-medium text-white/80">الرصيد الحالي</p>
+        </div>
+        <p id="kpi-balance" class="text-3xl font-extrabold font-manrope tracking-tight">0.00 ج.م</p>
+        <p class="text-xs text-white/60 mt-1">محدّث تلقائياً</p>
+      </div>
+    </div>
+    <!-- Total In -->
+    <div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 shadow-sm relative overflow-hidden">
+      <div class="absolute left-0 bottom-0 w-24 h-24 rounded-full bg-emerald-50 -translate-x-4 translate-y-4"></div>
+      <div class="relative flex flex-col gap-3">
+        <span class="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center">
+          <span class="material-symbols-outlined text-emerald-600 text-base">trending_up</span>
+        </span>
+        <div>
+          <p class="text-on-surface-variant text-xs font-medium mb-1">إجمالي الداخل</p>
+          <p id="kpi-in" class="text-2xl font-extrabold text-emerald-600 font-manrope">0.00 ج.م</p>
+        </div>
+      </div>
+    </div>
+    <!-- Total Out -->
+    <div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 shadow-sm relative overflow-hidden">
+      <div class="absolute left-0 bottom-0 w-24 h-24 rounded-full bg-red-50 -translate-x-4 translate-y-4"></div>
+      <div class="relative flex flex-col gap-3">
+        <span class="w-9 h-9 rounded-xl bg-red-100 flex items-center justify-center">
+          <span class="material-symbols-outlined text-red-600 text-base">trending_down</span>
+        </span>
+        <div>
+          <p class="text-on-surface-variant text-xs font-medium mb-1">إجمالي الخارج</p>
+          <p id="kpi-out" class="text-2xl font-extrabold text-red-600 font-manrope">0.00 ج.م</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="bg-surface-container-low rounded-2xl p-4 mb-4 flex flex-wrap items-end gap-4 border border-outline-variant/5">
+    <div class="flex-1 min-w-[200px]">
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">بحث</label>
+      <div class="relative">
+        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">search</span>
+        <input id="cb-search" type="text" placeholder="ابحث في البيان أو المصدر..." class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-2.5 pr-9 text-sm focus:ring-2 focus:ring-primary"/>
+      </div>
+    </div>
+    <div class="w-44">
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">نوع الحركة</label>
+      <select id="cb-type-filter" class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-primary">
+        <option value="">الكل</option>
+        <option value="in">داخل (وارد)</option>
+        <option value="out">خارج (صادر)</option>
+      </select>
+    </div>
+    <div class="w-44">
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">المصدر</label>
+      <select id="cb-source-filter" class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-primary">
+        <option value="">كل المصادر</option>
+        <option value="invoice">فواتير المبيعات</option>
+        <option value="po">أوامر الشراء</option>
+        <option value="manual">حركات يدوية</option>
+      </select>
+    </div>
+    <div class="w-40">
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">من تاريخ</label>
+      <input id="cb-date-from" type="date" class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-primary"/>
+    </div>
+    <div class="w-40">
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">إلى تاريخ</label>
+      <input id="cb-date-to" type="date" class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-primary"/>
+    </div>
+    <button id="cb-reset-btn" class="h-10 px-4 rounded-xl border border-outline-variant/20 text-sm text-on-surface-variant hover:bg-surface-container transition-all flex items-center gap-1">
+      <span class="material-symbols-outlined text-base">restart_alt</span> إعادة تعيين
+    </button>
+  </div>
+
+  <!-- Transactions Table -->
+  <div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden border border-outline-variant/10">
+    <table class="w-full text-right border-collapse">
+      <thead>
+        <tr class="bg-surface-container-low border-b border-outline-variant/10">
+          <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">التاريخ</th>
+          <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">البيان</th>
+          <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant">المصدر</th>
+          <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant text-center">النوع</th>
+          <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant text-left">المبلغ</th>
+          <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant text-left">الرصيد التراكمي</th>
+          <th class="px-5 py-3.5 text-xs font-bold text-on-surface-variant text-center">إجراءات</th>
+        </tr>
+      </thead>
+      <tbody id="cb-tbody" class="divide-y divide-outline-variant/5"></tbody>
+    </table>
+    <div class="px-5 py-3 bg-surface-container-low border-t border-outline-variant/10 flex justify-between items-center">
+      <p id="cb-count-label" class="text-xs text-on-surface-variant font-medium"></p>
+      <p class="text-xs text-on-surface-variant">الرصيد يُحسب تصاعدياً من الأقدم إلى الأحدث</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- Add/Edit Transaction Panel -->
+<div id="tx-panel-overlay" class="fixed inset-0 bg-black/40 z-[200] hidden"></div>
+<div id="tx-panel" class="fixed top-0 right-0 h-full w-[420px] max-w-[96vw] bg-white z-[201] flex flex-col shadow-2xl" style="transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)" dir="rtl">
+  <div class="flex items-center justify-between px-6 py-5 bg-[#011d35]">
+    <h2 id="tx-panel-title" class="text-base font-bold text-white flex items-center gap-2">
+      <span class="material-symbols-outlined text-lg">add_circle</span>
+      إضافة حركة يدوية
+    </h2>
+    <button id="tx-panel-close" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 text-white transition-all">
+      <span class="material-symbols-outlined text-lg">close</span>
+    </button>
+  </div>
+  <div class="flex-1 overflow-y-auto px-6 py-6 space-y-5">
+    <!-- Type toggle -->
+    <div>
+      <label class="block text-xs font-bold text-on-surface-variant mb-2">نوع الحركة</label>
+      <div class="flex gap-2">
+        <button id="tx-type-in" onclick="setTxType('in')" class="flex-1 py-2.5 rounded-xl font-bold text-sm border-2 border-emerald-500 bg-emerald-500 text-white transition-all flex items-center justify-center gap-1.5">
+          <span class="material-symbols-outlined text-base">arrow_downward</span> قبض (داخل)
+        </button>
+        <button id="tx-type-out" onclick="setTxType('out')" class="flex-1 py-2.5 rounded-xl font-bold text-sm border-2 border-outline-variant/30 text-on-surface-variant transition-all flex items-center justify-center gap-1.5">
+          <span class="material-symbols-outlined text-base">arrow_upward</span> صرف (خارج)
+        </button>
+      </div>
+    </div>
+    <div>
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">المبلغ (ج.م)</label>
+      <input id="tx-amount" type="number" min="0" step="0.01" placeholder="0.00" class="w-full bg-surface-container-low border border-outline-variant/20 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-primary outline-none transition-all text-left" dir="ltr"/>
+    </div>
+    <div>
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">البيان / الوصف</label>
+      <input id="tx-desc" type="text" placeholder="وصف الحركة المالية..." class="w-full bg-surface-container-low border border-outline-variant/20 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-primary outline-none transition-all"/>
+    </div>
+    <div>
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">التاريخ</label>
+      <input id="tx-date" type="date" class="w-full bg-surface-container-low border border-outline-variant/20 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-primary outline-none transition-all"/>
+    </div>
+    <div>
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">المرجع / ملاحظة</label>
+      <input id="tx-ref" type="text" placeholder="رقم مرجعي أو ملاحظة..." class="w-full bg-surface-container-low border border-outline-variant/20 rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-primary outline-none transition-all"/>
+    </div>
+  </div>
+  <div class="px-6 py-4 border-t border-outline-variant/10 flex gap-3 bg-surface-container-low">
+    <button id="tx-save-btn" class="flex-1 bg-primary text-white rounded-xl py-3 font-bold text-sm hover:opacity-90 active:scale-95 transition-all">حفظ الحركة</button>
+    <button id="tx-cancel-btn" class="px-5 bg-surface-container rounded-xl py-3 font-bold text-sm text-on-surface-variant hover:bg-surface-container-high transition-all">إلغاء</button>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+// ── Sidebar group toggle ──────────────────────────────────────
+  else{sub.classList.remove('hidden');ch.style.transform='rotate(180deg)';el.classList.add('bg-[#007f9d]','text-white');el.classList.remove('text-slate-300','hover:text-white','hover:bg-[#1a3a54]');}
+}
+document.querySelectorAll('.sidebar-parent').forEach(function(el){el.addEventListener('click',function(){toggleGroup(el);});});
+
+// ── Page transitions ──────────────────────────────────────────
+var style=document.createElement('style');style.textContent='body{transition:opacity .15s ease;}body.fade-out{opacity:0;}';document.head.appendChild(style);
+document.addEventListener('click',function(e){
+  var link=e.target.closest('a[href]');
+  if(link&&link.href&&!link.href.startsWith('javascript')&&!link.href.includes('#')&&!link.target&&link.hostname===window.location.hostname){
+    e.preventDefault();document.body.classList.add('fade-out');setTimeout(function(){window.location.href=link.href;},140);
+  }
+});
+
+// ── Toast ─────────────────────────────────────────────────────
+function showToast(msg,type){
+  var old=document.getElementById('erp-toast');if(old)old.remove();
+  var pal={success:{bg:'#16a34a',ic:'check_circle'},warning:{bg:'#ca8a04',ic:'warning'},error:{bg:'#ba1a1a',ic:'cancel'},info:{bg:'#0369a1',ic:'info'}};
+  var p=pal[type]||pal.info;
+  var s=document.getElementById('_tst');if(!s){s=document.createElement('style');s.id='_tst';s.textContent='@keyframes toastIn{from{opacity:0;transform:translate(-50%,16px)}to{opacity:1;transform:translate(-50%,0)}}';document.head.appendChild(s);}
+  var t=document.createElement('div');t.id='erp-toast';t.setAttribute('dir','rtl');
+  Object.assign(t.style,{position:'fixed',bottom:'28px',left:'50%',transform:'translateX(-50%)',background:p.bg,color:'#fff',borderRadius:'12px',padding:'13px 20px',boxShadow:'0 8px 24px rgba(0,0,0,.18)',zIndex:'99999',display:'flex',alignItems:'center',gap:'10px',fontSize:'14px',fontWeight:'600',minWidth:'260px',animation:'toastIn .25s ease forwards',whiteSpace:'nowrap'});
+  var ic=document.createElement('span');ic.className='material-symbols-outlined';ic.style.fontSize='18px';ic.textContent=p.ic;
+  var tx=document.createElement('span');tx.textContent=msg;
+  t.appendChild(ic);t.appendChild(tx);document.body.appendChild(t);
+  setTimeout(function(){t.style.transition='opacity .25s';t.style.opacity='0';setTimeout(function(){t.remove();},260);},3000);
+}
+
+// ── Formatting ────────────────────────────────────────────────
+function fmt(n){return Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+
+// ── Data loading ──────────────────────────────────────────────
+function loadInvoices(){
+  try{var d=JSON.parse(localStorage.getItem('erp_invoices')||'[]');return Array.isArray(d)?d:[];}catch(e){return[];}
+}
+function loadPOs(){
+  try{var d=JSON.parse(localStorage.getItem('erp_purchase_orders')||'[]');return Array.isArray(d)?d:[];}catch(e){return[];}
+}
+
+// Manual cashbox transactions
+var manualTx=[];var manualNextId=1;
+(function(){
+  var saved=null;try{saved=JSON.parse(localStorage.getItem('erp_cashbox_manual')||'null');}catch(e){}
+  if(saved&&Array.isArray(saved.items)){manualTx=saved.items;manualNextId=saved.nextId||1;}
+}());
+function saveManual(){
+  try{localStorage.setItem('erp_cashbox_manual',JSON.stringify({items:manualTx,nextId:manualNextId}));}catch(e){}
+}
+
+// ── Build combined transaction list ───────────────────────────
+function buildTransactions(){
+  var txs=[];
+  // Sales invoices → each paid amount is INCOME
+  loadInvoices().forEach(function(inv){
+    var paid=Number(inv.paid||0);
+    if(paid>0){
+      txs.push({
+        id:'inv-'+inv.id,
+        type:'in',
+        source:'invoice',
+        sourceLabel:'فاتورة مبيعات',
+        ref:inv.number||inv.id,
+        desc:'قبض فاتورة '+(inv.customer||'')+(inv.number?' #'+inv.number:''),
+        amount:paid,
+        date:inv.dateRaw||inv.date||'',
+        sortDate:inv.dateRaw||inv.date||'0000-00-00',
+        canDelete:false
+      });
+    }
+  });
+  // Purchase orders → each paid amount is OUTGOING
+  loadPOs().forEach(function(po){
+    var paid=Number(po.paid||0);
+    if(paid>0){
+      txs.push({
+        id:'po-'+po.id,
+        type:'out',
+        source:'po',
+        sourceLabel:'أمر شراء',
+        ref:po.number||po.id,
+        desc:'صرف أمر شراء '+(po.supplier||'')+(po.number?' #'+po.number:''),
+        amount:paid,
+        date:po.dateRaw||po.date||'',
+        sortDate:po.dateRaw||po.date||'0000-00-00',
+        canDelete:false
+      });
+    }
+  });
+  // Manual entries
+  manualTx.forEach(function(m){
+    txs.push({
+      id:'manual-'+m.id,
+      type:m.type,
+      source:'manual',
+      sourceLabel:m.type==='in'?'قبض يدوي':'صرف يدوي',
+      ref:m.ref||'',
+      desc:m.desc||'',
+      amount:Number(m.amount||0),
+      date:m.date||'',
+      sortDate:m.date||'0000-00-00',
+      canDelete:true,
+      manualId:m.id
+    });
+  });
+  // Sort oldest → newest for balance calculation
+  txs.sort(function(a,b){return a.sortDate.localeCompare(b.sortDate)||0;});
+  // Compute running balance
+  var running=0;
+  txs.forEach(function(t){
+    if(t.type==='in') running+=t.amount; else running-=t.amount;
+    t.runningBalance=running;
+  });
+  return txs;
+}
+
+// ── KPIs ──────────────────────────────────────────────────────
+function updateKPIs(txs){
+  var totalIn=0,totalOut=0;
+  txs.forEach(function(t){if(t.type==='in')totalIn+=t.amount;else totalOut+=t.amount;});
+  var balance=totalIn-totalOut;
+  var kpiBalance=document.getElementById('kpi-balance');
+  var kpiIn=document.getElementById('kpi-in');
+  var kpiOut=document.getElementById('kpi-out');
+  if(kpiBalance)kpiBalance.textContent=fmt(balance)+' ج.م';
+  if(kpiIn)kpiIn.textContent=fmt(totalIn)+' ج.م';
+  if(kpiOut)kpiOut.textContent=fmt(totalOut)+' ج.م';
+}
+
+// ── Filter & Render ───────────────────────────────────────────
+function applyFilters(txs){
+  var search=((document.getElementById('cb-search')||{}).value||'').trim();
+  var typeF=((document.getElementById('cb-type-filter')||{}).value||'');
+  var sourceF=((document.getElementById('cb-source-filter')||{}).value||'');
+  var dateFrom=((document.getElementById('cb-date-from')||{}).value||'');
+  var dateTo=((document.getElementById('cb-date-to')||{}).value||'');
+  return txs.filter(function(t){
+    if(search&&!(t.desc.includes(search)||t.ref.includes(search)||(t.sourceLabel||'').includes(search)))return false;
+    if(typeF&&t.type!==typeF)return false;
+    if(sourceF&&t.source!==sourceF)return false;
+    if(dateFrom&&t.sortDate&&t.sortDate<dateFrom)return false;
+    if(dateTo&&t.sortDate&&t.sortDate>dateTo)return false;
+    return true;
+  });
+}
+
+function render(){
+  var allTxs=buildTransactions();
+  updateKPIs(allTxs);
+  var filtered=applyFilters(allTxs);
+  // Show newest first in table
+  var display=filtered.slice().reverse();
+  var tbody=document.getElementById('cb-tbody');
+  if(!tbody)return;
+  tbody.innerHTML='';
+  var lbl=document.getElementById('cb-count-label');
+  if(lbl)lbl.textContent='عرض '+filtered.length+' من '+allTxs.length+' حركة';
+  if(!display.length){
+    var tr=document.createElement('tr');var td=document.createElement('td');td.colSpan=7;
+    Object.assign(td.style,{textAlign:'center',padding:'52px',color:'#6e797e',fontSize:'14px'});
+    var ico=document.createElement('div');ico.innerHTML='<span class="material-symbols-outlined" style="font-size:40px;color:#bdc8ce;display:block;text-align:center;margin-bottom:8px">account_balance_wallet</span><div>لا توجد حركات مالية مطابقة</div>';
+    td.appendChild(ico);tr.appendChild(td);tbody.appendChild(tr);return;
+  }
+  display.forEach(function(t,idx){
+    var isIn=t.type==='in';
+    var tr=document.createElement('tr');tr.className='row-anim hover:bg-surface-container-low transition-colors group';tr.style.animationDelay=(idx*0.03)+'s';
+    // Date
+    var t1=document.createElement('td');t1.className='px-5 py-3.5 text-sm text-on-surface-variant whitespace-nowrap';t1.textContent=t.date||'—';tr.appendChild(t1);
+    // Description
+    var t2=document.createElement('td');t2.className='px-5 py-3.5';
+    var d2=document.createElement('div');d2.className='flex flex-col';
+    var n2=document.createElement('span');n2.className='text-sm font-semibold text-on-surface';n2.textContent=t.desc||'—';
+    var s2=document.createElement('span');s2.className='text-[10px] text-on-surface-variant mt-0.5';
+    if(t.ref)s2.textContent='مرجع: '+t.ref;
+    d2.appendChild(n2);if(t.ref)d2.appendChild(s2);t2.appendChild(d2);tr.appendChild(t2);
+    // Source
+    var t3=document.createElement('td');t3.className='px-5 py-3.5';
+    var sb=document.createElement('span');
+    var srcColors={invoice:'bg-blue-100 text-blue-700',po:'bg-purple-100 text-purple-700',manual:'bg-slate-100 text-slate-600'};
+    sb.className='px-2.5 py-1 rounded-full text-[10px] font-bold '+(srcColors[t.source]||'bg-slate-100 text-slate-600');
+    sb.textContent=t.sourceLabel||t.source;t3.appendChild(sb);tr.appendChild(t3);
+    // Type badge
+    var t4=document.createElement('td');t4.className='px-5 py-3.5 text-center';
+    var tb=document.createElement('span');
+    tb.className='inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold '+(isIn?'bg-emerald-100 text-emerald-700':'bg-red-100 text-red-700');
+    var ti=document.createElement('span');ti.className='material-symbols-outlined';ti.style.fontSize='13px';ti.textContent=isIn?'arrow_downward':'arrow_upward';
+    tb.appendChild(ti);tb.appendChild(document.createTextNode(isIn?'داخل':'خارج'));t4.appendChild(tb);tr.appendChild(t4);
+    // Amount
+    var t5=document.createElement('td');t5.className='px-5 py-3.5 text-left';
+    var am=document.createElement('span');am.className='font-extrabold text-sm '+(isIn?'text-emerald-600':'text-red-600');
+    am.textContent=(isIn?'+ ':' − ')+fmt(t.amount)+' ج.م';t5.appendChild(am);tr.appendChild(t5);
+    // Running balance
+    var t6=document.createElement('td');t6.className='px-5 py-3.5 text-left';
+    var rb=document.createElement('span');rb.className='font-bold text-sm text-on-surface';rb.textContent=fmt(t.runningBalance)+' ج.م';t6.appendChild(rb);tr.appendChild(t6);
+    // Actions
+    var t7=document.createElement('td');t7.className='px-5 py-3.5 text-center';
+    if(t.canDelete){
+      var aw=document.createElement('div');aw.className='flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity';
+      var eb=document.createElement('button');eb.className='w-8 h-8 flex items-center justify-center rounded-lg hover:bg-primary/10 text-primary transition-colors';
+      var ei=document.createElement('span');ei.className='material-symbols-outlined text-base';ei.textContent='edit';eb.appendChild(ei);
+      eb.addEventListener('click',function(e){e.stopPropagation();openPanel(t.manualId);});
+      var db=document.createElement('button');db.className='w-8 h-8 flex items-center justify-center rounded-lg hover:bg-error/10 text-error transition-colors';
+      var di2=document.createElement('span');di2.className='material-symbols-outlined text-base';di2.textContent='delete';db.appendChild(di2);
+      db.addEventListener('click',function(e){
+        e.stopPropagation();aw.innerHTML='';
+        var cm=document.createElement('span');cm.style.cssText='font-size:11px;color:#6e797e;white-space:nowrap;';cm.textContent='تأكيد الحذف؟';
+        var yb=document.createElement('button');yb.className='px-2 py-1 bg-error text-white rounded text-xs font-bold';yb.textContent='حذف';
+        yb.addEventListener('click',function(ev){ev.stopPropagation();manualTx=manualTx.filter(function(x){return x.id!==t.manualId;});saveManual();render();showToast('تم حذف الحركة','success');});
+        var nb=document.createElement('button');nb.className='px-2 py-1 bg-surface-container text-on-surface rounded text-xs font-bold';nb.textContent='إلغاء';
+        nb.addEventListener('click',function(ev){ev.stopPropagation();render();});
+        aw.appendChild(cm);aw.appendChild(yb);aw.appendChild(nb);aw.style.opacity='1';
+      });
+      aw.appendChild(eb);aw.appendChild(db);t7.appendChild(aw);
+    } else {
+      var na=document.createElement('span');na.className='text-[10px] text-on-surface-variant';na.textContent='تلقائي';t7.appendChild(na);
+    }
+    tr.appendChild(t7);
+    tbody.appendChild(tr);
+  });
+}
+
+// ── Filters wiring ────────────────────────────────────────────
+['cb-search','cb-type-filter','cb-source-filter','cb-date-from','cb-date-to'].forEach(function(id){
+  var el=document.getElementById(id);if(!el)return;
+  el.addEventListener(el.tagName==='INPUT'?'input':'change',render);
+});
+document.getElementById('cb-reset-btn').addEventListener('click',function(){
+  ['cb-search','cb-date-from','cb-date-to'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  ['cb-type-filter','cb-source-filter'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  render();
+});
+
+// ── Panel ─────────────────────────────────────────────────────
+var editingManualId=null;
+var currentTxType='in';
+
+window.setTxType=function(type){
+  currentTxType=type;
+  var btnIn=document.getElementById('tx-type-in');
+  var btnOut=document.getElementById('tx-type-out');
+  if(type==='in'){
+    btnIn.className='flex-1 py-2.5 rounded-xl font-bold text-sm border-2 border-emerald-500 bg-emerald-500 text-white transition-all flex items-center justify-center gap-1.5';
+    btnOut.className='flex-1 py-2.5 rounded-xl font-bold text-sm border-2 border-outline-variant/30 text-on-surface-variant transition-all flex items-center justify-center gap-1.5';
+  } else {
+    btnOut.className='flex-1 py-2.5 rounded-xl font-bold text-sm border-2 border-red-500 bg-red-500 text-white transition-all flex items-center justify-center gap-1.5';
+    btnIn.className='flex-1 py-2.5 rounded-xl font-bold text-sm border-2 border-outline-variant/30 text-on-surface-variant transition-all flex items-center justify-center gap-1.5';
+  }
+};
+
+function openPanel(manualId){
+  editingManualId=manualId||null;
+  var title=document.getElementById('tx-panel-title');
+  if(title)title.innerHTML='<span class="material-symbols-outlined text-lg">'+(manualId?'edit':'add_circle')+'</span>'+(manualId?'تعديل الحركة':'إضافة حركة يدوية');
+  document.getElementById('tx-amount').value='';
+  document.getElementById('tx-desc').value='';
+  document.getElementById('tx-ref').value='';
+  document.getElementById('tx-date').value=new Date().toISOString().slice(0,10);
+  setTxType('in');
+  if(manualId){
+    var existing=manualTx.find(function(x){return x.id===manualId;});
+    if(existing){
+      setTxType(existing.type||'in');
+      document.getElementById('tx-amount').value=existing.amount||'';
+      document.getElementById('tx-desc').value=existing.desc||'';
+      document.getElementById('tx-ref').value=existing.ref||'';
+      document.getElementById('tx-date').value=existing.date||new Date().toISOString().slice(0,10);
+    }
+  }
+  var ov=document.getElementById('tx-panel-overlay');
+  var pn=document.getElementById('tx-panel');
+  if(ov)ov.classList.remove('hidden');
+  if(pn)pn.style.transform='translateX(0)';
+  document.body.style.overflow='hidden';
+  setTimeout(function(){var el=document.getElementById('tx-amount');if(el)el.focus();},100);
+}
+
+function closePanel(){
+  var ov=document.getElementById('tx-panel-overlay');
+  var pn=document.getElementById('tx-panel');
+  if(ov)ov.classList.add('hidden');
+  if(pn)pn.style.transform='translateX(100%)';
+  document.body.style.overflow='';
+  editingManualId=null;
+}
+
+function saveTransaction(){
+  var amount=parseFloat(document.getElementById('tx-amount').value||'0')||0;
+  var desc=(document.getElementById('tx-desc').value||'').trim();
+  var ref=(document.getElementById('tx-ref').value||'').trim();
+  var date=(document.getElementById('tx-date').value||'').trim();
+  if(!amount||amount<=0){showToast('يرجى إدخال مبلغ صحيح','error');return;}
+  if(!desc){showToast('يرجى إدخال وصف للحركة','error');return;}
+  if(editingManualId){
+    var idx=manualTx.findIndex(function(x){return x.id===editingManualId;});
+    if(idx>-1){Object.assign(manualTx[idx],{type:currentTxType,amount:amount,desc:desc,ref:ref,date:date});showToast('تم تحديث الحركة بنجاح','success');}
+  } else {
+    manualTx.push({id:manualNextId++,type:currentTxType,amount:amount,desc:desc,ref:ref,date:date});
+    showToast((currentTxType==='in'?'تم تسجيل القبض بنجاح':'تم تسجيل الصرف بنجاح'),'success');
+  }
+  saveManual();closePanel();render();
+}
+
+document.getElementById('add-tx-btn').addEventListener('click',function(){openPanel(null);});
+document.getElementById('tx-panel-close').addEventListener('click',closePanel);
+document.getElementById('tx-cancel-btn').addEventListener('click',closePanel);
+document.getElementById('tx-save-btn').addEventListener('click',saveTransaction);
+document.getElementById('tx-panel-overlay').addEventListener('click',closePanel);
+
+// ── Init ──────────────────────────────────────────────────────
+render();
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html class="light" dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>قائمة الفواتير | المعماري الدقيق</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode:"class",
+  theme:{ extend:{
+    colors:{
+      "secondary-fixed":"#d1e4ff","surface-container-highest":"#e0e3e5","surface-variant":"#e0e3e5",
+      "on-secondary-container":"#4b637e","error-container":"#ffdad6","surface-dim":"#d8dadc",
+      "on-secondary":"#ffffff","tertiary-container":"#67758b","on-error-container":"#93000a",
+      "surface-container-low":"#f2f4f6","on-background":"#191c1e","on-error":"#ffffff",
+      "secondary":"#49607c","tertiary":"#4f5d71","outline":"#6e797e","surface-tint":"#006780",
+      "on-primary":"#ffffff","on-primary-fixed":"#001f28","on-primary-container":"#fafdff",
+      "secondary-container":"#c7dfff","on-tertiary-fixed":"#0d1c2e","primary":"#00647c",
+      "outline-variant":"#bdc8ce","surface-container-high":"#e6e8ea","on-surface":"#191c1e",
+      "inverse-primary":"#6cd3f7","primary-fixed":"#b7eaff","on-primary-fixed-variant":"#004e61",
+      "error":"#ba1a1a","inverse-surface":"#2d3133","on-tertiary":"#ffffff",
+      "surface":"#f7f9fb","background":"#f7f9fb","surface-container-lowest":"#ffffff",
+      "inverse-on-surface":"#eff1f3","on-surface-variant":"#3e484d",
+      "primary-container":"#007f9d","on-secondary-fixed":"#011d35","surface-container":"#eceef0"
+    },
+    fontFamily:{"headline":["Manrope","IBM Plex Sans Arabic"],"body":["Inter","IBM Plex Sans Arabic"]},
+    borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"}
+  }}
+}
+</script>
+<style>
+body{font-family:'IBM Plex Sans Arabic',sans-serif;}
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideInPanel{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+.row-anim{animation:fadeIn .18s ease both;}
+#edit-panel{transition:transform .3s cubic-bezier(.4,0,.2,1);}
+#edit-panel.open{transform:translateX(0)!important;}
+</style>
+</head>
+<body class="bg-surface text-on-surface">
+
+<!-- Sidebar -->
+<aside class="fixed right-0 top-0 h-full w-60 bg-[#011d35] shadow-2xl z-50 flex flex-col" id="sidebar" dir="rtl">
+  <div class="px-4 py-5 flex items-center gap-3 cursor-pointer" onclick="window.location.href='/'">
+    <div class="w-9 h-9 bg-[#007f9d] rounded-lg flex items-center justify-center flex-shrink-0">
+      <span class="material-symbols-outlined text-white text-lg">architecture</span>
+    </div>
+    <div>
+      <div class="text-white font-bold text-sm leading-tight">المعماري الدقيق</div>
+      <div class="text-slate-400 text-[10px]">ID: 987654</div>
+    </div>
+  </div>
+  <nav class="flex-1 overflow-y-auto px-3 py-2 space-y-1">
+    <a href="/dashboard_updated/code.html" data-page="dashboard" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150">
+      <span class="material-symbols-outlined text-xl flex-shrink-0">dashboard</span>
+      <span class="text-sm font-medium">لوحة التحكم</span>
+    </a>
+    <div class="sidebar-group" data-group="sales">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all duration-150 cursor-pointer select-none" data-page="sales" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">receipt_long</span>
+        <span class="text-sm font-medium flex-1">المبيعات</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform duration-200">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/customer_management_updated/code.html" data-page="customer" class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">العملاء</a>
+        <a href="/invoices_list/code.html" data-page="invoices-list" class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">قائمة الفواتير</a>
+        <a href="/create_invoice_updated/code.html" data-page="invoice" class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all duration-150">إنشاء فاتورة جديدة</a>
+      </div>
+    </div>
+    <div class="sidebar-group" data-group="products">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all cursor-pointer select-none" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">inventory_2</span>
+        <span class="text-sm font-medium flex-1">المنتجات والخدمات</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/products_inventory_updated/code.html" class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all">قائمة المنتجات</a>
+        <a href="/products_inventory_updated/code.html?tab=inventory" class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all">إدارة المخزون</a>
+        <a href="/products_inventory_updated/code.html?tab=catunits" class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all">التصنيفات والوحدات</a>
+      </div>
+    </div>
+    <div class="sidebar-group" data-group="analytics">
+      <div class="sidebar-parent flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all cursor-pointer select-none" onclick="toggleGroup(this)">
+        <span class="material-symbols-outlined text-xl flex-shrink-0">analytics</span>
+        <span class="text-sm font-medium flex-1">التقارير التحليلية</span>
+        <span class="material-symbols-outlined text-sm chevron transition-transform">expand_more</span>
+      </div>
+      <div class="sidebar-sub hidden pr-9 mt-1 space-y-0.5">
+        <a href="/analytics_reports_updated/code.html" class="sidebar-sub-item block px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#1a3a54] text-sm transition-all">تقارير المبيعات</a>
+      </div>
+    </div>
+  </nav>
+  <div class="px-3 pb-4 space-y-1 border-t border-slate-700/50 pt-3">
+    <a href="/settings_updated_with_logo_currency/code.html" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#1a3a54] transition-all">
+      <span class="material-symbols-outlined text-xl flex-shrink-0">settings</span>
+      <span class="text-sm">الإعدادات</span>
+    </a>
+    <a href="/" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all">
+      <span class="material-symbols-outlined text-xl flex-shrink-0">logout</span>
+      <span class="text-sm">تسجيل الخروج</span>
+    </a>
+  </div>
+</aside>
+
+<!-- Top Nav -->
+<header class="fixed top-0 left-0 right-0 h-16 z-40 bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200/20 flex flex-row-reverse justify-between items-center px-6 md:pr-64">
+  <div class="flex items-center gap-4">
+    <span class="text-lg font-black text-[#011d35]">إدارة الموارد ERP</span>
+  </div>
+  <div class="flex-1 max-w-md px-8">
+    <div class="relative">
+      <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+      <input id="inv-search" class="w-full bg-surface-container-low border-none rounded-xl py-2 pr-10 pl-4 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition-all" placeholder="بحث برقم الفاتورة أو اسم العميل..." type="text"/>
+    </div>
+  </div>
+  <div class="flex items-center gap-3">
+    <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-all text-on-surface-variant relative">
+      <span class="material-symbols-outlined">notifications</span>
+    </button>
+    <div class="w-9 h-9 rounded-full bg-primary-fixed border-2 border-primary/20 flex items-center justify-center font-bold text-primary text-sm">أ</div>
+  </div>
+</header>
+
+<!-- Edit Panel (slide in from left) -->
+<div id="edit-panel" class="fixed top-0 left-0 h-full w-96 bg-surface-container-lowest shadow-2xl z-[200] flex flex-col border-r border-outline-variant/20" style="transform:translateX(-100%)" dir="rtl">
+  <div class="flex items-center justify-between px-6 py-5 border-b border-outline-variant/10 bg-surface-container-low">
+    <h2 class="text-base font-extrabold text-on-surface flex items-center gap-2">
+      <span class="material-symbols-outlined text-primary">edit_note</span>
+      تعديل الفاتورة
+    </h2>
+    <button id="edit-panel-close" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container transition-all text-on-surface-variant">
+      <span class="material-symbols-outlined text-lg">close</span>
+    </button>
+  </div>
+  <div class="flex-1 overflow-y-auto px-6 py-6 space-y-5">
+    <div>
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">رقم الفاتورة</label>
+      <input id="ep-number" type="text" readonly class="w-full bg-surface-container rounded-xl px-4 py-3 text-sm text-on-surface-variant border border-outline-variant/20 outline-none cursor-not-allowed"/>
+    </div>
+    <div>
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">اسم العميل</label>
+      <input id="ep-client" type="text" class="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm text-on-surface border border-outline-variant/20 outline-none focus:ring-2 focus:ring-primary/30 transition-all"/>
+    </div>
+    <div>
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">البريد الإلكتروني</label>
+      <input id="ep-email" type="email" class="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm text-on-surface border border-outline-variant/20 outline-none focus:ring-2 focus:ring-primary/30 transition-all" placeholder="example@domain.com"/>
+    </div>
+    <div>
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">تاريخ الإصدار</label>
+      <input id="ep-date" type="text" class="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm text-on-surface border border-outline-variant/20 outline-none focus:ring-2 focus:ring-primary/30 transition-all"/>
+    </div>
+    <div>
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">إجمالي المبلغ (ج.م)</label>
+      <input id="ep-amount" type="number" min="0" step="0.01" class="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm text-on-surface border border-outline-variant/20 outline-none focus:ring-2 focus:ring-primary/30 transition-all"/>
+    </div>
+    <div>
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">حالة السداد</label>
+      <select id="ep-status" class="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm text-on-surface border border-outline-variant/20 outline-none focus:ring-2 focus:ring-primary/30 transition-all appearance-none">
+        <option>مدفوعة</option>
+        <option>مدفوعة جزئياً</option>
+        <option>قيد الانتظار</option>
+        <option>متأخرة</option>
+        <option>مسودة</option>
+      </select>
+    </div>
+    <div>
+      <label class="block text-xs font-bold text-on-surface-variant mb-1.5">ملاحظات</label>
+      <textarea id="ep-notes" rows="3" class="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm text-on-surface border border-outline-variant/20 outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none" placeholder="أي ملاحظات إضافية..."></textarea>
+    </div>
+  </div>
+  <div class="px-6 py-4 border-t border-outline-variant/10 flex gap-3">
+    <button id="ep-save" class="flex-1 bg-primary text-white rounded-xl py-3 font-bold text-sm hover:bg-primary/90 transition-all active:scale-95">حفظ التعديلات</button>
+    <button id="ep-cancel" class="px-5 bg-surface-container rounded-xl py-3 font-bold text-sm text-on-surface-variant hover:bg-surface-container-high transition-all">إلغاء</button>
+  </div>
+</div>
+<!-- Panel overlay -->
+<div id="edit-overlay" class="fixed inset-0 bg-black/20 z-[199] hidden" id="edit-overlay"></div>
+
+<!-- Main -->
+<main class="mr-60 pt-16 min-h-screen bg-surface p-8">
+
+  <!-- Page Header -->
+  <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-8">
+    <div class="space-y-2 text-right">
+      <nav class="flex items-center justify-end gap-2 text-sm text-on-surface-variant">
+        <a href="/dashboard_updated/code.html" class="hover:text-primary">الرئيسية</a>
+        <span class="material-symbols-outlined text-xs">chevron_left</span>
+        <span class="text-primary font-bold">قائمة الفواتير</span>
+      </nav>
+      <h1 class="text-3xl font-extrabold text-on-surface tracking-tight">الفواتير الضريبية</h1>
+      <p class="text-on-surface-variant">عرض، تعديل، طباعة وحذف فواتير المبيعات</p>
+    </div>
+    <a href="/create_invoice_updated/code.html" class="bg-primary text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all no-underline">
+      <span class="material-symbols-outlined text-lg">add</span>
+      إنشاء فاتورة جديدة
+    </a>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+    <div class="bg-surface-container-lowest rounded-2xl p-5 shadow-sm border border-outline-variant/10 text-right">
+      <p class="text-xs font-bold text-on-surface-variant mb-2">إجمالي الفواتير</p>
+      <p id="kpi-total" class="text-2xl font-black text-on-surface">0</p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-2xl p-5 shadow-sm border border-green-200/40 text-right">
+      <p class="text-xs font-bold text-on-surface-variant mb-2">مدفوعة بالكامل</p>
+      <p id="kpi-paid" class="text-2xl font-black text-green-600">0</p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-2xl p-5 shadow-sm border border-amber-200/40 text-right">
+      <p class="text-xs font-bold text-on-surface-variant mb-2">مدفوعة جزئياً</p>
+      <p id="kpi-partial" class="text-2xl font-black text-amber-600">0</p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-2xl p-5 shadow-sm border border-red-200/40 text-right">
+      <p class="text-xs font-bold text-on-surface-variant mb-2">متأخرة</p>
+      <p id="kpi-late" class="text-2xl font-black text-error">0</p>
+    </div>
+  </div>
+
+  <!-- Status Tabs -->
+  <div id="status-tabs" class="flex flex-wrap items-center gap-2 mb-6">
+    <button data-status="" class="status-tab-btn px-4 py-2 rounded-xl text-sm font-bold transition-all bg-primary text-white shadow-sm">الكل</button>
+    <button data-status="مدفوعة" class="status-tab-btn px-4 py-2 rounded-xl text-sm font-bold transition-all bg-surface-container-lowest border border-outline-variant/20 text-on-surface-variant hover:bg-green-50">مدفوعة</button>
+    <button data-status="مدفوعة جزئياً" class="status-tab-btn px-4 py-2 rounded-xl text-sm font-bold transition-all bg-surface-container-lowest border border-outline-variant/20 text-on-surface-variant hover:bg-amber-50">مدفوعة جزئياً</button>
+    <button data-status="قيد الانتظار" class="status-tab-btn px-4 py-2 rounded-xl text-sm font-bold transition-all bg-surface-container-lowest border border-outline-variant/20 text-on-surface-variant hover:bg-blue-50">قيد الانتظار</button>
+    <button data-status="متأخرة" class="status-tab-btn px-4 py-2 rounded-xl text-sm font-bold transition-all bg-surface-container-lowest border border-outline-variant/20 text-on-surface-variant hover:bg-red-50">متأخرة</button>
+    <button data-status="مسودة" class="status-tab-btn px-4 py-2 rounded-xl text-sm font-bold transition-all bg-surface-container-lowest border border-outline-variant/20 text-on-surface-variant hover:bg-surface-container">مسودة</button>
+  </div>
+
+  <!-- Table -->
+  <div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden border border-outline-variant/10">
+    <table class="w-full text-right border-collapse">
+      <thead>
+        <tr class="bg-surface-container-low border-b border-outline-variant/10">
+          <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">رقم الفاتورة</th>
+          <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">العميل</th>
+          <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">تاريخ الإصدار</th>
+          <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">إجمالي المبلغ</th>
+          <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">الحالة</th>
+          <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-center">إجراءات</th>
+        </tr>
+      </thead>
+      <tbody id="invoices-tbody" class="divide-y divide-outline-variant/5"></tbody>
+    </table>
+    <div id="empty-msg" class="hidden py-16 text-center text-on-surface-variant text-sm">لا توجد فواتير مطابقة</div>
+  </div>
+
+</main>
+
+<!-- Sidebar nav init -->
+<script>
+function toggleGroup(el) {
+  var sub = el.nextElementSibling;
+  var chevron = el.querySelector('.chevron');
+  var isOpen = !sub.classList.contains('hidden');
+  if (isOpen) {
+    sub.classList.add('hidden'); chevron.style.transform = '';
+    el.classList.remove('bg-[#007f9d]','text-white'); el.classList.add('text-slate-300');
+  } else {
+    sub.classList.remove('hidden'); chevron.style.transform = 'rotate(180deg)';
+    el.classList.add('bg-[#007f9d]','text-white'); el.classList.remove('text-slate-300');
+  }
+}
+(function() {
+  var groupEl = document.querySelector('[data-group="sales"]');
+  if (groupEl) {
+    var parent = groupEl.querySelector('.sidebar-parent');
+    var sub = groupEl.querySelector('.sidebar-sub');
+    var chevron = groupEl.querySelector('.chevron');
+    sub.classList.remove('hidden'); chevron.style.transform = 'rotate(180deg)';
+    parent.classList.add('bg-[#007f9d]','text-white'); parent.classList.remove('text-slate-300');
+    var activeItem = sub.querySelector('[data-page="invoices-list"]');
+    if (activeItem) { activeItem.classList.add('text-white','font-semibold','border-r-2','border-[#00c4e8]','bg-[#1a3a54]'); activeItem.classList.remove('text-slate-400'); }
+  }
+  var style = document.createElement('style');
+  style.textContent = 'body{transition:opacity .15s ease;}body.fade-out{opacity:0;}';
+  document.head.appendChild(style);
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href]');
+    if (link && link.href && !link.href.includes('#') && !link.target && link.hostname === window.location.hostname) {
+      e.preventDefault(); document.body.classList.add('fade-out');
+      setTimeout(function() { window.location.href = link.href; }, 140);
+    }
+  });
+})();
+</script>
+
+<script id="invoices-fx">
+(function () {
+
+  /* ── STATUS CONFIG ─────────────────────────────── */
+  var SC = {
+    'مدفوعة':        { cls:'bg-green-100 text-green-700',          dot:'#16a34a' },
+    'مدفوعة جزئياً': { cls:'bg-amber-100 text-amber-700',          dot:'#d97706' },
+    'قيد الانتظار':  { cls:'bg-secondary-container text-on-secondary-container', dot:'#49607c' },
+    'متأخرة':        { cls:'bg-error-container text-on-error-container',          dot:'#ba1a1a' },
+    'مسودة':         { cls:'bg-surface-container-high text-on-surface-variant',  dot:'#6e797e' }
+  };
+
+  var INITIALS = {
+    'شركة المعالي المحدودة':'MA','سعد القحطاني':'SK',
+    'نجمة الصحراء للمقاولات':'NS','مكتب رؤية الرياض':'RK',
+    'مجموعة النهضة التجارية':'NT','شركة البناء الحديث':'BM'
+  };
+
+  /* ── INVOICE DATA ──────────────────────────────── */
+  var invoices = [
+    {
+      id:1, number:'INV-2024-001', client:'شركة المعالي المحدودة',
+      email:'info@almaali.sa', phone:'0501234567',
+      date:'12 أكتوبر 2024', amount:4500.00, status:'مدفوعة', notes:'',
+      items:[
+        {name:'طلاء جداري داخلي',qty:10,unit:300,discount:0,tax:15},
+        {name:'أدوات دهان متكاملة',qty:5,unit:120,discount:0,tax:15}
+      ]
+    },
+    {
+      id:2, number:'INV-2024-002', client:'سعد القحطاني',
+      email:'saad.q@email.com', phone:'0559876543',
+      date:'14 أكتوبر 2024', amount:12200.00, status:'قيد الانتظار', notes:'',
+      items:[
+        {name:'بلاط سيراميك 60×60',qty:200,unit:45,discount:5,tax:15},
+        {name:'مواد لاصقة',qty:30,unit:80,discount:0,tax:15}
+      ]
+    },
+    {
+      id:3, number:'INV-2024-003', client:'نجمة الصحراء للمقاولات',
+      email:'contact@najma.sa', phone:'0112233445',
+      date:'15 أكتوبر 2024', amount:8900.00, status:'متأخرة', notes:'تأخر السداد 30 يوم',
+      items:[
+        {name:'حديد تسليح 12mm',qty:5,unit:1200,discount:0,tax:15},
+        {name:'اسمنت بورتلاند',qty:50,unit:28,discount:0,tax:15}
+      ]
+    },
+    {
+      id:4, number:'INV-2024-004', client:'مكتب رؤية الرياض',
+      email:'info@rowya.sa', phone:'0114455667',
+      date:'16 أكتوبر 2024', amount:2150.00, status:'مدفوعة جزئياً', notes:'تم سداد 50% مقدماً',
+      items:[
+        {name:'دهان خارجي مقاوم للماء',qty:4,unit:350,discount:10,tax:15},
+        {name:'رول تطبيق',qty:10,unit:25,discount:0,tax:15}
+      ]
+    },
+    {
+      id:5, number:'INV-2024-005', client:'مجموعة النهضة التجارية',
+      email:'info@nahda.sa', phone:'0506677889',
+      date:'18 أكتوبر 2024', amount:18750.00, status:'مسودة', notes:'',
+      items:[
+        {name:'أنابيب PVC 4 بوصة',qty:100,unit:85,discount:0,tax:15},
+        {name:'وصلات سباكة',qty:200,unit:12,discount:0,tax:15}
+      ]
+    },
+    {
+      id:6, number:'INV-2024-006', client:'شركة البناء الحديث',
+      email:'bm@modern.sa', phone:'0550011223',
+      date:'20 أكتوبر 2024', amount:6300.00, status:'مدفوعة جزئياً', notes:'دفعة ثانية معلقة',
+      items:[
+        {name:'قرميد فخاري',qty:500,unit:8,discount:0,tax:15},
+        {name:'مونة بناء',qty:20,unit:65,discount:0,tax:15}
+      ]
+    }
+  ];
+
+  var activeStatus = '';
+  var editingInvId = null;
+
+  /* ── TOAST ─────────────────────────────────────── */
+  function showToast(msg, type) {
+    var old = document.getElementById('erp-toast'); if (old) old.remove();
+    var cfg = {success:{bg:'#16a34a',icon:'check_circle'},error:{bg:'#ba1a1a',icon:'cancel'},info:{bg:'#0369a1',icon:'info'}}[type]||{bg:'#0369a1',icon:'info'};
+    var s = document.getElementById('tk'); if (!s){s=document.createElement('style');s.id='tk';s.textContent='@keyframes tK{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}';document.head.appendChild(s);}
+    var t = document.createElement('div'); t.id='erp-toast'; t.setAttribute('dir','rtl');
+    Object.assign(t.style,{position:'fixed',bottom:'28px',left:'50%',transform:'translateX(-50%)',background:cfg.bg,color:'#fff',borderRadius:'12px',padding:'14px 22px',boxShadow:'0 8px 24px rgba(0,0,0,.18)',zIndex:'99999',display:'flex',alignItems:'center',gap:'10px',fontSize:'14px',fontWeight:'600',minWidth:'280px',animation:'tK .3s ease',whiteSpace:'nowrap'});
+    var i=document.createElement('span');i.className='material-symbols-outlined';i.style.fontSize='20px';i.textContent=cfg.icon;
+    var tx=document.createElement('span');tx.textContent=msg;
+    t.appendChild(i);t.appendChild(tx);document.body.appendChild(t);
+    setTimeout(function(){t.style.transition='opacity .3s,transform .3s';t.style.opacity='0';t.style.transform='translate(-50%,20px)';setTimeout(function(){t.remove();},300);},3500);
+  }
+
+  /* ── PRINT INVOICE ─────────────────────────────── */
+  function printInvoice(inv) {
+    var subtotal = inv.items.reduce(function(s,it){return s+it.qty*it.unit*(1-it.discount/100);},0);
+    var vatAmt   = inv.items.reduce(function(s,it){var base=it.qty*it.unit*(1-it.discount/100);return s+base*(it.tax/100);},0);
+    var total    = subtotal + vatAmt;
+
+    var rowsHtml = inv.items.map(function(it,idx){
+      var base = it.qty*it.unit*(1-it.discount/100);
+      var vat  = base*(it.tax/100);
+      return '<tr style="border-bottom:1px solid #e5e7eb;">'
+        +'<td style="padding:10px 12px;text-align:center;">'+(idx+1)+'</td>'
+        +'<td style="padding:10px 12px;">'+it.name+'</td>'
+        +'<td style="padding:10px 12px;text-align:center;">'+it.unit.toFixed(2)+'</td>'
+        +'<td style="padding:10px 12px;text-align:center;">'+(it.discount>0?it.discount+'%':'—')+'</td>'
+        +'<td style="padding:10px 12px;text-align:center;">'+base.toFixed(2)+'</td>'
+        +'<td style="padding:10px 12px;text-align:center;">('+vat.toFixed(2)+') %'+it.tax+'</td>'
+        +'<td style="padding:10px 12px;text-align:center;font-weight:700;">'+(base+vat).toFixed(2)+'</td>'
+        +'</tr>';
+    }).join('');
+
+    var statusLabel = inv.status;
+    var statusColor = inv.status==='مدفوعة'?'#16a34a':inv.status==='متأخرة'?'#ba1a1a':inv.status==='مدفوعة جزئياً'?'#d97706':'#49607c';
+
+    var html = '<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="utf-8"/>'
+      +'<title>فاتورة #'+inv.number+'</title>'
+      +'<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet"/>'
+      +'<style>'
+      +'*{box-sizing:border-box;margin:0;padding:0;}'
+      +'body{font-family:"IBM Plex Sans Arabic",Arial,sans-serif;background:#f3f4f6;color:#111827;direction:rtl;}'
+      +'@media print{body{background:#fff;}@page{margin:15mm;}}'
+      +'</style></head><body>'
+      +'<div style="max-width:860px;margin:30px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);">'
+
+      /* ── HEADER BANNER ── */
+      +'<div style="display:flex;align-items:stretch;">'
+      +'<div style="background:#00647c;color:#fff;padding:40px 32px;min-width:240px;display:flex;flex-direction:column;justify-content:flex-end;">'
+      +'<div style="font-size:13px;opacity:.8;margin-bottom:6px;">فاتورة مبيعات</div>'
+      +'<div style="font-size:32px;font-weight:800;line-height:1.1;">فاتورة<br/>مبيعات</div>'
+      +'</div>'
+      +'<div style="flex:1;padding:24px 32px;display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;background:#f9fafb;">'
+      +'<div style="text-align:left;">'
+      +'<div style="width:64px;height:64px;background:#e0e3e5;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#00647c;margin-bottom:10px;">م</div>'
+      +'<div style="font-size:18px;font-weight:700;color:#011d35;">المعماري الدقيق</div>'
+      +'<div style="font-size:12px;color:#6b7280;margin-top:2px;">المملكة العربية السعودية</div>'
+      +'<div style="font-size:12px;color:#6b7280;">info@almaari.sa | 920001234</div>'
+      +'</div>'
+      +'<div style="text-align:left;background:#fff;border-radius:8px;padding:10px 14px;border:1px solid #e5e7eb;">'
+      +'<div style="font-size:11px;color:#6b7280;">الحالة</div>'
+      +'<div style="font-size:14px;font-weight:700;color:'+statusColor+';">'+statusLabel+'</div>'
+      +'</div>'
+      +'</div>'
+      +'</div>'
+
+      /* ── META ROW ── */
+      +'<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:24px 32px;border-bottom:2px solid #f3f4f6;">'
+      +'<div>'
+      +'<div style="display:flex;gap:32px;">'
+      +'<div><div style="font-size:11px;color:#6b7280;margin-bottom:4px;">المرجع</div><div style="font-weight:700;color:#00647c;font-size:15px;">'+inv.number+'</div></div>'
+      +'<div><div style="font-size:11px;color:#6b7280;margin-bottom:4px;">التاريخ</div><div style="font-weight:600;font-size:13px;">'+inv.date+'</div></div>'
+      +'</div>'
+      +'</div>'
+      +'<div style="text-align:left;">'
+      +'<div style="font-size:13px;font-weight:700;color:#011d35;margin-bottom:6px;">بيانات العميل</div>'
+      +'<div style="font-size:14px;font-weight:600;">'+inv.client+'</div>'
+      +'<div style="font-size:12px;color:#6b7280;margin-top:2px;">'+inv.email+'</div>'
+      +'<div style="font-size:12px;color:#6b7280;">'+inv.phone+'</div>'
+      +'</div>'
+      +'</div>'
+
+      /* ── ITEMS TABLE ── */
+      +'<div style="padding:0 32px;">'
+      +'<table style="width:100%;border-collapse:collapse;margin:20px 0;font-size:13px;">'
+      +'<thead>'
+      +'<tr style="background:#00647c;color:#fff;">'
+      +'<th style="padding:10px 12px;text-align:center;">#</th>'
+      +'<th style="padding:10px 12px;text-align:right;">المنتج</th>'
+      +'<th style="padding:10px 12px;text-align:center;">سعر الوحدة</th>'
+      +'<th style="padding:10px 12px;text-align:center;">الخصم</th>'
+      +'<th style="padding:10px 12px;text-align:center;">الاجمالي قبل الضريبة</th>'
+      +'<th style="padding:10px 12px;text-align:center;">الضريبة</th>'
+      +'<th style="padding:10px 12px;text-align:center;">الاجمالي</th>'
+      +'</tr>'
+      +'</thead><tbody>'+rowsHtml+'</tbody></table>'
+      +'</div>'
+
+      /* ── TOTALS ── */
+      +'<div style="padding:16px 32px 24px;border-top:2px solid #f3f4f6;">'
+      +'<div style="max-width:280px;margin-left:0;">'
+      +'<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px;">'
+      +'<span>الاجمالي قبل الضريبة</span><strong>'+subtotal.toFixed(2)+' ج.م</strong></div>'
+      +'<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px;">'
+      +'<span>قيمة الضريبة (15%)</span><strong>'+vatAmt.toFixed(2)+' ج.م</strong></div>'
+      +'<div style="display:flex;justify-content:space-between;padding:10px 0;border-top:2px solid #e5e7eb;margin-top:4px;">'
+      +'<span style="font-size:16px;font-weight:700;color:#00647c;">المجموع</span>'
+      +'<strong style="font-size:16px;font-weight:800;color:#00647c;">'+total.toFixed(2)+' ج.م</strong></div>'
+      +'</div>'
+      +'</div>'
+
+      /* ── FOOTER ── */
+      +'<div style="padding:16px 32px;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;">'
+      +'<a href="#" style="color:#00647c;font-size:13px;font-weight:600;text-decoration:none;">الشروط والأحكام</a>'
+      +'</div>'
+
+      +'</div>'
+      +'<script>window.onload=function(){window.print();}<\/script>'
+      +'</body></html>';
+
+    var w = window.open('','_blank','width=920,height=700');
+    if (w) { w.document.write(html); w.document.close(); }
+    else { showToast('الرجاء السماح بالنوافذ المنبثقة لطباعة الفاتورة', 'error'); }
+  }
+
+  /* ── EDIT PANEL ────────────────────────────────── */
+  var panel   = document.getElementById('edit-panel');
+  var overlay = document.getElementById('edit-overlay');
+
+  function openEditPanel(inv) {
+    // Navigate to the full invoice editor with all data pre-loaded
+    try { localStorage.setItem('erp_edit_invoice', JSON.stringify(inv)); } catch(e) {}
+    window.location.href = '/create_invoice_updated/code.html';
+  }
+
+  function closeEditPanel() {
+    panel.classList.remove('open');
+    overlay.classList.add('hidden');
+    editingInvId = null;
+  }
+
+  document.getElementById('edit-panel-close').addEventListener('click', closeEditPanel);
+  document.getElementById('ep-cancel').addEventListener('click', closeEditPanel);
+  overlay.addEventListener('click', closeEditPanel);
+
+  document.getElementById('ep-save').addEventListener('click', function() {
+    var inv = invoices.find(function(i){ return i.id === editingInvId; });
+    if (!inv) return;
+    inv.client = document.getElementById('ep-client').value.trim() || inv.client;
+    inv.email  = document.getElementById('ep-email').value.trim();
+    inv.date   = document.getElementById('ep-date').value.trim() || inv.date;
+    inv.amount = parseFloat(document.getElementById('ep-amount').value) || inv.amount;
+    inv.status = document.getElementById('ep-status').value;
+    inv.notes  = document.getElementById('ep-notes').value.trim();
+    closeEditPanel();
+    renderTable();
+    updateKPIs();
+    showToast('تم حفظ تعديلات الفاتورة #' + inv.number, 'success');
+  });
+
+  /* ── KPIs ──────────────────────────────────────── */
+  function updateKPIs() {
+    document.getElementById('kpi-total').textContent   = invoices.length;
+    document.getElementById('kpi-paid').textContent    = invoices.filter(function(i){return i.status==='مدفوعة';}).length;
+    document.getElementById('kpi-partial').textContent = invoices.filter(function(i){return i.status==='مدفوعة جزئياً';}).length;
+    document.getElementById('kpi-late').textContent    = invoices.filter(function(i){return i.status==='متأخرة';}).length;
+  }
+
+  /* ── STATUS CHANGE MENU ────────────────────────── */
+  function closeMenus() {
+    document.querySelectorAll('.inv-action-menu').forEach(function(m){m.remove();});
+  }
+
+  function openStatusMenu(inv, anchorEl) {
+    closeMenus();
+    var menu = document.createElement('div');
+    menu.className = 'inv-action-menu';
+    Object.assign(menu.style,{position:'fixed',background:'#fff',borderRadius:'12px',padding:'6px',boxShadow:'0 8px 32px rgba(0,0,0,.14)',zIndex:'9000',minWidth:'180px',border:'1px solid #e0e3e5',direction:'rtl'});
+    var all = ['مدفوعة','مدفوعة جزئياً','قيد الانتظار','متأخرة','مسودة'];
+    all.forEach(function(s) {
+      if (s === inv.status) return;
+      var mi = document.createElement('button');
+      mi.setAttribute('dir','rtl');
+      mi.style.cssText = 'display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;border-radius:8px;border:none;background:none;cursor:pointer;font-size:13px;font-family:inherit;font-weight:600;color:#191c1e;text-align:right;';
+      mi.onmouseover=function(){mi.style.background='#f2f4f6';};
+      mi.onmouseout =function(){mi.style.background='none';};
+      var dot=document.createElement('span');dot.style.cssText='width:8px;height:8px;border-radius:50%;flex-shrink:0;background:'+(SC[s]||{dot:'#6e797e'}).dot+';';
+      var lbl=document.createTextNode(s);
+      mi.appendChild(dot);mi.appendChild(lbl);
+      mi.addEventListener('click',function(){
+        inv.status=s; closeMenus(); renderTable(); updateKPIs();
+        showToast('تم تغيير الحالة إلى "'+s+'"', 'success');
+      });
+      menu.appendChild(mi);
+    });
+    var rect = anchorEl.getBoundingClientRect();
+    var menuH = all.length * 40;
+    var top = rect.bottom + 6;
+    if (top + menuH > window.innerHeight - 20) top = rect.top - menuH - 6;
+    var left = rect.left;
+    if (left + 180 > window.innerWidth - 8) left = window.innerWidth - 188;
+    if (left < 8) left = 8;
+    Object.assign(menu.style,{top:top+'px',left:left+'px'});
+    document.body.appendChild(menu);
+    setTimeout(function(){document.addEventListener('click',closeMenus,{once:true});},10);
+  }
+
+  /* ── DELETE CONFIRM ────────────────────────────── */
+  function confirmDelete(inv) {
+    closeMenus();
+    var old = document.getElementById('del-modal'); if (old) old.remove();
+    var overlay2 = document.createElement('div');
+    overlay2.id='del-modal'; overlay2.setAttribute('dir','rtl');
+    Object.assign(overlay2.style,{position:'fixed',inset:'0',background:'rgba(25,28,30,.5)',zIndex:'9990',display:'flex',alignItems:'center',justifyContent:'center'});
+    overlay2.addEventListener('click',function(e){if(e.target===overlay2)overlay2.remove();});
+    var box=document.createElement('div');
+    Object.assign(box.style,{background:'#fff',borderRadius:'20px',padding:'32px',width:'380px',maxWidth:'95vw',textAlign:'right'});
+    var ico=document.createElement('div');
+    Object.assign(ico.style,{width:'56px',height:'56px',borderRadius:'16px',background:'#ffdad6',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:'20px'});
+    var is=document.createElement('span');is.className='material-symbols-outlined';Object.assign(is.style,{fontSize:'28px',color:'#ba1a1a'});is.textContent='delete';ico.appendChild(is);
+    var ti=document.createElement('h3');Object.assign(ti.style,{fontSize:'17px',fontWeight:'800',color:'#191c1e',marginBottom:'8px'});ti.textContent='حذف الفاتورة #'+inv.number;
+    var su=document.createElement('p');Object.assign(su.style,{fontSize:'13px',color:'#6e797e',marginBottom:'24px',lineHeight:'1.6'});su.textContent='هذا الإجراء لا يمكن التراجع عنه. سيتم حذف بيانات الفاتورة نهائياً.';
+    var br=document.createElement('div');Object.assign(br.style,{display:'flex',gap:'12px'});
+    var delBtn=document.createElement('button');
+    Object.assign(delBtn.style,{flex:'1',background:'#ba1a1a',color:'#fff',border:'none',borderRadius:'10px',padding:'12px',fontSize:'14px',fontWeight:'700',cursor:'pointer'});
+    delBtn.textContent='حذف نهائياً';
+    delBtn.addEventListener('click',function(){
+      invoices=invoices.filter(function(i){return i.id!==inv.id;});
+      overlay2.remove(); renderTable(); updateKPIs();
+      showToast('تم حذف الفاتورة #'+inv.number,'success');
+    });
+    var cb=document.createElement('button');
+    Object.assign(cb.style,{background:'#e0e3e5',color:'#191c1e',border:'none',borderRadius:'10px',padding:'12px 20px',fontSize:'14px',fontWeight:'600',cursor:'pointer'});
+    cb.textContent='إلغاء'; cb.addEventListener('click',function(){overlay2.remove();});
+    br.appendChild(delBtn);br.appendChild(cb);
+    box.appendChild(ico);box.appendChild(ti);box.appendChild(su);box.appendChild(br);
+    overlay2.appendChild(box);document.body.appendChild(overlay2);
+  }
+
+  /* ── RENDER TABLE ──────────────────────────────── */
+  function renderTable() {
+    var tbody = document.getElementById('invoices-tbody');
+    var emptyMsg = document.getElementById('empty-msg');
+    var q = document.getElementById('inv-search').value.toLowerCase();
+
+    var visible = invoices.filter(function(inv){
+      var ms = !activeStatus || inv.status === activeStatus;
+      var mq = !q || inv.number.toLowerCase().includes(q) || inv.client.toLowerCase().includes(q);
+      return ms && mq;
+    });
+
+    tbody.innerHTML='';
+    if (!visible.length){ emptyMsg.classList.remove('hidden'); return; }
+    emptyMsg.classList.add('hidden');
+
+    visible.forEach(function(inv){
+      var sc = SC[inv.status] || SC['مسودة'];
+      var initials = INITIALS[inv.client] || inv.client.charAt(0);
+
+      var tr = document.createElement('tr');
+      tr.className='hover:bg-surface-container-low transition-colors row-anim';
+
+      /* Number */
+      var td1=document.createElement('td');td1.className='px-6 py-4 font-bold text-on-surface text-sm';td1.textContent='#'+inv.number;
+
+      /* Client */
+      var td2=document.createElement('td');td2.className='px-6 py-4';
+      var cw=document.createElement('div');cw.className='flex items-center gap-3';
+      var av=document.createElement('div');av.className='w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs flex-shrink-0';av.textContent=initials;
+      var cn=document.createElement('div');
+      var n1=document.createElement('div');n1.className='text-sm text-on-surface font-medium';n1.textContent=inv.client;
+      var n2=document.createElement('div');n2.className='text-xs text-on-surface-variant';n2.textContent=inv.email||'';
+      cn.appendChild(n1);cn.appendChild(n2);cw.appendChild(av);cw.appendChild(cn);td2.appendChild(cw);
+
+      /* Date */
+      var td3=document.createElement('td');td3.className='px-6 py-4 text-on-surface-variant text-sm';td3.textContent=inv.date;
+
+      /* Amount */
+      var td4=document.createElement('td');td4.className='px-6 py-4 font-bold text-on-surface';
+      td4.appendChild(document.createTextNode(inv.amount.toLocaleString('ar-EG',{minimumFractionDigits:2})+' '));
+      var u=document.createElement('span');u.className='text-xs font-normal opacity-60';u.textContent='ج.م';td4.appendChild(u);
+
+      /* Status badge */
+      var td5=document.createElement('td');td5.className='px-6 py-4';
+      var badge=document.createElement('span');badge.className='inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold '+sc.cls;
+      var dspot=document.createElement('span');dspot.style.cssText='width:6px;height:6px;border-radius:50%;background:'+sc.dot+';flex-shrink:0;';
+      var stxt=document.createElement('span');stxt.textContent=inv.status;
+      badge.appendChild(dspot);badge.appendChild(stxt);td5.appendChild(badge);
+
+      /* Actions */
+      var td6=document.createElement('td');td6.className='px-6 py-4';
+      var aw=document.createElement('div');aw.className='flex items-center justify-center gap-1';
+
+      function mkBtn(icon, title, color, handler){
+        var b=document.createElement('button');
+        b.title=title;
+        b.className='w-8 h-8 flex items-center justify-center rounded-lg transition-all '+color;
+        var s=document.createElement('span');s.className='material-symbols-outlined text-lg';s.textContent=icon;
+        b.appendChild(s);
+        b.addEventListener('click',function(e){e.stopPropagation();handler(b);});
+        return b;
+      }
+
+      /* Edit */
+      aw.appendChild(mkBtn('edit','تعديل','hover:bg-primary/10 text-primary',function(){openEditPanel(inv);}));
+      /* Print */
+      aw.appendChild(mkBtn('print','طباعة الفاتورة','hover:bg-teal-50 text-teal-600',function(){printInvoice(inv);}));
+      /* Status */
+      aw.appendChild(mkBtn('sync_alt','تغيير الحالة','hover:bg-surface-container text-on-surface-variant',function(btn){openStatusMenu(inv,btn);}));
+      /* Delete */
+      aw.appendChild(mkBtn('delete','حذف','hover:bg-error/10 text-error',function(){confirmDelete(inv);}));
+
+      td6.appendChild(aw);
+      tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);
+      tr.appendChild(td4);tr.appendChild(td5);tr.appendChild(td6);
+      tbody.appendChild(tr);
+    });
+
+    updateKPIs();
+  }
+
+  /* ── FILTERS ────────────────────────────────────── */
+  document.querySelectorAll('.status-tab-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      activeStatus=btn.getAttribute('data-status');
+      document.querySelectorAll('.status-tab-btn').forEach(function(b){
+        b.className='status-tab-btn px-4 py-2 rounded-xl text-sm font-bold transition-all bg-surface-container-lowest border border-outline-variant/20 text-on-surface-variant';
+      });
+      btn.className='status-tab-btn px-4 py-2 rounded-xl text-sm font-bold transition-all bg-primary text-white shadow-sm';
+      renderTable();
+    });
+  });
+
+  document.getElementById('inv-search').addEventListener('input', renderTable);
+  window.addEventListener('scroll', closeMenus);
+  window.addEventListener('resize', closeMenus);
+
+  renderTable();
+
+})();
+</script>
+</body>
+</html>
